@@ -11,7 +11,7 @@ $(".reset_password_main_btn").click(function () {
     alert("일치하지 않습니다.");
   } else {
     var formData = {
-      new_password: $("#reset_password_main_new_password").val(),
+      new_password: $("#reset_password_main_new_password").val().trim(),
     };
     console.log(formData);
     // $.ajax({

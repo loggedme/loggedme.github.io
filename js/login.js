@@ -4,8 +4,8 @@ $(".login_login_btn").click(function () {
     $("#login_input_password").val().trim()
   ) {
     var formData = {
-      id: $("#login_input_id").val(),
-      password: $("#login_input_password").val(),
+      id: $("#login_input_id").val().trim(),
+      password: $("#login_input_password").val().trim(),
     };
     console.log(formData);
     // $.ajax({

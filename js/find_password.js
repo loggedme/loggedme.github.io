@@ -1,7 +1,7 @@
 $(".find_password_main_btn").click(function () {
   if ($(".find_password_main_input").val().trim()) {
     var formData = {
-      email: $(".find_password_main_input").val(),
+      email: $(".find_password_main_input").val().trim(),
     };
     console.log(formData);
     // $.ajax({
