@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/making_badge.css">
+
+  <title>Document</title>
+
+  <style>
+    .making_badge_main_header {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      padding-bottom: 1.44rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.60);
+      ;
+    }
+
+    .cancel_button,
+    .done_button {
+      width: 3.25rem;
+      height: 1.375rem;
+      flex-shrink: 0;
+      color: #000;
+      font-family: Inter;
+      font-size: 1.0625rem;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      text-decoration: none;
+    }
+
+    .making_badge_main_header_title {
+      width: 4.4375rem;
+      height: 1.375rem;
+      flex-shrink: 0;
+      color: #000;
+      font-family: Inter;
+      font-size: 1.0625rem;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+    }
+
+    .making_badge_attach_image_label {
+      margin-top: 3.81rem;
+      width: 22.75rem;
+      height: 23.375rem;
+      flex-shrink: 0;
+      background: #D9D9D9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 2.94rem;
+    }
+
+    .making_badge_attach_document {
+      width: 100%;
+      height: 13rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.60);
+      resize: none;
+      color: #000;
+      font-family: Inter;
+      font-size: 0.8125rem;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <img src="" alt="logo" width="50px" height="50px">
+  </header>
+  <main>
+    <div class="making_badge_main_header">
+      <a href="javascript:history.back();" class="cancel_button">Cancel</a>
+      <div class="making_badge_main_header_title">Edit Info</div>
+      <a href="javascript:history.back();" class="done_button">Done</a>
+    </div>
+    <label class="making_badge_attach_image_label" for="making_badge_attach_image_input"> <img
+        id="making_badge_attach_image" src="../image/upload.png" alt="" width="40px" height="44px">
+      <input id="making_badge_attach_image_input" type="file" hidden>
+    </label>
+
+    <textarea placeholder=" Write a caption" class="making_badge_attach_document"></textarea>
+
+  </main>
+  <section class="base_bottom_nav">
+    <a href="./enterprise_feed.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_enterprise.png"
+        alt="enterprise" id="bottom_nav_enterprise_image" class="base_bottom_nav_item_image"></a>
+    <a href="./personal_feed.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_person.png" alt="person"
+        id="bottom_nav_person_image" class="base_bottom_nav_item_image"></a>
+    <a href="#" class="base_bottom_nav_item"><img src="../image/bottom_nav_search.png" alt="search"
+        id="bottom_nav_search_image" class="base_bottom_nav_item_image"></a>
+    <a href="#" class="base_bottom_nav_item"><img src="../image/bottom_nav_plus.png" alt="addPost"
+        class="base_bottom_nav_plus_image">
+    </a>
+    <a href="#" class="base_bottom_nav_item"><img src="../image/bottom_nav_profile.png" alt="profile"
+        id="bottom_nav_profile_image" class="base_bottom_nav_item_image"></a>
+  </section>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="../js/making_badge.js"></script>
+
+</html>
