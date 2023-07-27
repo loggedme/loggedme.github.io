@@ -84,8 +84,10 @@ body {
 }
 
 .radiobutton1_label {
-  width: 3.1875rem;
-  height: 0.9375rem;
+  background-color: rgba(217, 217, 217, 0.7);
+  border-radius: 0.625rem;
+  width: 6rem;
+  height: 2rem;
   flex-shrink: 0;
   color: #000;
   font-family: Inter;
@@ -93,9 +95,9 @@ body {
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  text-align: center;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  align-items: center;
 }
 
 .signup_signup_btn {

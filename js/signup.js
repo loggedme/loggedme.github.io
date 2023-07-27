@@ -1,3 +1,34 @@
+// 인증 button click event
+$(".signup_email_certification_button").click(function () {
+  if ($("#signup_input_email").val().trim()) {
+    console.log($("#signup_input_email").val().trim());
+  } else {
+    alert("이메일을 입력해주세요.");
+  }
+});
+
+//radio button click event
+$("input:radio[name=radiobutton1]").click(function () {
+  if ($("input:radio[name=radiobutton1]:checked").val() === "기업") {
+    $("#radiobutton1_label2").css("background-color", "#056CF2");
+    $("#radiobutton1_label2").css("color", "white");
+    $("#radiobutton1_label1").css(
+      "background-color",
+      " rgba(217, 217, 217, 0.7)"
+    );
+    $("#radiobutton1_label1").css("color", "black");
+  } else {
+    $("#radiobutton1_label1").css("background-color", "#056CF2");
+    $("#radiobutton1_label1").css("color", "white");
+    $("#radiobutton1_label2").css(
+      "background-color",
+      " rgba(217, 217, 217, 0.7)"
+    );
+    $("#radiobutton1_label2").css("color", "black");
+  }
+});
+
+// ok button click event
 $(".signup_signup_btn").click(function () {
   if (
     !$("#signup_input_email_num").val().trim() &&
@@ -11,7 +42,7 @@ $(".signup_signup_btn").click(function () {
     $("#signup_input_re_password").val().trim()
   ) {
     alert("일치하지 않습니다.");
-  } else if (!$("input[name=radiobutton1]:checked").val()) {
+  } else if (!$("input:radio[name=radiobutton1]:checked").val()) {
     alert("체크되지 않았습니다.");
   } else {
     var formData = {
