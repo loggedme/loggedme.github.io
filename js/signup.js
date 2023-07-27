@@ -41,9 +41,9 @@ $(".signup_signup_btn").click(function () {
     $("#signup_input_password").val().trim() !==
     $("#signup_input_re_password").val().trim()
   ) {
-    alert("일치하지 않습니다.");
+    alert("비밀번호가 일치하지 않습니다.");
   } else if (!$("input:radio[name=radiobutton1]:checked").val()) {
-    alert("체크되지 않았습니다.");
+    alert("체크할 항목이 남았습니다.");
   } else {
     var formData = {
       email: $("#signup_input_email").val().trim(),
@@ -73,5 +73,6 @@ $(".signup_signup_btn").click(function () {
     //     );
     //   },
     // });
+    window.location.href = "./login.html";
   }
 });

@@ -35,5 +35,6 @@ $(".reset_password_main_btn").click(function () {
     //     );
     //   },
     // });
+    window.location.href = "./login.html";
   }
 });
