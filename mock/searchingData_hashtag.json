@@ -1,0 +1,46 @@
+[
+    {
+      "id": 1,
+      "profileImgSrc": "https://i.postimg.cc/XJpNQqxB/Hashtag.png",
+      "hashtagName": "Samsung",
+      "postingNum": "139M posts"
+    }
+    ,
+    {
+        "id": 2,
+        "profileImgSrc": "https://i.postimg.cc/XJpNQqxB/Hashtag.png",
+        "hashtagName": "Google",
+        "postingNum": "3.9M posts"
+    },
+    {
+        "id": 3,
+        "profileImgSrc": "https://i.postimg.cc/XJpNQqxB/Hashtag.png",
+        "hashtagName": "food",
+        "postingNum": "368k posts"
+    },
+    {
+        "id": 4,
+        "profileImgSrc": "https://i.postimg.cc/XJpNQqxB/Hashtag.png",
+        "hashtagName": "travel",
+        "postingNum": "746k posts"
+    },
+    {
+        "id": 5,
+        "profileImgSrc": "https://i.postimg.cc/XJpNQqxB/Hashtag.png",
+        "hashtagName": "style",
+        "postingNum": "587k posts"
+    },
+    {
+        "id": 6,
+        "profileImgSrc": "https://i.postimg.cc/XJpNQqxB/Hashtag.png",
+        "hashtagName": "Naver",
+        "postingNum": "1.2M posts"
+    },
+    {
+        "id": 7,
+        "profileImgSrc": "https://i.postimg.cc/XJpNQqxB/Hashtag.png",
+        "hashtagName": "vacation",
+        "postingNum": "697k posts"
+    }
+      
+]
