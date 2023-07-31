@@ -1,0 +1,150 @@
+/* 하단바 css */
+.base_bottom_nav {
+    background-color: white;
+}
+
+/* 로고 css */
+header img {
+    width: 90px; 
+    height: 20px;
+    margin: 2rem 4rem 0 2rem;
+}
+
+
+/* feed 최상단 옵션 css */
+.feed_header {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 1rem;
+}
+
+
+/* feed item css */
+.feed_list {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 2rem;
+    padding-bottom: 40px;
+    gap: 1rem;
+}
+
+.feed_item {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* feed 상단 container flex */
+.feed_top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    order: 1;
+}
+
+.profile_info {
+    display: flex;
+    flex-direction: row;
+}
+
+.profile_info img {
+    width: 2.5rem;
+    border-radius: 50%;
+    margin-right: 1rem;
+}
+
+.user_id {
+    padding-top: 0.3rem; 
+    font-size: large;   
+}
+
+.optionBtn img{
+    width: 2rem;
+    height: 1rem;
+    padding-top: 1rem;
+}
+
+/* feed 이미지 css */
+.image_container {
+    order: 2;
+}
+
+.image_container img{
+    width: 100%;
+    height: 100%;
+}
+
+/* 기능 목록 flex */
+.feedFunction_container {
+    display: flex;
+    flex-direction: column;
+    order: 3;
+    margin: 0.5rem 1rem;
+}
+
+.functionIcon_container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.functionIcon_item {
+    display: flex;
+}
+
+/* feed 하단부분 flex css */
+.feed_info {
+    display: flex;
+    flex-direction: column;
+    order: 4;
+    margin: 0 1rem;
+}
+
+.IdHashtag {
+    display: flex;
+    margin-bottom: 0.5rem;
+    order: 1;
+    font-size: large;
+}
+
+.feed_hashtag {
+    margin-left: 0.5rem;    
+}
+
+.feed_script {
+    order: 2;
+    font-size: large;
+}
+
+/* 댓글 css */
+.comment_container {
+    order: 3;
+    display: flex;
+    flex-direction: column;
+    margin: 0.3rem 0;
+    font-size:medium;
+}
+
+.commentNum_container {
+    width: max-content;
+    cursor: pointer;
+    color: #797979;
+}
+
+.comment_list {
+    display: flex;
+    flex-direction: column;
+}
+
+.comment_item {
+    display: flex;
+    flex-direction: row;
+    margin: 0.2rem 0;
+}
+
+/* 업로드 날짜(시간) */
+.uploaded_date {
+    order: 4;
+    color: #797979;
+    font-size: small;
+}
