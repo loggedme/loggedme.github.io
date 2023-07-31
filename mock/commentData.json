@@ -1,0 +1,34 @@
+[
+    {
+      "commentId": 1,
+      "feedId": 1,
+      "userId": "whatdoyumin",
+      "userImg": "https://i.postimg.cc/T15gXy4b/Ellipse-14.png",
+      "commentScript": "완전 좋은 정보에요!",
+      "uploadDate": "2023-07-30 13:55:00"
+    },
+    {
+        "commentId": 2,
+        "feedId": 1,
+        "userId": "likeLion",
+        "userImg": "https://i.postimg.cc/T15gXy4b/Ellipse-14.png",
+        "commentScript": "포폴채우기 도전!",
+        "uploadDate": "2023-07-30 14:55:00"
+    },
+    {
+        "commentId": 3,
+        "feedId": 1,
+        "userId": "Mutsa",
+        "userImg": "https://i.postimg.cc/T15gXy4b/Ellipse-14.png",
+        "commentScript": "대박 완전 도움됐어요 꺄",
+        "uploadDate": "2023-07-30 15:55:00"
+    },
+    {
+        "commentId": 4,
+        "feedId": 2,
+        "userId": "whatdoyumin",
+        "userImg": "https://i.postimg.cc/T15gXy4b/Ellipse-14.png",
+        "commentScript": "굿굿",
+        "uploadDate": "2023-07-30 15:55:00"
+    }
+]
