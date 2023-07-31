@@ -1,6 +1,7 @@
 /*
-    게시물 작성 페이지-1
+    게시물 작성 페이지-1 (임시)
 */
+
 a:link { /* 아직 방문하지 않은 링크의 색 정의*/
     color: #000;
 }
@@ -48,8 +49,6 @@ body {
 
 /* preview 이미지 구간 */
 #preview_image {
-    display: block;
-    margin: auto;
     width: 22.75rem;
     height: 23.375rem;
 }
@@ -65,50 +64,20 @@ body {
     height: 20rem;
 }
 
-.preview_title {
+.photo_text {
     margin-left: 0.63rem;
 }
 
-/* 마우스 올렸을 때 색깔 변경파트*/
-:root {
-    --hoverBg: #616161; 
+.preview {
+    height: 16.6925rem;
 }
-/* 마우스 올렸을 때 색깔 변경파트*/
 
-.inner {
+/*
+    드롭 다운 부분
+*/
+.dropzone {
     width: 5.5rem;
     height: 5.4375rem;
     background: #D9D9D9;
     text-align: center;
-}
-
-#add_btn {
-    margin-top: 1.3125rem;
-}
-
-@media (any-hover: hover) {
-    .inner:hover {
-        background-color: var(--hoverBg);
-    }
-}
-/* 추가되는 이미지 정렬 방식 */
-.preview {
-    z-index: 3;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-column-gap: 0.19rem;
-    grid-row-gap: 0.25rem;
-}
-
-/* 추가된 이미지의 크기 결정 */
-.embed-img {
-    width: 5.5rem;
-    height: 5.4375rem;
-    object-position: center;
-    object-fit: cover;
-}
-
-.preview_image {
-    width: 22.75rem;
-    height: 23.375rem;
 }

@@ -22,17 +22,20 @@
     </div>
     <a href="./new_feed2.html" id="Next">Next</a>
   </header>
+
   <main class="main_body">
-    <div id="preview_image">
+    <div id="preview_image" >
 
     </div>
     <div class="photo_add">
         <div class="container">
             <p class="preview_title">photo</p>
-            <div class="preview" id="preview"></div>
-            <label class="label" id="label" for="input">
-                <div class="inner" id="inner"><img src="../image/new_feed1_AddBtn.png" id="add_btn"> </div>
-            </label>
+            <div class="preview" id="preview">
+                <label class="label" id="label" for="input">
+                    <div class="inner" id="inner"><img src="../image/new_feed1_AddBtn.png" id="add_btn"> </div>
+                </label>
+            </div>
+            <!-- accept: 파일 유형, type: 파일, required: form양식에서 꼭 필요한 값, multiple: 여러개의 파일 업로드 가능(true), hidden: 위의 label을 사용하기 위해서 input을 겉으로 보이지 않게 함.-->
             <input id="input" class="input" accept="image/*" type="file" required="true" multiple="true" hidden="true">
         </div>
     </div>
