@@ -1,0 +1,46 @@
+[
+    {
+      "id": 1,
+      "profileImgSrc": "https://i.postimg.cc/x8h5K3Lc/Ellipse-14.png",
+      "companyName": "Converse",
+      "companyHashtag": "#shoselove"
+    }
+    ,
+    {
+        "id": 2,
+        "profileImgSrc": "https://i.postimg.cc/MGqDbTfb/Ellipse-15.png",
+        "companyName": "dyson",
+        "companyHashtag": "#cleanlove"
+    },
+    {
+        "id": 3,
+        "profileImgSrc": "https://i.postimg.cc/fR45y5wP/Ellipse-16.png",
+        "companyName": "microsoft",
+        "companyHashtag": "#computerlove"
+    },
+    {
+        "id": 4,
+        "profileImgSrc": "https://i.postimg.cc/PfRSsT0T/Ellipse-17.png",
+        "companyName": "bmv",
+        "companyHashtag": "#carlove"
+    },
+    {
+        "id": 5,
+        "profileImgSrc": "https://i.postimg.cc/3J0n3zHp/Ellipse-18.png",
+        "companyName": "ikea",
+        "companyHashtag": "#furniturelove"
+    },
+    {
+        "id": 6,
+        "profileImgSrc": "https://i.postimg.cc/KYf592nX/Ellipse-20.png",
+        "companyName": "mcdonalds",
+        "companyHashtag": "#burgerlove"
+    },
+    {
+        "id": 7,
+        "profileImgSrc": "https://i.postimg.cc/g2vsZRj2/Ellipse-21.png",
+        "companyName": "porsche",
+        "companyHashtag": "#speedlove"
+    }
+      
+]

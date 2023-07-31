@@ -6,6 +6,7 @@ body {
 
 main {
   overflow-y: auto;
+  margin-bottom: 3rem;
 }
 
 .base_bottom_nav {
