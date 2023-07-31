@@ -78,6 +78,7 @@ nav a {
     flex-wrap: wrap; 
     gap: 1rem; 
     margin-top: 1rem;
+    padding-bottom: 39px;
   }
   
   /* 회사 정보 요소 스타일 */
@@ -91,7 +92,6 @@ nav a {
   .person_info {
     display: flex;
     flex-direction: column;
-    align-items: center;
     margin-left: 1.5rem;
   }
   
