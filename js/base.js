@@ -8,6 +8,7 @@ $(document).ready(function () {
 });
 
 // mock data 사용법
+/*
 $.getJSON("../mock/searchingData.json", function (data) {
   // data 확인
   console.log(data);
@@ -23,3 +24,4 @@ $.getJSON("../mock/searchingData.json", function (data) {
     $("main").append(imgElement);
   });
 });
+*/
