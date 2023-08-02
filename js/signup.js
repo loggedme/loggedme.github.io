@@ -186,3 +186,11 @@ $(".signup_signup_btn").click(function () {
     window.location.href = "./login.html";
   }
 });
+
+$(".signup_header_logo").click(function () {
+  window.location.href = "./login.html";
+});
+
+$(".signup_header_goback_btn").click(function () {
+  window.history.back();
+});
