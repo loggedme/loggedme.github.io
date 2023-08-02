@@ -3,24 +3,19 @@ var email_request = false; //인증보냈는지 여부
 var email_responese = false; //인증받았는지 여부
 var radio_bool = false; // 라디오박스 체크 여부
 var regEmail =
-  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i; //이메일 정규식
-
+  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 // email 관련 function
 function check_email() {
-  console.log(0);
   var email = $("#signup_input_email");
   var email_err_msg = $("#signup_input_err_msg_email");
   if (!email.val().trim()) {
-    console.log(1);
     email.focus();
     return false;
   } else if (regEmail.test(email.val().trim())) {
-    console.log(2);
     email_err_msg.hide();
     email.css("margin-bottom", "0.81rem");
     return true;
   } else {
-    console.log(3);
     email_err_msg.show();
     email.css("margin-bottom", "0");
     email.focus();
