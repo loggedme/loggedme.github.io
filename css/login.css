@@ -23,13 +23,18 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(217, 217, 217, 0.35);
+}
+
+.login_header_logo {
+  width: 11.0625rem;
+  height: 2.0625rem;
+  flex-shrink: 0;
 }
 
 .login_input_wrap {
   display: flex;
   flex-direction: column;
-  padding: 22px 0px;
+  padding: 22px 0px 0px 0px;
   min-height: 150px;
   justify-content: space-around;
 }
@@ -37,10 +42,11 @@ main {
 .login_input {
   background-color: rgba(217, 217, 217, 0.35);
   border: none;
-  height: 2.81rem;
-  width: 17.1rem;
+  width: 18.75rem;
+  height: 2.8125rem;
+  flex-shrink: 0;
   border-radius: 0.625rem;
-  color: #000;
+  color: #313131;
   font-family: Inter;
   font-size: 1.125rem;
   font-style: normal;
@@ -49,25 +55,26 @@ main {
 }
 
 .login_login_btn {
-  width: 12.4375rem;
+  border: none;
+  width: 18.75rem;
   height: 2.8125rem;
   flex-shrink: 0;
-  color: #000;
+  border-radius: 1.25rem;
+  background: #6970f2;
+  color: #fff;
+  text-align: center;
   font-family: Inter;
   font-size: 1.125rem;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
   line-height: normal;
-  text-align: center;
-  border: none;
-  border-radius: 0.625rem;
-  background: rgba(217, 217, 217, 0.7);
 }
 
 .login_goto_find_password_btn_wrap {
-  padding-top: 2.44rem;
-  width: 80%;
+  width: 18.75rem;
+  height: 1.1875rem;
   position: relative;
+  margin-bottom: 1rem;
 }
 
 .login_goto_find_password_btn {
