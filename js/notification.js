@@ -12,16 +12,18 @@ $.getJSON("../mock/notificationData.json", function (data) {
     var elementWrap = $("<div>").prop({
       class: "content_wrap",
     });
-    var contentElement = $("<div>").prop({
+    var contentElement = $("<span>").prop({
       class: "item_content",
       textContent: item.docuement,
     });
 
-    var createdElement = $("<div>").prop({
+    var createdElement = $("<span>").prop({
       class: "item_created_at",
-      textContent: item.created_at,
+      textContent: " " + item.created_at,
     });
-    elementWrap.append(contentElement).append(createdElement);
+
+    contentElement.append(createdElement);
+    elementWrap.append(contentElement);
     itemElement.append(imgElement);
     itemElement.append(elementWrap);
     $(".notification_main_section").append(itemElement);
