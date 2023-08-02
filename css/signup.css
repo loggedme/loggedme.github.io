@@ -16,18 +16,26 @@ body {
 }
 
 .signup_header {
-  width: 13.875rem;
-  height: 4.875rem;
-  flex-shrink: 0;
+  width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 2.44rem;
+  justify-items: center;
+  position: absolute;
+  top: 0;
+  padding: 3.31rem 0rem;
 }
 
+.signup_header_goback_btn {
+  width: 1.25rem;
+  height: 0.78125rem;
+  position: absolute;
+  left: 0;
+  margin-left: 2.69rem;
+}
 .signup_header_logo {
-  width: 11.0625rem;
-  height: 2.0625rem;
+  width: 5.3125rem;
+  height: 1.1875rem;
 }
 
 .signup_input_wrap {
