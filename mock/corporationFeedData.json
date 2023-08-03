@@ -5,8 +5,16 @@
       "userId": "ssgsag_app",
       "feedImgList" : [
         {
-            "imgId": 1,
-            "feedImg": "../image/feedEx.png"
+          "imgId": 1,
+          "feedImg": "../image/feedEx.png"
+        },
+        {
+          "imgId": 2,
+          "feedImg": "../image/feed_img/IMG_5182.png"
+        },
+        {
+          "imgId": 3,
+          "feedImg": "../image/feed_img/IMG_5179.png"
         }
       ],
       "likesNum": "139",
@@ -24,6 +32,10 @@
         {
             "imgId": 1,
             "feedImg": "../image/feed_img/IMG_5179.png"
+        },
+        {
+          "imgId": 2,
+          "feedImg": "../image/feed_img/IMG_5182.png"
         }
       ],
       "likesNum": "520",
