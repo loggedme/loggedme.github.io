@@ -38,6 +38,11 @@ $.getJSON("../mock/corporationFeedData.json", function (data) {
       var imageAlbum = $("<div>").addClass("image_album");
       var images = [];
 
+      var btnContainer = $("<div>").addClass("btn_container");
+      var prevBtn = $("<button>").addClass("previous").html("&lang;");
+      var nextBtn = $("<button>").addClass("next").html("&rang;");
+
+      var currentSlideIndex = 0; // 현재 보이는 이미지의 인덱스를 추적합니다.
 
       // 이미지들 images 배열에 넣기
       $.each(feedImgList, function (imgIndex, imgItem) {
@@ -50,6 +55,43 @@ $.getJSON("../mock/corporationFeedData.json", function (data) {
         images.push(feedImg);
       });
 
+      // 첫 번째 이미지 추가
+      imageAlbum.append(images[currentSlideIndex]);
+
+      prevBtn.prop("disabled", true);
+
+      prevBtn.on("click", function () {
+        // 이전 이미지로 이동, 현재 인덱스 업데이트
+        currentSlideIndex = (currentSlideIndex - 1 + images.length) % images.length;
+        updateSlide();
+      });
+
+      nextBtn.on("click", function () {
+        // 다음 이미지로 이동, 현재 인덱스 업데이트
+        currentSlideIndex = (currentSlideIndex + 1) % images.length;
+        updateSlide();
+      });
+
+      // 이미지 슬라이드 업데이트
+      function updateSlide() {
+        imageAlbum.empty(); 
+        imageAlbum.append(images[currentSlideIndex]);
+
+        // prevBtn과 nextBtn 상태 업데이트
+        if (currentSlideIndex === 0) {
+          prevBtn.prop("disabled", true);
+        } else {
+          prevBtn.prop("disabled", false);
+        }
+
+        if (currentSlideIndex === images.length - 1) {
+          nextBtn.prop("disabled", true);
+        } else {
+          nextBtn.prop("disabled", false);
+        }
+      }
+      btnContainer.append(prevBtn, nextBtn);
+      imageContainer.append(imageAlbum, btnContainer);
 
         
       // 기능 버튼 아이콘 (좋아요, 댓글, 공유, 저장)
