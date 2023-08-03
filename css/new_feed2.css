@@ -41,9 +41,93 @@ body {
 #Share {
     text-decoration-line: none;
 }
-
-/* preview 이미지 구간 */
+/* 이미지 가운데로 오게 함 */
+/* preview 이미지 구간 
 #preview_image {
+    display: block;
+    margin: auto;       
     width: 22.75rem;
     height: 23.375rem;
+}
+*/
+/* slider */
+.slider__wrap {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* 이미지 보이는 부분 */
+.slider__img {
+    position: relative;
+    width: 364px;
+    height: 374px;
+    overflow: hidden;
+}
+/* 이미지 감싸고 있는 부모 : 움직이는 부분 */
+.slider__inner {
+    display: flex;
+    flex-wrap: wrap;
+    /* 총 이미지 6개 */
+    width: 2184px;
+    height: 374px;
+}
+/* 개별적인 이미지 */
+.slider {
+    position: relative;
+    width: 364px;
+    height: 374px;
+}
+.slider img{
+    width: 100%;
+}
+.slider::before {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    background: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    padding: 5px 10px;
+}
+
+.slider__btn img {
+    position: absolute;
+    top: 55%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    display: block;
+    color: #fff;
+}
+.slider__btn img:hover {
+    background: rgba(255,255,255,0.4);
+    color:#000;
+}
+.slider__btn img.prev {
+    left: 33px;
+}
+.slider__btn img.next {
+    right: 33px;
+}
+
+/* 점 부분 */
+.slider__dot {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 20px;
+}
+.slider__dot .dot {
+    width: 10px;
+    height: 10px;
+    background: rgba(0,0,0,0.4);
+    display: inline-block;
+    border-radius: 50%;
+    text-indent: -9999px;
+    transition: all 0.3s;
+    margin: 2px;
+}
+.slider__dot .dot.active {
+    background: black;
 }
