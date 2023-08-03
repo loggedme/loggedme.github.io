@@ -1,8 +1,12 @@
 $(".login_login_btn").click(function () {
-  if (
-    $("#login_input_id").val().trim() &&
-    $("#login_input_password").val().trim()
-  ) {
+  var idInput = $("#login_input_id");
+  var pwdInput = $("#login_input_password");
+
+  if (!idInput.val().trim()) {
+    idInput.focus();
+  } else if (!pwdInput.val().trim()) {
+    pwdInput.focus();
+  } else {
     var formData = {
       id: $("#login_input_id").val().trim(),
       password: $("#login_input_password").val().trim(),
@@ -29,7 +33,5 @@ $(".login_login_btn").click(function () {
     //     );
     //   },
     // });
-  } else {
-    alert("입력되지 않은 항목이 있습니다.");
   }
 });
