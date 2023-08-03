@@ -1,3 +1,35 @@
+$(".reset_password_header_logo").click(function () {
+  window.location.href = "./login.html";
+});
+
+$(".reset_password_header_goback_btn").click(function () {
+  window.history.back();
+});
+
+//re-password 실시간 change event
+$("#reset_password_main_re_password").on(
+  "propertychange change keyup paste input",
+  function () {
+    password_matching();
+  }
+);
+
+//password 일치하는지 검사
+function password_matching() {
+  console.log(2);
+  var pwd = $("#reset_password_main_new_password").val().trim();
+  var re_pwd = $("#reset_password_main_re_password").val().trim();
+  if (pwd === re_pwd) {
+    $("#reset_password_input_err_msg_re_password").hide();
+    $("#reset_password_main_re_password").css("margin-bottom", "4.56rem");
+    return true;
+  } else {
+    $("#reset_password_input_err_msg_re_password").show();
+    $("#reset_password_main_re_password").css("margin-bottom", "0");
+    return false;
+  }
+}
+
 $(".reset_password_main_btn").click(function () {
   if (
     !$("#reset_password_main_new_password").val().trim() &&

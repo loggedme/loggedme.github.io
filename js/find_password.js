@@ -1,7 +1,18 @@
+$(".find_password_header_logo").click(function () {
+  window.location.href = "./login.html";
+});
+
+$(".find_password_header_goback_btn").click(function () {
+  window.history.back();
+});
+
 $(".find_password_main_btn").click(function () {
-  if ($(".find_password_main_input").val().trim()) {
+  var emailInput = $(".find_password_main_input");
+  if (!emailInput.val().trim()) {
+    emailInput.focus();
+  } else {
     var formData = {
-      email: $(".find_password_main_input").val().trim(),
+      email: emailInput.val().trim(),
     };
     console.log(formData);
     // $.ajax({
@@ -25,7 +36,5 @@ $(".find_password_main_btn").click(function () {
     //     );
     //   },
     // });
-  } else {
-    alert("입력되지 않은 항목이 있습니다.");
   }
 });
