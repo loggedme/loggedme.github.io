@@ -108,6 +108,7 @@ body {
     object-fit: cover;
 }
 
+/* 상단 preview 이미지 */
 .preview_image {
     width: 22.75rem;
     height: 23.375rem;
