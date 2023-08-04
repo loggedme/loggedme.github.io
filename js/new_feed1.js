@@ -28,6 +28,8 @@ function goBack() {
 
 var input = document.getElementById("input");
 var initLabel = document.getElementById("label");
+const imageList = [];
+var imageLengthCount = 0;
 
 // 마우스 올렸을 때 효과
 initLabel.addEventListener("mouseover", (event) => {
@@ -46,19 +48,51 @@ initLabel.addEventListener("mouseout", (event) => {
     label?.classList.remove("label--hover");
 });
 
-input.addEventListener("change", (event) => {
+// test 해보는 중... (아이디어 handleUpdate함수에 매개변수를 하나 더 만들어서 배열 마지막 요소도 같이 줘보자)
+
+// change이벤트 -> 요소 변경이 끝나면 발생
+input.addEventListener("change", (event) => {   // html에서 onchange 이벤트를 js에서 하는 방법이다
     const files = changeEvent(event);
-    handleUpdate(files);
+    const fileLastElement = files.slice(-1); // last라는 변수에 files로 온 이미지의 마지막 요소를 저장
+    const reverse = [...files].reverse();
+    /* 검사
+    console.log(files);
+    console.log(fileLastElement);
+    console.log(files[0]);
+    console.log(fileLastElement[0]);
+    */
+    console.log(reverse);
+    
+
+    var check = handleUpdate(reverse);  // 원래 handleUpdate(files)인데 last 추가한거야
+    if (check == 1) {
+        alert("이미지 개수는 10개까지입니다.");
+    } else {
+        handleUpdatePre(fileLastElement);
+    }
+    
 });
 
+// test 해보는 중...
+
 function changeEvent(event) {
-    const { target } = event;
-    return [...target.files];
+    const { target } = event;   // const target = event.target 이랑 똑같데(설명: object 안에 존재하는 값을 바로 변수 할당 시켜주는 것)
+    return [...target.files];   // target.files == event.target.files (둘이 똑같다...)
 };
 
 function handleUpdate(fileList) {
+    //console.log(fileList);
     const preview = document.getElementById("preview"); 
-    const preview_image = document.getElementById("preview_image"); // 새로 만든 부분 
+    // 이미지 개수 10개 제한
+    if (imageLengthCount + fileList.length > 3) {
+        return 1;
+    } else {
+        imageList.push(...fileList);
+        imageLengthCount = imageLengthCount + fileList.length;
+        /* 검사!!!
+        console.log(imageList);
+        console.log(imageLengthCount);*/
+    }
     fileList.forEach((file) =>{
         const reader = new FileReader();
 
@@ -67,16 +101,31 @@ function handleUpdate(fileList) {
                 className: "embed-img",
                 src: event.target?.result,  // src는 base-64형태
             });
+
+            const imgContainer = el("div", {className: "container-img"}, img);
+            preview.append(imgContainer);
+        });
+    
+        reader.readAsDataURL(file);
+    });    
+};
+
+/***********************테스트 중!!!**************8 */
+function handleUpdatePre(fileLast) {
+    const preview_image = document.getElementById("preview_image"); // 새로 만든 부분 
+    
+    fileLast.forEach((file) => {
+        const reader = new FileReader();
+        reader.addEventListener("load", (event) => {
             const img_pre = el("img", { // 새로 만든 부분
                 className: "preview_image",
                 src: event.target?.result,
             });
-            const imgContainer = el("div", {className: "container-img"}, img);
             const imgContainer_pre = el("div", {className: "container-img"}, img_pre);  // 새로 만든 부분
-            preview.append(imgContainer);
             preview_image.append(imgContainer_pre); // 새로 만든 부분
+            // append 는 최초 1번만 두번째부터 if문으로 소스 바꾸기
+            // 기본 이미지 넣어놓고 새로 들어오면 소스만 바꿔줘
         });
-
         reader.readAsDataURL(file);
     });
 };
