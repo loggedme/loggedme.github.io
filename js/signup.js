@@ -6,6 +6,8 @@ var regEmail =
   /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 // email 관련 function
 function check_email() {
+  email_request = false;
+  email_responese = false;
   var email = $("#signup_input_email");
   var email_err_msg = $("#signup_input_err_msg_email");
   if (!email.val().trim()) {
@@ -151,6 +153,8 @@ $(".signup_signup_btn").click(function () {
   } else if (!check_password()) {
     $("#signup_input_password").focus();
   } else if (!check_re_password()) {
+    $("#signup_input_re_password").focus();
+  } else if (!password_matching()) {
     $("#signup_input_re_password").focus();
   } else if (!radio_bool) {
     alert("사용자 유형을 선택해주세요");
