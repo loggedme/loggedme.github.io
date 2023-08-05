@@ -39,10 +39,23 @@ $.getJSON("../mock/corporationFeedData.json", function (data) {
       var images = [];
 
       var btnContainer = $("<div>").addClass("btn_container");
-      var prevBtn = $("<button>").addClass("previous").html("&lang;");
-      var nextBtn = $("<button>").addClass("next").html("&rang;");
 
-      var currentSlideIndex = 0; // 현재 보이는 이미지의 인덱스를 추적합니다.
+      var prevBtn = $("<button>").addClass("previous");
+      var prevImg = $("<img>").attr({
+        src: "../image/new_feed2_leftarrow.png",
+        alt: "prevButton",
+      });
+      prevBtn.append(prevImg);
+
+      var nextBtn = $("<button>").addClass("next");
+      var nextImg = $("<img>").attr({
+        src: "../image/new_feed2_rightarrow.png",
+        alt: "nextButton",
+      });
+      nextBtn.append(nextImg);
+
+      var currentSlideIndex = 0; // 현재 이미지 인덱스
+      var sliding = false;
 
       // 이미지들 images 배열에 넣기
       $.each(feedImgList, function (imgIndex, imgItem) {
@@ -72,12 +85,37 @@ $.getJSON("../mock/corporationFeedData.json", function (data) {
         updateSlide();
       });
 
+      // 이미지 슬라이드 현재 위치 점 표시
+      // 이미지 슬라이드 점들 추가
+      var slideDots = $("<div>").addClass("slide_dots");
+
+      for (var i = 0; i < feedImgList.length; i++) {
+        var dot = $("<div>").addClass("dot").html(".");
+        slideDots.append(dot);
+      }
+      
+      // 점들에 .dot 클래스 부여 후 슬라이드 점들 추가
+      $(".dot").eq(currentSlideIndex).addClass("active_dot");
+
+      // 이미지 슬라이드 점 클릭 이벤트
+      $(".dot").on("click", function () {
+        if (!sliding) {
+          var index = $(this).index();
+          if (index !== currentSlideIndex) {
+            sliding = true;
+            currentSlideIndex = index;
+            updateSlide();
+          }
+        }
+      });
+
       // 이미지 슬라이드 업데이트
       function updateSlide() {
         imageAlbum.empty(); 
         imageAlbum.append(images[currentSlideIndex]);
 
-        // prevBtn과 nextBtn 상태 업데이트
+
+        // prevBtn과 nextBtn 처음과 끝일 때 버튼 사용 X
         if (currentSlideIndex === 0) {
           prevBtn.prop("disabled", true);
         } else {
@@ -89,9 +127,13 @@ $.getJSON("../mock/corporationFeedData.json", function (data) {
         } else {
           nextBtn.prop("disabled", false);
         }
+
+        $(".dot").removeClass("active_dot");
+        $(".dot").eq(currentSlideIndex).addClass("active_dot");
       }
+      
       btnContainer.append(prevBtn, nextBtn);
-      imageContainer.append(imageAlbum, btnContainer);
+      imageContainer.append(imageAlbum, btnContainer, slideDots);
 
         
       // 기능 버튼 아이콘 (좋아요, 댓글, 공유, 저장)
