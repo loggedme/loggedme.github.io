@@ -96,29 +96,36 @@ $.getJSON("../mock/corporationFeedData.json", function (data) {
       prevBtn.prop("disabled", true);
 
       prevBtn.on("click", function () {
-        // 이전 이미지로 이동, 현재 인덱스 업데이트
-        currentSlideIndex = (currentSlideIndex - 1 + images.length) % images.length;
-        updateSlide();
+        if (!sliding) {
+          sliding = true;
+          currentSlideIndex = (currentSlideIndex - 1 + images.length) % images.length;
+          updateSlide();
+        } 
       });
 
       nextBtn.on("click", function () {
-        // 다음 이미지로 이동, 현재 인덱스 업데이트
-        currentSlideIndex = (currentSlideIndex + 1) % images.length;
-        updateSlide();
+        if (!sliding) {
+          sliding = true;
+          currentSlideIndex = (currentSlideIndex + 1) % images.length;
+          updateSlide();
+        }
       });
 
       // 이미지 슬라이드 현재 위치 점 표시
+
       // 이미지 슬라이드 점들 추가
       var slideDots = $("<div>").addClass("slide_dots");
+      var slideDotsList = [];
 
       for (var i = 0; i < feedImgList.length; i++) {
-        var dot = $("<div>").addClass("dot").html(".");
+        var dot = $("<div>").addClass("dot").html(" ");
         slideDots.append(dot);
+        slideDotsList.push(dot);
       }
       
       // 점들에 .dot 클래스 부여 후 슬라이드 점들 추가
-      $(".dot").eq(currentSlideIndex).addClass("active_dot");
-
+      slideDotsList[0].addClass("active_dot");
+ 
       // 이미지 슬라이드 점 클릭 이벤트
       $(".dot").on("click", function () {
         if (!sliding) {
@@ -135,7 +142,16 @@ $.getJSON("../mock/corporationFeedData.json", function (data) {
       function updateSlide() {
         imageAlbum.empty(); 
         imageAlbum.append(images[currentSlideIndex]);
+        
+       slideDotsList.forEach(function(dot, index) {
+        if (index === currentSlideIndex){
+          dot.addClass("active_dot");
+        } else {
+          dot.removeClass("active_dot");
+        }
+       });
 
+        sliding = false;
 
         // prevBtn과 nextBtn 처음과 끝일 때 버튼 사용 X
         if (currentSlideIndex === 0) {
@@ -149,14 +165,10 @@ $.getJSON("../mock/corporationFeedData.json", function (data) {
         } else {
           nextBtn.prop("disabled", false);
         }
-
-        $(".dot").removeClass("active_dot");
-        $(".dot").eq(currentSlideIndex).addClass("active_dot");
       }
-      
+
       btnContainer.append(prevBtn, nextBtn);
       imageContainer.append(imageAlbum, btnContainer, slideDots);
-
         
       // 기능 버튼 아이콘 (좋아요, 댓글, 공유, 저장)
       var feedFunctionContainer = $("<div>").addClass("feedFunction_container");
@@ -315,7 +327,7 @@ $.getJSON("../mock/corporationFeedData.json", function (data) {
           .addClass("commentNum_container")
           .text(commentsCount)
           .on("click", function () {
-            openModal(item.feedId, data); // openModal 함수에 data를 전달합니다.
+            openModal(item.feedId, data); // openModal 함수에 data를 전달
           });
   
         // 댓글 컨테이너에 댓글 수, 댓글 목록 넣기
