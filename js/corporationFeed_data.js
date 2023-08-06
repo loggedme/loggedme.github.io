@@ -10,6 +10,7 @@ $.getJSON("../mock/corporationFeedData.json", function (data) {
       var feedItem = $("<div>").addClass("feed_item");
   
       // feed 상단 부분 사용자 사진, 아이디
+      var feedTopContainer = $("<div>").addClass("feedTop_container");
       var feedTop = $("<div>").addClass("feed_top");
   
       var profileInfo = $("<div>").addClass("profile_info");
@@ -21,15 +22,36 @@ $.getJSON("../mock/corporationFeedData.json", function (data) {
         .addClass("user_id")
         .text(item.userId);
   
-      var optionBtn = $("<button style=background-color:transparent;border:none;>").addClass("optionBtn");
+      profileInfo.append(profileImg, userId);
+
+      // 드롭다운 옵션 버튼 
+      var optionContent = $("<div style=display:none;>").addClass("option_content");
+      var gotoUserInfo = $("<button type=button>").addClass("goTo_userInfo").html("이 계정 정보");
+      var saveBtnOption = $("<button type=button>")
+      .addClass("save_btn")
+      .html("저장하기")
+      .on("click", function() {
+        var currentSrc = saveImg.attr("src");
+        var newSrc = currentSrc === "../image/save.png" ? "../image/filled_save.png" : "../image/save.png";
+        saveImg.attr("src", newSrc);
+      });
+      var unfollowBtn = $("<button type=button>").addClass("unfollow_btn").html("팔로우 취소");
+      
+      optionContent.append(gotoUserInfo, saveBtnOption, unfollowBtn);
+
+      var optionBtn = $("<button style=background-color:transparent;border:none;>")
+      .addClass("optionBtn")
+      .on("click", function() {
+        optionContent.toggle();
+      })
       var optionImg = $("<img>").attr({
         src: "../image/option_btn.png",
         alt: "optionButton",
       });
-  
-      profileInfo.append(profileImg, userId);
       optionBtn.append(optionImg);
+  
       feedTop.append(profileInfo, optionBtn);
+      feedTopContainer.append(feedTop, optionContent);
   
   
       // feed 이미지
@@ -301,7 +323,7 @@ $.getJSON("../mock/corporationFeedData.json", function (data) {
         feedInfo.append(commentContainer);
       });
   
-      feedItem.append(feedTop, imageContainer, feedFunctionContainer, feedInfo);
+      feedItem.append(feedTopContainer, imageContainer, feedFunctionContainer, feedInfo);
       $(".feed_list").append(feedItem);
 
       

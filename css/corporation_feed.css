@@ -58,9 +58,10 @@ header img {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-bottom: 1rem;
     order: 1;
     font-weight: bold;
+    position: relative;
+    margin-bottom: 1rem;
 }
 
 .profile_info {
@@ -81,10 +82,41 @@ header img {
     cursor: pointer;
 }
 
+/* 옵션 토글버튼 */
+.optionBtn:active {
+    opacity: 0.5;
+}
+
 .optionBtn img{
     width: 2rem;
     height: 1rem;
     padding-top: 1rem;
+}
+
+.option_content {
+    background-color: white;
+    width: 50%;
+    height: 7rem;
+    border-radius: 15px;
+    margin: 0 0 2% 33%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    position: absolute;
+    z-index: 2;
+}
+
+.option_content button {
+    background-color: transparent;
+    border: none;
+    color: #6970F2;
+    font-size: medium;
+    font-weight: bolder;
+}
+
+.option_content button:active{
+    opacity: 0.5;
 }
 
 /* feed 이미지 css */
