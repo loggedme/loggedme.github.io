@@ -1,0 +1,149 @@
+header {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+.done_button {
+  background-color: transparent;
+  border: none;
+  padding: 0rem 0.75rem;
+  color: #000;
+  font-family: Inter;
+  font-size: 1.0625rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 2.63rem;
+}
+
+.main_header {
+  width: 100%;
+  display: flex;
+  margin-top: 1.06rem;
+}
+
+.goback_btn {
+  flex: 1;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  align-items: center;
+}
+
+.search_input_wrap {
+  flex: 7;
+  border-radius: 0.75rem;
+  background: rgba(217, 217, 217, 0.5);
+  width: fit-content;
+  height: fit-content;
+  flex-shrink: 0;
+  border: none;
+  display: flex;
+  align-items: center;
+}
+
+.search_img {
+  padding-left: 1rem;
+  width: 1.125rem;
+  height: 1.25rem;
+}
+
+.search_input {
+  border: none;
+  background-color: transparent;
+  height: 2.625rem;
+  flex: 1;
+}
+
+.main_header_empty_div {
+  flex: 1;
+}
+
+.main_section_wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main_section_title {
+  color: #000;
+  font-family: Inter;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  width: 100%;
+  padding-left: 1.2rem;
+  box-sizing: border-box;
+  padding-bottom: 0.56rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+.main_section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.item_element {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 1rem;
+  display: flex;
+  text-decoration: none;
+  color: black;
+  padding: 0.5rem 0.5rem 0.5rem 0;
+}
+
+.item_image_wrap {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.item_image {
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: 100%;
+}
+
+.item_username_wrap {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.item_userhandle {
+  color: #000;
+  font-family: Inter;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  opacity: 0.5;
+  line-height: normal;
+}
+
+.item_checkbox_wrap {
+  flex: 1;
+  align-items: center;
+  display: flex;
+  justify-content: end;
+}
+
+.item_checkbox_btn {
+  display: none;
+}
+
+.item_checkbox_btn_label {
+  display: block;
+  width: 1.2rem;
+  height: 1.2rem;
+  background-color: rgba(217, 217, 217, 0.7);
+}

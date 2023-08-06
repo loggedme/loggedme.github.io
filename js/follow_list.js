@@ -66,6 +66,7 @@ $("#Follower_list").click(function () {
   $(".follow_list_main_section").empty();
   $(".toggle_wrap").removeClass("following");
   $(".toggle_wrap").addClass("follwers");
+  $(".follow_list_main_search_input").val("");
   tooglePage("follower");
 });
 
@@ -73,6 +74,8 @@ $("#Following_list").click(function () {
   $(".follow_list_main_section").empty();
   $(".toggle_wrap").removeClass("follwers");
   $(".toggle_wrap").addClass("following");
+  $(".follow_list_main_search_input").val("");
+
   tooglePage("following");
 });
 
@@ -88,3 +91,33 @@ $("#Following_list").click(function () {
 //     console.log(target);
 //   });
 // });
+
+//디바운스 구현
+var timer;
+$(".follow_list_main_search_input").on("keydown", function () {
+  if (timer) {
+    clearTimeout(timer);
+  }
+  timer = setTimeout(function () {
+    const query = $(".follow_list_main_search_input").val();
+    console.log(query);
+  }, 1000);
+});
+
+const $slide = $(".follow_list_main_section");
+let startPoint = 0;
+let endPoint = 0;
+
+$slide.on("mousedown touchstart", (e) => {
+  startPoint = e.type === "mousedown" ? e.pageX : e.touches[0].pageX;
+});
+
+$slide.on("mouseup touchend", (e) => {
+  endPoint = e.type === "mouseup" ? e.pageX : e.changedTouches[0].pageX;
+
+  if (startPoint < endPoint) {
+    console.log("prev move");
+  } else if (startPoint > endPoint) {
+    console.log("next move");
+  }
+});
