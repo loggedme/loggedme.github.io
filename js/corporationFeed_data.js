@@ -141,42 +141,58 @@ $.getJSON("../mock/corporationFeedData.json", function (data) {
       var functionIconContainer = $("<div>").addClass("functionIcon_container");
       var functionIconItem = $("<div>").addClass("functionIcon_item");
   
-      var heartLink = $("<a>").attr("href", "#");
       var heartImg = $("<img>").attr({
         id: "heart",
         src: "../image/heart.png",
         alt: "heart",
-        width: "35rem",
+        width: "38rem",
         style: "padding-top: 0.1rem;",
+      });
+      var heartLink = $("<button type=button>")
+      .addClass("heart_link")
+      .on("click", function() {
+        var currentSrc = heartImg.attr("src");
+        var newSrc = currentSrc === "../image/heart.png" ? "../image/filled_heart.png" : "../image/heart.png";
+        heartImg.attr("src", newSrc);
       });
       heartLink.append(heartImg);
   
-      var commentLink = $("<a>").attr("href", "#");
+      var commentLink = $("<button type=button>")
+      .addClass("comment_link")
+      .on("click", function () {
+        openModal(item.feedId, data); 
+      });
       var commentImg = $("<img>").attr({
         src: "../image/comment.png",
         alt: "comment",
         width: "31rem",
-        style: "margin-left: 0.5rem; padding-top: 0.2rem;",
+        style: "margin-left: 0.3rem; padding-top: 0.1rem;",
       });
       commentLink.append(commentImg);
   
-      var shareLink = $("<a>").attr("href", "#");
+      var shareLink = $("<button type=button>").addClass("share_link");
       var shareImg = $("<img>").attr({
         src: "../image/share.png",
         alt: "shareBtn",
         width: "40rem",
-        style: "margin-left: 0.3rem;",
+        style: "margin-left: 0.4rem; padding-top: 0.2rem;",
       });
       shareLink.append(shareImg);
-  
       functionIconItem.append(heartLink, commentLink, shareLink);
       
-      var saveLink = $("<a>").attr("href", "#");
       var saveImg = $("<img>").attr({
         src: "../image/save.png",
         alt: "saveBtn",
         width: "32rem",
       });
+      var saveLink = $("<button type=button>")
+      .addClass("save_link")
+      .on("click", function () {
+        var currentSrc = saveImg.attr("src");
+        var newSrc = currentSrc === "../image/save.png" ? "../image/filled_save.png" : "../image/save.png";
+        saveImg.attr("src", newSrc);
+      });
+      
       saveLink.append(saveImg);
   
       functionIconContainer.append(functionIconItem, saveLink);

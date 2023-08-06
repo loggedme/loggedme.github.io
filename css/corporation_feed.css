@@ -169,9 +169,29 @@ header img {
     justify-content: space-between;
 }
 
+.functionIcon_container button {
+    background: transparent;
+    border: none;
+    padding: 1px;
+}
+
+.functionIcon_container button:active {
+    opacity: 0.5;
+}
+
 .functionIcon_item {
     display: flex;
 }
+
+.comment_link {
+    width: 16%;
+}
+
+.comment_link img{
+    width: 100%;
+}
+
+
 
 /* feed 하단부분 flex css */
 .feed_info {
