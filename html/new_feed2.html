@@ -13,56 +13,84 @@
 </head>
 
 <body>
-    <header class="head">
-        <a href="#" onclick="goBack()">
-            <img src="../image/new_feed2_backBtn.png" id="backBtn">
-        </a>
-        <div class="New_post">
-            New post
-        </div>
-        <a href="#" id="Share">Share</a>
-    </header>
-    <main>
-        <!-- 게시물 사진 부분 (슬라이드)-->
-        <div class="slider__wrap">
-            <div class="slider__img">
-                <div class="slider__inner">
-                    <div class="slider" role="group"><img src="../image/bottom_nav_enterprise.png"></div>
-                    <div class="slider" role="group"><img src="../image/bottom_nav_enterprise_black.png"></div>
-                    <div class="slider" role="group"><img src="../image/bottom_nav_person.png"></div>
-                    <div class="slider" role="group"><img src="../image/bottom_nav_person_black.png"></div>
-                    <div class="slider" role="group"><img src="../image/bottom_nav_plus_black.png"></div>
-                    <div class="slider" role="group"><img src="../image/bottom_nav_plus_black.png"></div>
-                    <div class="slider" role="group"><img src="../image/bottom_nav_plus_black.png"></div>
-                    <div class="slider" role="group"><img src="../image/bottom_nav_plus_black.png"></div>
-                    <div class="slider" role="group"><img src="../image/bottom_nav_plus_black.png"></div>
-                    <div class="slider" role="group"><img src="../image/bottom_nav_plus_black.png"></div>
+    <div class="page__wrap">
+        <div class="page__img">
+            <div class="page__inner">
+                <div class="new_feed1">
+                    <div class="head">
+                        <a href="#" onclick="goBack()">
+                            <img src="../image/new_feed1_closeBtn.png" id="closeBtn">
+                        </a>
+                        <div class="New_post">
+                            New post
+                        </div>
+                        <!-- 밑에 createDiv()함수(js에서 따로 만듬)을 통해서 다음 페이지에 있을 이미지 개수에 따라div요소를 생성시킨다.-->
+                        <p class="Next" id="Next" role="button" onclick="createDiv()">Next</p>
+                    </div>
+                    
+                    <main class="main_body">
+                        <div id="preview_image" >
+                    
+                        </div>
+                        <div class="photo_add">
+                            <div class="container">
+                                <p class="preview_title">photo</p>
+                                <div class="preview" id="preview">
+                                    <label class="label" id="label" for="input">
+                                        <div class="inner" id="inner"><img src="../image/new_feed1_AddBtn.png" id="add_btn"> </div>
+                                    </label>
+                                </div>
+                                <!-- accept: 파일 유형, type: 파일, required: form양식에서 꼭 필요한 값, multiple: 여러개의 파일 업로드 가능(true), hidden: 위의 label을 사용하기 위해서 input을 겉으로 보이지 않게 함.-->
+                                <input id="input" class="input" accept="image/*" type="file" required="true" multiple="true" hidden="true">
+                            </div>
+                        </div>
+                    </main>
+                </div>
+                <div class="new_feed2">
+                    <div class="head">
+                        <img src="../image/new_feed2_backBtn.png" id="backBtn">
+                        <div class="New_post">
+                            New post
+                        </div>
+                        <a href="#" id="Share">Share</a>
+                    </div>
+                    <main>
+                        <!-- 게시물 사진 부분 (슬라이드)-->
+                        <div class="slider__wrap">
+                            <div class="slider__img">
+                                <div class="slider__inner Next">
+                                    <div class="slider slide1" role="group"><img src="../image/bottom_nav_enterprise.png"></div>
+                                    
+                                </div>
+                            </div>
+                            <div class="slider__btn">
+                                <img src="../image/new_feed2_leftarrow.png" class="prev" role="button">
+                                <img src="../image/new_feed2_rightarrow.png" class="next" role="button">
+                            </div>
+                            <div class="slider__dot">
+                                
+                            </div>
+                        </div>
+                        
+                        <!-- 게시물 내용(프로필, 내용, 기업태그) 부분 -->
+                        <div id="feed_content">
+                            <div id="profile_image">
+
+                            </div>
+                            <div id="text">
+
+                            </div>
+                        </div>
+
+                        <!-- 기업 태그 부분(모달창 띄우기 버튼)-->
+                        <div id="tag_company">
+
+                        </div>
+                    </main>
                 </div>
             </div>
-            <div class="slider__btn">
-                <img src="../image/new_feed2_leftarrow.png" class="prev" role="button">
-                <img src="../image/new_feed2_rightarrow.png" class="next" role="button">
-            </div>
-            <div class="slider__dot">
-                
-            </div>
         </div>
-        
-        <!-- 게시물 내용(프로필, 내용, 기업태그) 부분 -->
-        <div id="feed_content">
-            <div id="profile_image">
-
-            </div>
-            <div id="text">
-
-            </div>
-        </div>
-
-        <!-- 기업 태그 부분(모달창 띄우기 버튼)-->
-        <div id="tag_company">
-
-        </div>
-    </main>
+    </div>
 
   <!--base-->
   <section class="base_bottom_nav">
