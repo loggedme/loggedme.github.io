@@ -11,7 +11,6 @@ $(document).ready(function () {
 $.getJSON("../mock/searchingData_company.json", function (data) {
     console.log(data);
   
-    // data를 가져와서 회사 목록을 동적으로 생성
     $.each(data, function (index, item) {
       var companyItem = $("<div>").addClass("company_item");
       var imgElement = $("<img>").attr({
