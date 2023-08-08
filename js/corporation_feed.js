@@ -27,6 +27,6 @@ function openModal(feedId, data) {
     })
     .join("");
 
-  $(".comments_container").html(commentsHtml);
+  $(".userFeed_container").html(commentsHtml);
   $(".modal").css("display", "block");
 }

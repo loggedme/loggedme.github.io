@@ -11,7 +11,6 @@ $(document).ready(function () {
 $.getJSON("../mock/searchingData_hashtag.json", function (data) {
     console.log(data);
   
-    // data를 가져와서 회사 목록을 동적으로 생성
     $.each(data, function (index, item) {
       var hashtagItem = $("<div>").addClass("hashtag_item");
       var imgElement = $("<img>").attr({
@@ -26,12 +25,10 @@ $.getJSON("../mock/searchingData_hashtag.json", function (data) {
         .addClass("posting_num")
         .text(item.postingNum);
   
-      // 생성한 요소들을 조립하여 hashtagItem에 추가
       hashtagItem.append(imgElement);
       hashtagInfo.append(hashtagName, postingNum);
       hashtagItem.append(hashtagInfo);
   
-      // 회사 목록을 .hashtag_search_list에 추가
       $(".hashtag_search_list").append(hashtagItem);
     });
   });
