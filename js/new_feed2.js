@@ -1,3 +1,7 @@
+/*
+    게시물 작성 페이지-1
+*/
+/* 맨 아래 base 구간 */
 // 지금 있는 페이지 버튼 검정으로
 $(document).ready(function () {
     $(".base_bottom_nav_plus_image").attr(
@@ -13,28 +17,6 @@ $(document).ready(function () {
       "../image/bottom_nav_person.png"
     );
   });
-
-
-/*
-    게시물 작성 페이지-1
-*/
-/* 맨 아래 base 구간 */
-// 지금 있는 페이지 버튼 검정으로
-$(document).ready(function () {
-  $(".base_bottom_nav_plus_image").attr(
-    "src",
-    "../image/bottom_nav_plus_black.png"
-  );
-});
-
-// 원래 검정색인거 회색으로
-$(document).ready(function () {
-  $("#bottom_nav_person_image").attr(
-    "src",
-    "../image/bottom_nav_person.png"
-  );
-});
-
 
 // close버튼 클릭 시 뒤로가기
 function goBack() {
@@ -247,17 +229,13 @@ const resetFileList = (target: EventTarget & HTMLInputElement) => {
     게시물 작성 페이지-2
  */
 
-// back버튼 클릭 시 뒤로가기("게시물 작성 페이지-1" 로 이동)
-function goBack() {
-  window.history.back();
-}
-
 /* 
   이미지 슬라이더 부분!!!!!!
 */
 // preview_image(업로드할 사진(10장이하)) 부분
+/* 스토리지에서 받아오는 코드
 const storedList = JSON.parse(localStorage.getItem('imageList'));
-
+*/
 // 2. 좌우 버튼
 
 // 3. 이미지가 보여질 div
@@ -313,6 +291,9 @@ sliderBtnNext.addEventListener("click", () => {
 
 // Next 버튼을 클릭했을 때
 BtnNext.addEventListener("click", () => {
+  if(imageLengthCount === 0) {
+    return alert("이미지를 1개 이상 선택해 주십시오");
+  }
   /* 
     버튼이 클릭되면 이미지 개수에 따라서 div요소가 생성되어야 한다.
     <div class = "slider" role="group"><img src="..이미지 주소"></div>
@@ -322,10 +303,17 @@ BtnNext.addEventListener("click", () => {
     적용을 위해서 innerHTML을 통해(템픞릿으로 따로 만들자 해당 공간 값을 바꾸기)
   */
   
-    /* 템플핏과 innerHTML을 작성하자!!!! 8월 8월
-  let template= `
-    <div class=
-  `
+  /* 템플핏과 innerHTML을 작성하자!!!! 8월 8월 */
+  /* imageList안에 있는 파일들을 64로 인코딩해서 새 변수에 저장 후 template에 추가*/
+  /* 잠시 보류!!!!
+  let template = '';
+  for(let i = 0; i < imageLengthCount; i++) {
+    console.log(imageList[i]);
+    template += `
+      <div class="slider" role="group"><img src=${imageList[i]}></div>
+    `
+  }
+  document.querySelector(".slider__inner").innerHTML = template;
   */
   
   pageInner.style.transition = "all 400ms";
@@ -384,3 +372,12 @@ document.querySelector(".slider__inner").appendChild(
   )  
 )
 */
+
+/* tag company 모달창 기능 */
+$('.modal_overlay').hide()
+$('.close_btn').click(function () {
+  $('.modal_overlay').hide()
+})
+$('.open_modal').click(function () {
+  $('.modal_overlay').show()
+})

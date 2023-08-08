@@ -25,7 +25,7 @@
                             New post
                         </div>
                         <!-- 밑에 createDiv()함수(js에서 따로 만듬)을 통해서 다음 페이지에 있을 이미지 개수에 따라div요소를 생성시킨다.-->
-                        <p class="Next" id="Next" role="button" onclick="createDiv()">Next</p>
+                        <p class="Next" id="Next" role="button">Next</p>
                     </div>
                     
                     <main class="main_body">
@@ -59,7 +59,7 @@
                         <div class="slider__wrap">
                             <div class="slider__img">
                                 <div class="slider__inner Next">
-                                    <div class="slider slide1" role="group"><img src="../image/bottom_nav_enterprise.png"></div>
+                                    <div class="slider" role="group"><img src="../image/new_feed1_rectangle.png"></div>
                                     
                                 </div>
                             </div>
@@ -75,16 +75,31 @@
                         <!-- 게시물 내용(프로필, 내용, 기업태그) 부분 -->
                         <div id="feed_content">
                             <div id="profile_image">
-
+                                <img class="profile" src="../image/new_feed1_rectangle.png">
                             </div>
-                            <div id="text">
-
-                            </div>
+                            <input id="text" type="text" name="feed-content" maxlength="120" placeholder="Write a caption...">
                         </div>
 
                         <!-- 기업 태그 부분(모달창 띄우기 버튼)-->
-                        <div id="tag_company">
-
+                        <button class="open_modal"><p class="Tag_text">Tag company</p><img class="arrow" src="../image/tagCompanyArrow.png"></button>
+                        <div class="modal_overlay">
+                            <div class="modal_content">
+                            <div class="modal_header">
+                                <img class="close_btn" src="../image/Cancel.png">
+                                <p class="Done" role="button">Done</p>
+                            </div>
+                            <div class="modal_container">
+                                <p class="tagCompany_text">태그할 기업을 검색해주세요.</p>
+                                <!-- 디바운스 파트! -->
+                                <div class="search_box">
+                                    <img class="search_img" src="../image/search.png">
+                                    <input class="box" type="text" placeholder="search">
+                                </div>
+                                <div class="company_list">
+                                    <!-- 기업 목록들! -->
+                                </div>
+                            </div>
+                            </div>
                         </div>
                     </main>
                 </div>
