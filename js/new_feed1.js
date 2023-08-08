@@ -192,3 +192,35 @@ document.addEventListener("drop", (event) => {
     }
 });
 */
+
+/* Next를 누르면 다음 new_feed2로 넘어갈 때, 리스트를 로컬 스토리지에 저장하는 함수
+function goNext(image_List) {
+    
+}
+
+goNext(imageList);
+*/
+
+
+// 이미지 리스트를 로컬 스토리지로 보내는 방법
+document.getElementById('Next').addEventListener("click", () => {
+    localStorage.setItem('imageList', JSON.stringify(imageList));
+});
+
+/*
+const dataTranster = new DataTransfer();
+
+Array.from(imageList)
+    .filter(file => file.lastModified != removeTargetId)
+    .forEach(file => {
+        dataTranster.items.add(file);
+    });
+
+input.imageList = dataTranster.imageList;
+
+*/
+/*
+const resetFileList = (target: EventTarget & HTMLInputElement) => {
+    const dataTransfer = new DataTransfer();
+    target.files = dataTransfer.files;
+  */
