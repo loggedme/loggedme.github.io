@@ -1,3 +1,6 @@
+var regEmail =
+  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
 $(".login_login_btn").click(function () {
   var idInput = $("#login_input_id");
   var pwdInput = $("#login_input_password");
@@ -5,6 +8,9 @@ $(".login_login_btn").click(function () {
     idInput.focus();
   } else if (!pwdInput.val().trim()) {
     pwdInput.focus();
+  } else if (!regEmail.test(idInput.val().trim())) {
+    alert("이메일 형식이 아닙니다");
+    idInput.focus();
   } else {
     var postData = {
       email: $("#login_input_id").val().trim(),
@@ -19,6 +25,7 @@ $(".login_login_btn").click(function () {
       contentType: "application/json",
       success: function (data) {
         console.log("sueccess: " + data);
+        window.location.href = "./corporation_feed.html";
       },
       error: function (jqXHR, textStatus, errorThrown) {
         if (jqXHR.status === 400) {

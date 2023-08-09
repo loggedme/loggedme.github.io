@@ -1,3 +1,6 @@
+var regEmail =
+  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
 $(".find_password_header_logo").click(function () {
   window.location.href = "./login.html";
 });
@@ -9,6 +12,9 @@ $(".find_password_header_goback_btn").click(function () {
 $(".find_password_main_btn").click(function () {
   var emailInput = $(".find_password_main_input");
   if (!emailInput.val().trim()) {
+    emailInput.focus();
+  } else if (!regEmail.test(emailInput.val().trim())) {
+    alert("이메일 형식이 아닙니다");
     emailInput.focus();
   } else {
     var postData = {
