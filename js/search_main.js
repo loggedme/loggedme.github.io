@@ -1,141 +1,89 @@
-//페이지 로딩 시 각 카테고리에 맡게 하단바의 이미지를 변경
 $(document).ready(function () {
-    $("#bottom_nav_search_image").attr(
-      "src",
-      "../image/bottom_nav_search_black.png"
-    );
-  });
+    var foryou = $("#foryou");
+    var person = $("#person");
+    var company = $("#company");
+    var underline = $(".searchMain_nav_underline");
 
-$(document).ready(function () {
-  var searchInput = $("#search_input");
-  var goBack = $("#goBack");
-  var searchPerson = $("#searchPerson");
-  var searchCompany = $("#searchCompany");
-  var searchHashtag = $("#searchHashtag");
-  var underline = $(".searchPage_nav_underline");
-
-  // 검색 개인,회사,해쉬태그 페이지 숨기기
-  $(".searchInner_nav, .person_container, .company_container, .hashtag_container")
-  .hide('fast');
-  
-  // 디바운스 oninput 이벤트
-  searchInput.on("input", debounce(function () {
-    var searchTerm = searchInput.val().toLowerCase();
-
-    $(".person_search_list .person_item").each(function () {
-      var personName = $(this).text().toLowerCase();
-      if(personName.includes(searchTerm)){
-        $(this).show();
-      } else {
-        $(this).hide();
-      }
-    });
-
-    $(".company_search_list .company_item").each(function () {
-      var companyName = $(this).text().toLowerCase();
-      if (companyName.includes(searchTerm)){
-        $(this).show();
-      } else {
-        $(this).hide();
-      }
-    });
-
-    $(".hashtag_search_list .hashtag_item").each(function () {
-      var hashtageText = $(this).text().toLowerCase();
-      if (hashtageText.includes(searchTerm)) {
-        $(this).show();
-      } else {
-        $(this).hide();
-      }
-    });
-
-  }, 300));
-
-  searchInput.on("input", function () {
-    // 탐색 메인 페이지 숨기기
-    $(".grid_container_forYou, .searchMain_nav").fadeOut('fast');
-    // 검색어 없으면 탐색 메인페이지 보이기
-    if (searchInput.val() === "") {
-      $(".searchMain_nav, .grid_container_forYou").fadeIn('fast');
-      $(".searchInner_nav, .person_container, .company_container, .hashtag_container")
-      .hide('fast');
-    } else {
-      // 초기 검색 개인 페이지 보이기
-      $(".searchInner_nav").fadeIn('fast');
-      $(".person_container").fadeIn('fast');
-      
-      underline.css("transform", "translateX(-110%)");
-      searchPerson.addClass('selected');
-      searchCompany.removeClass('selected');
-      searchHashtag.removeClass('selected');
-    }
-   
-  });
-
-  // Person 클릭시 개인 검색만 보기
-  searchPerson.on("click", function () {
-    $(".person_container").fadeIn('fast');
-    $(".company_container, .hashtag_container").fadeOut('fast');
-    underline.css("transform", "translateX(-110%)");
-    searchPerson.addClass('selected');
-    searchCompany.removeClass('selected');
-    searchHashtag.removeClass('selected');
-  });
-  // Company 클릭시 회사 검색만 보기
-  searchCompany.on("click", function () {
-    $(".company_container").fadeIn('fast');
-    $(".hashtag_container, .person_container").fadeOut('fast');
-    underline.css("transform", "translateX(0%)");
-    searchCompany.addClass('selected');
-    searchHashtag.removeClass('selected');
-    searchPerson.removeClass('selected');
-    });
-  // hashtag 클릭시 해시태그 검색만 보기
-  searchHashtag.on("click", function () {
-    $(".hashtag_container").fadeIn('fast');
-    $(".person_container, .company_container").fadeOut('fast');
-    underline.css("transform", "translateX(110%)");
-    searchHashtag.addClass('selected');
-    searchCompany.removeClass('selected');
-    searchPerson.removeClass('selected');
-    })
-
-  goBack.on("click", function () {
-    // 뒤로가기 버튼 클릭시 검색 페이지 숨기기
-    $(".searchInner_nav, .person_container, .company_container, .hashtag_container")
-    .fadeOut();
+    $(".grid_container_person, .grid_container_company").hide();
     
-    // 탐색 메인 페이지 보이기
-    $(".searchMain_nav, .grid_container_forYou").fadeIn();
-    searchInput.val("");
-  });
-});
-  
-function debounce(func, wait) {
-  let timeout;
-  return function (...args) {
-    const context = this;
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      func.apply(context, args);
-    }, wait);
-  };
-}
+    underline.css("transform", "translateX(-110%)");
+    foryou.addClass('selected');
+    person.removeClass('selected');
+    company.removeClass('selected');
 
-  // mock data
-  $.getJSON("../mock/searchingData.json", function (data) {
+    foryou.on("click", function () {
+        $(".grid_container_forYou").show();
+        $(".grid_container_person, .grid_container_company").hide();
+        underline.css("transform", "translateX(-110%)");
+        foryou.addClass('selected');
+        person.removeClass('selected');
+        company.removeClass('selected');
+      });
+
+    person.on("click", function () {
+        $(".grid_container_person").show();
+        $(".grid_container_forYou, .grid_container_company").hide();
+        underline.css("transform", "translateX(0%)");
+        person.addClass('selected');
+        foryou.removeClass('selected');
+        company.removeClass('selected');
+      });
+
+    company.on("click", function () {
+        $(".grid_container_company").show();
+        $(".grid_container_foryou, .grid_container_person").hide();
+        underline.css("transform", "translateX(110%)");
+        company.addClass('selected');
+        foryou.removeClass('selected');
+        person.removeClass('selected');
+      });
+});
+
+
+// mock data
+$.getJSON("../mock/searchingData.json", function (data) {
     console.log(data);
     
+    // for you 이미지 그리드
     $.each(data, function (index, item) {
-      var imgItem = $("<div onclick=location.href='#';>").addClass("img_item");
-      var imgElement = $("<img>").attr({
+      var foryouImgItem = $("<div onclick=location.href='#';>").addClass("img_item");
+      var foryouImgElement = $("<img>").attr({
         src: item.imageSrc,
         alt: item.name,
         width: "13rem",
         height: "13rem",
       });
       
-      imgItem.append(imgElement);
-      $(".grid_container_forYou").append(imgItem);
+      foryouImgItem.append(foryouImgElement);
+      $(".grid_container_forYou").append(foryouImgItem);
     });
+  
+    // person 이미지 그리드
+    $.each(data, function (index, item) {
+      var personImgItem = $("<div onclick=location.href='#';>").addClass("img_item");
+      var personImgElement = $("<img>").attr({
+        src: item.imageSrc,
+        alt: item.name,
+        width: "13rem",
+        height: "13rem",
+      });
+      
+      personImgItem.append(personImgElement);
+      $(".grid_container_person").append(personImgItem);
+    });
+
+    // company 이미지 그리드
+    $.each(data, function (index, item) {
+        var companyImgItem = $("<div onclick=location.href='#';>").addClass("img_item");
+        var companyImgElement = $("<img>").attr({
+          src: item.imageSrc,
+          alt: item.name,
+          width: "13rem",
+          height: "13rem",
+        });
+        
+        companyImgItem.append(companyImgElement);
+        $(".grid_container_company").append(companyImgItem);
+      });
+  
   });

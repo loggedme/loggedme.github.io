@@ -25,9 +25,7 @@
             >
         </a>
         <div class="search_bar">
-            <a href="../html/search_person.html">
-                <img src="../image/bottom_nav_search.png" alt="search_icon">
-            </a>
+            <img src="../image/bottom_nav_search.png" alt="search_icon">
             <input type="text" id="search_input" placeholder="search">
         </div>
     </div>
@@ -35,9 +33,9 @@
     <!-- 탐색 메인 페이지 -->
     <nav class="searchMain_nav">
         <div class="searchNav_item">
-            <button href="#" style="color: #6970F2; font-weight: bold;">For you</button>
-            <button href="#" style="color: rgb(162, 162, 162);">person</button>
-            <button href="#" style="color: rgb(162, 162, 162);">corporation</button>
+            <button id="foryou">For you</button>
+            <button id="person">person</button>
+            <button id="company">company</button>
             <div class="searchMain_nav_underline"></div>
         </div>
         <hr style="margin: 0;">
@@ -45,6 +43,8 @@
 
     
     <div class="grid_container_forYou"></div>
+    <div class="grid_container_person"></div>
+    <div class="grid_container_company"></div>
 
     <div class="searchPage">
         <!-- 탐색 검색 페이지 상단 네브바-->
@@ -90,9 +90,9 @@
 </body>
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="../js/search_main.js"></script>
+<script src="../js/search_page.js"></script>
 <script src="../js/search_person.js"></script>
 <script src="../js/search_company.js"></script>
 <script src="../js/search_hashtag.js"></script>
-
+<script src="../js/search_main.js"></script>
 </html>
