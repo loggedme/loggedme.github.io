@@ -29,6 +29,7 @@ $(".login_login_btn").click(function () {
           alert("인증에 실패했습니다.");
         } else {
           console.error("Error:", jqXHR.status, errorThrown);
+          alert("서버 에러");
         }
       },
     });
