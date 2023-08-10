@@ -15,19 +15,23 @@
 <body>
     <div class="new_feed2">
         <div class="head">
-            <img src="../image/new_feed2_backBtn.png" id="backBtn">
+            <div onclick="goBack()" role="button" id="backBtn">Cancle</div>
             <div class="New_post">
                 Edit info
             </div>
-            <a href="#" id="Share">Share</a>
+            <a href="#" id="Done">Done</a>
         </div>
         <main>
+            <hr>
+            <div id="profile_image">
+                <img class="profile" src="../image/new_feed1_rectangle.png">
+                <p class="my_id">gihong14</p>
+            </div>
             <!-- 게시물 사진 부분 (슬라이드)-->
             <div class="slider__wrap">
                 <div class="slider__img">
                     <div class="slider__inner Next">
                         <div class="slider" role="group"><img src="../image/new_feed1_rectangle.png"></div>
-                        
                     </div>
                 </div>
                 <div class="slider__btn">
@@ -38,36 +42,32 @@
                     
                 </div>
             </div>
-            
-            <!-- 게시물 내용(프로필, 내용, 기업태그) 부분 -->
-            <div id="feed_content">
-                <div id="profile_image">
-                    <img class="profile" src="../image/new_feed1_rectangle.png">
-                </div>
-                <input id="text" type="text" name="feed-content" maxlength="120" placeholder="Write a caption...">
-            </div>
 
             <!-- 기업 태그 부분(모달창 띄우기 버튼)-->
             <button class="open_modal"><p class="Tag_text">Tag company</p><img class="arrow" src="../image/tagCompanyArrow.png"></button>
             <div class="modal_overlay">
                 <div class="modal_content">
-                <div class="modal_header">
-                    <img class="close_btn" src="../image/Cancel.png">
-                    <p class="Done" role="button">Done</p>
-                </div>
-                <div class="modal_container">
-                    <p class="tagCompany_text">태그할 기업을 검색해주세요.</p>
-                    <!-- 디바운스 파트! -->
-                    <div class="search_box">
-                        <img class="search_img" src="../image/search.png">
-                        <input class="box" type="text" placeholder="search">
+                    <div class="modal_header">
+                        <img class="close_btn" src="../image/Cancel.png">
+                        <p class="Done" role="button">Done</p>
                     </div>
-                    <div class="company_list">
-                        <!-- 기업 목록들! -->
+                    <div class="modal_container">
+                        <p class="tagCompany_text">태그할 기업을 검색해주세요.</p>
+                        <!-- 디바운스 파트! -->
+                        <div class="search_box">
+                            <img class="search_img" src="../image/search.png">
+                            <input class="box" type="text" placeholder="search">
+                        </div>
+                        <div class="company_list">
+                            <!-- 기업 목록들! -->
+                        </div>
                     </div>
-                </div>
                 </div>
             </div>
+
+            <!-- 게시물 내용(프로필, 내용, 기업태그) 부분 -->
+            <input id="text" type="text" name="feed-content" maxlength="120" placeholder="Write a caption...">
+            
         </main>
     </div>
 

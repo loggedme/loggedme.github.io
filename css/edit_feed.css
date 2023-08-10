@@ -35,7 +35,7 @@ body {
     align-items: center;   
 }
 
-#Share {
+#Done {
     text-decoration-line: none;
 }
 
@@ -145,16 +145,20 @@ body {
     background: black;
 }
 
-/* 피드 콘텐츠(프로필 이미지, 내용, 기업태그 등) */
-#feed_content {
-    display: flex;
-    justify-content: center;
-    margin-top: 41px;
+hr {
+    width: 100;
+    height: 0.0125rem;
+    background: rgba(0, 0, 0, 0.20);
+    margin: 0;
 }
 
-.profile_image {
+#profile_image {
+    display: flex;
     width: 48px;
     height: 46px;
+    padding: 0 2.25rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
 }
 
 .profile {
@@ -163,10 +167,29 @@ body {
     border-radius: 70%;
 }
 
+.my_id {
+    color: #000;
+    font-family: Inter;
+    font-size: 0.8125rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-left: 0.75rem;
+    opacity: 0.7;
+}
+
 #text {
-    width: 316px;
-    padding-left: 8px;
+    color: #000;
+    font-family: Inter;
+    font-size: 0.8125rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-left: 2.81rem;
+    margin-top: 1.37rem;
     border: none;
+    width: 21.28rem;
+    height: 10rem;
 }
 
 /* 
