@@ -88,7 +88,7 @@ function getPersonData() {
   });
 }
 
-//실시간 email input change event
+// 디바운스 구현
 var timer;
 $(".search_input").on("keydown", function () {
   if (timer) {
