@@ -8,9 +8,9 @@ $(".login_login_btn").click(function () {
     idInput.focus();
   } else if (!pwdInput.val().trim()) {
     pwdInput.focus();
-    // } else if (!regEmail.test(idInput.val().trim())) {
-    //   alert("이메일 형식이 아닙니다");
-    //   idInput.focus();
+  } else if (!regEmail.test(idInput.val().trim())) {
+    alert("이메일 형식이 아닙니다");
+    idInput.focus();
   } else {
     var postData = {
       email: $("#login_input_id").val().trim(),
