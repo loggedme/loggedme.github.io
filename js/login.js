@@ -8,9 +8,9 @@ $(".login_login_btn").click(function () {
     idInput.focus();
   } else if (!pwdInput.val().trim()) {
     pwdInput.focus();
-  } else if (!regEmail.test(idInput.val().trim())) {
-    alert("이메일 형식이 아닙니다");
-    idInput.focus();
+    // } else if (!regEmail.test(idInput.val().trim())) {
+    //   alert("이메일 형식이 아닙니다");
+    //   idInput.focus();
   } else {
     var postData = {
       email: $("#login_input_id").val().trim(),
@@ -20,12 +20,12 @@ $(".login_login_btn").click(function () {
     $.ajax({
       url: "http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/auth/token",
       type: "POST",
-      dataType: "json",
       data: JSON.stringify(postData),
       contentType: "application/json",
       success: function (data) {
-        console.log("sueccess: " + data);
-        window.location.href = "./corporation_feed.html";
+        const jwtToken = JSON.stringify(data);
+        setTokenFromSessionStorage(jwtToken);
+        window.location.replace("./corporation_feed.html");
       },
       error: function (jqXHR, textStatus, errorThrown) {
         if (jqXHR.status === 400) {
@@ -42,3 +42,7 @@ $(".login_login_btn").click(function () {
     });
   }
 });
+
+function setTokenFromSessionStorage(jwtToken) {
+  return sessionStorage.setItem("jwtToken", jwtToken);
+}
