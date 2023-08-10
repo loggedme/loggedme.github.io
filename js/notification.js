@@ -45,9 +45,7 @@ function initNotification(jwtToken) {
     type: "GET",
     dataType: "json",
     headers: {
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-      // Authorization: `"Bearer ${jwtToken}`,
+      Authorization: `Bearer ${jwtToken}`,
     },
     success: function (data) {
       // console.log("sueccess: " + JSON.stringify(data.items));
