@@ -9,12 +9,91 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/profile_per.css">
   <title>Logged.me</title>
 </head>
 
 <body>
-  <header></header>
-  <main></main>
+  <header>
+    <div class="head"> <!-- 아이디, 게시물 추가 btn, 햄버거-->
+        <p class="per_id">gihong14</p>
+        <div class="head_btn">
+            <a href="../html/new_feed2.html" class="feed_plus_btn"><img src="../image/Sum.png"></a>
+            <div class="hamburger_btn" role="button"><img src="../image/Menu.png" ></div>
+        </div>
+    </div>
+    <div class="information">   <!-- 프사 , post, 팔로워, 팔로잉, 이름(이건 프사 밑으로)-->
+        <div class="information_inner">   
+            <div class="profile_img"><img src="../image/new_feed1_rectangle.png" class="pro_img"></div>
+            <div class="pff">
+                <div id="post" class="pff_product">
+                    <p class="number">50</p>
+                    <p class="text">posts</p>
+                </div>
+                <a href="../html/follow_list.html" id="followers" class="pff_product">
+                    <p class="number">372</p>
+                    <p class="text">Followers</p>
+                </a>
+                <a href="../html/follow_list.html" id="following" class="pff_product">
+                    <p class="number">250</p>
+                    <p class="text">Following</p>
+                </a>
+            </div>
+        </div> 
+        <div class="name">기홍</div>
+    </div>
+  </header>
+  <main id="main">
+    <div class="edit_profile_btn">
+        <button class="edit_btn"><a href="../html/profile_per_edit.html">edit profile</a></button>
+    </div>
+    <div class="badge_field">
+        <div class="badge_inner">
+            <div class="badge" id="badge1"><img class="open_modal" src="../image/free-icon-faved-mark-20414 1.png"></div>
+            <div class="badge" id="badge1"><img class="open_modal" src="../image/free-icon-faved-mark-20414 1.png"></div>
+        </div>
+    </div>
+    <div class="feed_slide">
+        <div class="feed_inner">
+            <img src="../image/Squared Menu.png">
+            <img src="../image/Tags.png">
+        </div>
+    </div>
+    <div class="line_field">
+        <hr class="line">
+    </div>
+    <div class="feed">
+        <div class="my_feed">
+            <img class=feed_img src="../image/new_feed1_rectangle.png">
+            <img class=feed_img src="../image/new_feed1_rectangle.png">
+            <img class=feed_img src="../image/new_feed1_rectangle.png">
+            <img class=feed_img src="../image/new_feed1_rectangle.png">
+            <img class=feed_img src="../image/new_feed1_rectangle.png">
+        </div>
+        <div class="tag_feed">
+            <!-- todo로 일단 남겼다. -->
+        </div>
+    </div>
+
+    <!-- ㅂ모달-->
+  <div class="modal_overlay">
+    <div class="modal_content">
+      <div class="modal_header">
+        <button class="close_btn">x</button>
+      </div>
+      <div class="modal_container">
+        <div class="image_wrap">
+          <img class="modal_image" src="../image/bottom_nav_enterprise.png" alt="">
+        </div>
+        <p class="modal_document">write a caption</p>
+      </div>
+    </div>
+  </div>
+  <!-- 모달 -->
+  </main>
+
+
+
 
   <!--base-->
   <section class="base_bottom_nav">
@@ -35,7 +114,6 @@
 
 <!--base-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="../js/base.js"></script>
 <!--base-->
-
+<script src="../js/profile_per.js"></script>
 </html>
