@@ -20,12 +20,15 @@ $(".login_login_btn").click(function () {
     $.ajax({
       url: "http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/auth/token",
       type: "POST",
-      dataType: "json",
       data: JSON.stringify(postData),
       contentType: "application/json",
       success: function (data) {
-        console.log("sueccess: " + data);
-        window.location.href = "./corporation_feed.html";
+        setTokenFromSessionStorage(data.token);
+        setCurrentUserIdFromSessionStorage(data.user.id);
+        setHandleFromSessionStorage(data.user.handle);
+        setCurrentUserAccountTypeFromSessionStorage(data.user.account_type);
+
+        window.location.replace("./corporation_feed.html");
       },
       error: function (jqXHR, textStatus, errorThrown) {
         if (jqXHR.status === 400) {
@@ -42,3 +45,22 @@ $(".login_login_btn").click(function () {
     });
   }
 });
+
+function setTokenFromSessionStorage(jwtToken) {
+  return sessionStorage.setItem("jwtToken", jwtToken);
+}
+
+function setCurrentUserIdFromSessionStorage(currentUserId) {
+  return sessionStorage.setItem("currentUserId", currentUserId);
+}
+
+function setHandleFromSessionStorage(handle) {
+  return sessionStorage.setItem("handle", handle);
+}
+
+function setCurrentUserAccountTypeFromSessionStorage(currentUserAccountType) {
+  return sessionStorage.setItem(
+    "currentUserAccountType",
+    currentUserAccountType
+  );
+}
