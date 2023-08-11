@@ -7,3 +7,14 @@ $(document).ready(function () {
       "../image/bottom_nav_profile_black.png"
     );
 });
+
+
+/* 모달창 부분 */
+$('.modal_overlay').hide()
+
+$('.close_btn').click(function () {
+  $('.modal_overlay').hide()
+})
+$('.open_modal').click(function () {
+  $('.modal_overlay').show()
+})
