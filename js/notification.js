@@ -39,6 +39,10 @@ function getTokenFromSessionStorage() {
   return sessionStorage.getItem("jwtToken");
 }
 
+function getCurrentUserIdFromSessionStorage() {
+  return sessionStorage.getItem("currentUserId");
+}
+
 function initNotification(jwtToken) {
   $.ajax({
     url: "http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/notification",
@@ -48,16 +52,19 @@ function initNotification(jwtToken) {
       Authorization: `Bearer ${jwtToken}`,
     },
     success: function (data) {
-      // console.log("sueccess: " + JSON.stringify(data.items));
+      console.log("sueccess: " + JSON.stringify(data.items));
       $.each(data.items, function (index, item) {
         var itemElement = $("<a>").prop({
           class: "item_element",
-          href: "#",
         });
         var elementWrap = $("<div>").prop({
           class: "content_wrap",
         });
         if (item.type === "like") {
+          itemElement.click(function () {
+            sessionStorage.setItem("feedId", item.feed.id);
+            window.location.href = "#";
+          });
           var imgElement = $("<img>").attr({
             src: item.feed.image_urls[0],
             alt: item.feed.id,
@@ -68,6 +75,10 @@ function initNotification(jwtToken) {
             textContent: `${item.user.handle}이 게시물에 좋아요를 남겼습니다.`,
           });
         } else if (item.type === "follow") {
+          itemElement.click(function () {
+            sessionStorage.setItem("userId", item.user.id);
+            window.location.href = "./profile_per.html";
+          });
           var imgElement = $("<img>").attr({
             src: item.user.thumbnail,
             alt: item.user.name,
@@ -78,6 +89,13 @@ function initNotification(jwtToken) {
             textContent: `${item.user.handle}이 당신을 팔로우합니다.`,
           });
         } else if (item.type === "badge") {
+          itemElement.click(function () {
+            sessionStorage.setItem(
+              "userId",
+              getCurrentUserIdFromSessionStorage()
+            );
+            window.location.href = "./profile_per.html";
+          });
           var imgElement = $("<img>").attr({
             src: item.user.thumbnail,
             alt: item.user.name,
@@ -88,6 +106,10 @@ function initNotification(jwtToken) {
             textContent: `${item.user.handle}이 당신에게 뱃지를 부여했습니다.`,
           });
         } else if (item.type === "tag") {
+          itemElement.click(function () {
+            sessionStorage.setItem("feedId", item.feed.id);
+            window.location.href = "#";
+          });
           var imgElement = $("<img>").attr({
             src: item.feed.image_urls[0],
             alt: item.feed.id,
@@ -98,6 +120,10 @@ function initNotification(jwtToken) {
             textContent: `${item.user.handle}이 게시물에 당신을 테그했습니다.`,
           });
         } else if (item.type === "comment") {
+          itemElement.click(function () {
+            sessionStorage.setItem("feedId", item.feed.id);
+            window.location.href = "#";
+          });
           var imgElement = $("<img>").attr({
             src: item.feed.image_urls[0],
             alt: item.feed.id,
@@ -133,6 +159,22 @@ function initNotification(jwtToken) {
     },
   });
 }
+
+// // 추가: 오늘 날짜인지, 일주일 내의 날짜인지 판별하여 클래스 추가
+// function addDateClass(date) {
+//   var currentDate = new Date();
+//   var formattedDate = date.replace("T", " ").replace(/\.\d+$/, ""); // ISO 형식의 날짜를 "T"를 공백으로, 밀리초를 삭제하여 변환합니다.
+//   var dataDate = new Date(formattedDate); // 변환된 문자열을 날짜 객체로 변환합니다.
+//   var oneWeekAgo = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+//   if (isSameDate(currentDate, dataDate)) {
+//     return "today";
+//   } else if (dataDate >= oneWeekAgo) {
+//     return "thisWeek";
+//   } else {
+//     return "beyondWeek";
+//   }
+// }
 
 function getTimeAgo(date) {
   var currentDate = new Date();

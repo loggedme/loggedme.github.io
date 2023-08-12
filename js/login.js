@@ -8,9 +8,9 @@ $(".login_login_btn").click(function () {
     idInput.focus();
   } else if (!pwdInput.val().trim()) {
     pwdInput.focus();
-    // } else if (!regEmail.test(idInput.val().trim())) {
-    //   alert("이메일 형식이 아닙니다");
-    //   idInput.focus();
+  } else if (!regEmail.test(idInput.val().trim())) {
+    alert("이메일 형식이 아닙니다");
+    idInput.focus();
   } else {
     var postData = {
       email: $("#login_input_id").val().trim(),
@@ -23,8 +23,11 @@ $(".login_login_btn").click(function () {
       data: JSON.stringify(postData),
       contentType: "application/json",
       success: function (data) {
-        const jwtToken = JSON.stringify(data);
-        setTokenFromSessionStorage(jwtToken);
+        setTokenFromSessionStorage(data.token);
+        setCurrentUserIdFromSessionStorage(data.user.id);
+        setHandleFromSessionStorage(data.user.handle);
+        setCurrentUserAccountTypeFromSessionStorage(data.user.account_type);
+
         window.location.replace("./corporation_feed.html");
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -45,4 +48,19 @@ $(".login_login_btn").click(function () {
 
 function setTokenFromSessionStorage(jwtToken) {
   return sessionStorage.setItem("jwtToken", jwtToken);
+}
+
+function setCurrentUserIdFromSessionStorage(currentUserId) {
+  return sessionStorage.setItem("currentUserId", currentUserId);
+}
+
+function setHandleFromSessionStorage(handle) {
+  return sessionStorage.setItem("handle", handle);
+}
+
+function setCurrentUserAccountTypeFromSessionStorage(currentUserAccountType) {
+  return sessionStorage.setItem(
+    "currentUserAccountType",
+    currentUserAccountType
+  );
 }

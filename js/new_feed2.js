@@ -1,3 +1,7 @@
+/*
+    게시물 작성 페이지-1
+*/
+/* 맨 아래 base 구간 */
 // 지금 있는 페이지 버튼 검정으로
 $(document).ready(function () {
     $(".base_bottom_nav_plus_image").attr(
@@ -14,28 +18,6 @@ $(document).ready(function () {
     );
   });
 
-
-/*
-    게시물 작성 페이지-1
-*/
-/* 맨 아래 base 구간 */
-// 지금 있는 페이지 버튼 검정으로
-$(document).ready(function () {
-  $(".base_bottom_nav_plus_image").attr(
-    "src",
-    "../image/bottom_nav_plus_black.png"
-  );
-});
-
-// 원래 검정색인거 회색으로
-$(document).ready(function () {
-  $("#bottom_nav_person_image").attr(
-    "src",
-    "../image/bottom_nav_person.png"
-  );
-});
-
-
 // close버튼 클릭 시 뒤로가기
 function goBack() {
   window.history.back();
@@ -47,6 +29,7 @@ var input = document.getElementById("input");
 var initLabel = document.getElementById("label");
 const imageList = [];
 var imageLengthCount = 0;
+var imgFirstInput = 0;
 
 // 마우스 올렸을 때 효과
 initLabel.addEventListener("mouseover", (event) => {
@@ -105,11 +88,14 @@ function handleUpdate(fileList) {
   if (imageLengthCount + fileList.length > 10) {
       return 1;
   } else {
-      imageList.push(...fileList);
-      imageLengthCount = imageLengthCount + fileList.length;
-      /* 검사!!!*/
+      /*imageList.push(...fileList);*/
+      imageLengthCount += fileList.length;
+      imgFirstInput++;
+      console.log(imageLengthCount);
+      /* 검사!!!
       console.log(imageList);
       console.log(imageLengthCount);
+      console.log(imgFirstInput);*/
   }
   fileList.forEach((file) =>{
       const reader = new FileReader();
@@ -119,7 +105,8 @@ function handleUpdate(fileList) {
               className: "embed-img",
               src: event.target?.result,  // src는 base-64형태
           });
-
+          imageList.push(reader.result);
+          /*console.log(imageList[0]);*/
           const imgContainer = el("div", {className: "container-img"}, img);
           preview.append(imgContainer);
       });
@@ -140,7 +127,12 @@ function handleUpdatePre(fileLast) {
               src: event.target?.result,
           });
           const imgContainer_pre = el("div", {className: "container-img"}, img_pre);  // 새로 만든 부분
-          preview_image.append(imgContainer_pre); // 새로 만든 부분
+          if(imgFirstInput == 1) {
+            preview_image.append(imgContainer_pre); // 새로 만든 부분
+          }
+          else {
+            document.querySelector(".preview_image").src = reader.result;
+          }
           // append 는 최초 1번만 두번째부터 if문으로 소스 바꾸기
           // 기본 이미지 넣어놓고 새로 들어오면 소스만 바꿔줘
       });
@@ -247,22 +239,19 @@ const resetFileList = (target: EventTarget & HTMLInputElement) => {
     게시물 작성 페이지-2
  */
 
-// back버튼 클릭 시 뒤로가기("게시물 작성 페이지-1" 로 이동)
-function goBack() {
-  window.history.back();
-}
-
 /* 
   이미지 슬라이더 부분!!!!!!
 */
 // preview_image(업로드할 사진(10장이하)) 부분
+/* 스토리지에서 받아오는 코드
 const storedList = JSON.parse(localStorage.getItem('imageList'));
-
+*/
 // 2. 좌우 버튼
 
 // 3. 이미지가 보여질 div
 
 
+/*********************** 
 const sliderWrap = document.querySelector(".slider__wrap");
 const sliderImg = document.querySelector(".slider__img");       // 보여지는 영역
 const sliderInner = document.querySelector(".slider__inner");   // 움직이는 영역
@@ -277,15 +266,29 @@ const pageImg = document.querySelector(".page__img");         // 페이지가 �
 const pageInner = document.querySelector(".page__inner");
 
 let currentIndex = 0;                       //현재 이미지
-let sliderCount = slider.length;            //이미지 갯수(imageList.length)
+let sliderCount = imageLengthCount;            //이미지 갯수(imageList.length) -> 원래 slider.length
+console.log(sliderCount);
 let sliderWidth = sliderImg.offsetWidth;    //이미지 가로
 let dotIndex = "";
 let currentPage = 0;                        //현재 페이지
 let pageWidth = pageImg.offsetWidth;        //페이지 가로
-
+*/
+let currentIndex = 0;                       //현재 이미지
+let dotIndex = "";
+const sliderBtnPrev = document.querySelector(".prev");       //왼쪽버튼
+const sliderBtnNext = document.querySelector(".next");
+const BtnNext = document.getElementById("Next");              // 다음 버튼을 통해 오른쪽으로 슬라이드
+const BtnBack = document.getElementById("backBtn");            // 뒤로 가기를 통해 왼쪽으로 슬라이드
+const pageImg = document.querySelector(".page__img");         // 페이지가 보여지는 영역
+const pageInner = document.querySelector(".page__inner");
+let pageWidth = pageImg.offsetWidth;        //페이지 가로
 
 // 이미지 움직이는 영역
 function gotoSlider(num){
+    const sliderInner = document.querySelector(".slider__inner");
+    const sliderImg = document.querySelector(".slider__img");       // 보여지는 영역 
+    let sliderWidth = sliderImg.offsetWidth;    //이미지 가로
+
     sliderInner.style.transition = "all 400ms";
     sliderInner.style.transform = "translateX("+ -sliderWidth * num +"px)";
     currentIndex = num;
@@ -299,20 +302,55 @@ function gotoSlider(num){
 
 // 왼쪽 버튼을 클릭했을 때
 sliderBtnPrev.addEventListener("click", () => {
-    let prevIndex = (currentIndex + (sliderCount -1)) % sliderCount
+    let prevIndex = (currentIndex + (imageLengthCount -1)) % imageLengthCount  // imageLengthCount는 원래 sliderCount엿다
     // 4, 1, 2, 3, 4, 1, 2, ...
     gotoSlider(prevIndex);
 });
 
 // 오른쪽 버튼을 클릭했을 때
 sliderBtnNext.addEventListener("click", () => {
-    let nextIndex = (currentIndex + 1) % sliderCount
+    let nextIndex = (currentIndex + 1) % imageLengthCount   // imageLengthCount는 원래 sliderCount엿다
     // 1, 2, 3, 4, 0, 1, 2, ...
     gotoSlider(nextIndex);
 });
 
 // Next 버튼을 클릭했을 때
 BtnNext.addEventListener("click", () => {
+  if(imageLengthCount === 0) {
+    return alert("이미지를 1개 이상 선택해 주십시오");
+  }
+
+  let template = ``;
+  var currentNext = 0; // Next를 누른 횟수
+  var sliderLengthCount = 0;
+
+  if(currentNext == 0) {
+    for(let i = 0; i < imageLengthCount; i++) {
+      template += `
+      <div class="slider" role="group"><img class="sliderImg" src="${imageList[i]}"></div>\n
+      `
+    }
+    currentNext++;
+    sliderLengthCount += imageLengthCount;
+  } else {
+    for(let i = 0; i < imageLengthCount-sliderLengthCount; i++) {
+      template += `
+      <div class="slider" role="group"><img class="sliderImg" src="${imageList[i+sliderLengthCount]}"></div>\n
+      `
+    }
+    sliderLengthCount = imageLengthCount
+  }
+  console.log(template);
+  $('.slider__inner').append(template);
+  
+  //const sliderInner = document.querySelector(".slider__inner"); 
+
+  
+  //document.slider__inner.innerHTML = template;
+
+
+  // 검사 -> document.querySelector('.sliderImg').src = imageList[0];
+
   /* 
     버튼이 클릭되면 이미지 개수에 따라서 div요소가 생성되어야 한다.
     <div class = "slider" role="group"><img src="..이미지 주소"></div>
@@ -322,27 +360,64 @@ BtnNext.addEventListener("click", () => {
     적용을 위해서 innerHTML을 통해(템픞릿으로 따로 만들자 해당 공간 값을 바꾸기)
   */
   
-    /* 템플핏과 innerHTML을 작성하자!!!! 8월 8월
-  let template= `
-    <div class=
-  `
-  */
+  /* 템플핏과 innerHTML을 작성하자!!!! 8월 8월 */
+  /* imageList안에 있는 파일들을 64로 인코딩해서 새 변수에 저장 후 template에 추가*/
+  /*잠시 보류!!!! 
+  let template = '';
+
+  for(let i = 0; i < imageLengthCount; i++) {
+    console.log(imageList[i]);
+    console.log(getDataUrl(imageList[i]));
+    template += `
+      <div class="slider" role="group"><img src=${imageList[i]}></div>
+    `
+  }
+  document.querySelector(".slider__inner").innerHTML = template;
+ */ 
   
   pageInner.style.transition = "all 400ms";
   pageInner.style.transform = "translateX("+ -pageWidth +"px)";
   currentPage = 1;
+
+  init();
+
 });
+
+/*
+// 이미지 인코딩 함수
+function getDataUrl(imgFileList) {
+  
+  const file = imgFileList.files;  //첨부된 파일을 가져옴
+  console.log(file);
+  const reader = new FileReader();
+
+  reader.readAsDataURL(file); // 파일을 base64로 변환
+  reader.onload = function() {
+    console.log(reader.result); // 읽은 파일 소스단에 출력
+    document.querySelector('.sliderImg').src = reader.result;
+  };
+
+  reader.onerror = function() {
+    console.log(reader.error);
+  };
+}
+*/
 
 // Back 버튼을 클릭했을 때
 BtnBack.addEventListener("click", () => {
   pageInner.style.transition = "all 400ms";
   pageInner.style.transform = "translateX(" + 0 + "px)";
   currentPage= 0;
+
+  $('div').remove('.slider');
+  dotIndex='';
 });
 
  // 초기값 설정 함수 init()
  function init(){
   // <a href="#" class="dot active">이미지1</a>
+  const slider = document.querySelectorAll(".slider"); 
+  const sliderDot = document.querySelector(".slider__dot");
 
   slider.forEach(() => {dotIndex += "<a href='#' class='dot'>이미지1</a>";});
   sliderDot.innerHTML = dotIndex;
@@ -350,7 +425,7 @@ BtnBack.addEventListener("click", () => {
   // 첫 번째 닷 버튼에 활성화 표시(active)
   sliderDot.firstChild.classList.add("active");
 }
-init();
+// ***************************************init();*********************************************
 
  // 닷 버튼을 클릭했을 때 해당 이미지로 이동
  document.querySelectorAll(".slider__dot .dot").forEach((dot, index) => {
@@ -384,3 +459,12 @@ document.querySelector(".slider__inner").appendChild(
   )  
 )
 */
+
+/* tag company 모달창 기능 */
+$('.modal_overlay').hide()
+$('.close_btn').click(function () {
+  $('.modal_overlay').hide()
+})
+$('.open_modal').click(function () {
+  $('.modal_overlay').show()
+})
