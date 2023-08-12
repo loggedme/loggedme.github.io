@@ -38,9 +38,11 @@ body {
     align-items: center;   
 }
 
-#Share {
+#Share{
     text-decoration-line: none;
 }
+
+
 /* 이미지 가운데로 오게 함 */
 /* preview 이미지 구간 
 #preview_image {
@@ -380,4 +382,12 @@ body {
     width:65%;
     background: rgba(217, 217, 217, 0);
     border: none;
+ }
+
+ /* 모달창 기업 목록 부분 */
+ .company_list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
  }
