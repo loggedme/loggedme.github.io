@@ -1,9 +1,6 @@
 <!--
-    기업 프로필
--->
-<!--
-    개인 프로필(게시물 여러개) 
-    개인 프로필(게시물 없음)
+    기업 프로필(게시물 여러개) 
+    기업 프로필(게시물 없음)
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -52,9 +49,8 @@
     </div>
     <div class="badge_field">
         <div class="badge_inner">
-            <div class="badge" id="badge1"><img src="../image/free-icon-faved-mark-20414 1.png"></div>
-            <div class="badge" id="badge1"><img src="../image/free-icon-faved-mark-20414 1.png"></div>
-            <div class="add_badge"><img src="../image/Plus Math.png"></div>
+            <!-- 밑에 badge는 그냥 예시(더미). 없애도 무관-->
+            <div class="badge" id="badge0"><img class="open_modal" onclick="modal_On(0)" src="../image/free-icon-faved-mark-20414 1.png"></div>
         </div>
     </div>
     <div class="feed_slide">
@@ -68,16 +64,38 @@
     </div>
     <div class="feed">
         <div class="my_feed">
+            <div class="zero_feed">
+                <p class="nofeed">게시물이 없습니다.</p>
+                <img src="../image/No Camera.png">
+            </div>
+            <!--
             <img class=feed_img src="../image/new_feed1_rectangle.png">
             <img class=feed_img src="../image/new_feed1_rectangle.png">
             <img class=feed_img src="../image/new_feed1_rectangle.png">
             <img class=feed_img src="../image/new_feed1_rectangle.png">
             <img class=feed_img src="../image/new_feed1_rectangle.png">
+        -->
         </div>
         <div class="tag_feed">
             <!-- todo로 일단 남겼다. -->
         </div>
     </div>
+
+    <!-- 뱃지 모달-->
+  <div class="modal_overlay">
+    <div class="modal_content">
+      <div class="modal_header">
+        <button class="close_btn">x</button>
+      </div>
+      <div class="modal_container">
+        <div class="image_wrap">
+          <img class="modal_image" src="../image/bottom_nav_enterprise.png" alt="">
+        </div>
+        <p class="modal_document">write a caption</p>
+      </div>
+    </div>
+  </div>
+  <!-- 모달 -->
   </main>
 
 
