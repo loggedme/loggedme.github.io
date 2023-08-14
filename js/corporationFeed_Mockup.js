@@ -1,20 +1,40 @@
-// mockup api
+// 세션에서 받아올 값
 function getTokenFromSessionStorage() {
     return sessionStorage.getItem("jwtToken");
   }
 
-  $(document).ready(function (jwtToken) {
+function getCurrentUserIdFromSessionStorage() {
+    return sessionStorage.getItem("currentUserId");
+}
+
+function getCurrentFeedIdFromSessionStorage() {
+    return sessionStorage.getItem("currentFeedId");
+}
+
+function getCurrentUserAccountTypeFromSessionStorage() {
+    return sessionStorage.getItem("currentUserAccountType");
+}
+
+function getCurrentUserThumbnailFromSessionStorage() {
+    return sessionStorage.getItem("currentUserThumbnail");
+}
+
+$(document).ready(function (jwtToken) {
+    var jwtToken = getTokenFromSessionStorage();
+    //var currentUserId = getCurrentUserIdFromSessionStorage();
+    var currentFeedId = 1;
+
     $.ajax({
         url: "http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/feed?following=true&type=business",
         type: "GET",
         dataType: "json",
         headers: {
-          Authorization: `Bearer ${jwtToken}`,
+            Authorization: `Bearer ${jwtToken}`,
         },
         success: function (data) {
-
+            
             console.log("sueccess: " + JSON.stringify(data.items));
-      
+        
             $.each(data.items, function (index, item) {
                 
                 // 전체 아이템 박스
@@ -53,7 +73,7 @@ function getTokenFromSessionStorage() {
                 });
                 var gotoUserInfo = $("<a>").prop({
                     class: "goTo_userInfo",
-                    href: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/user/${item.author.id}`,
+                    href: "../html/profile_ent.html",
                     textContent: "이 계정 정보",
                 });
                 var saveBtnOption = $("<button type=button>")
@@ -165,7 +185,7 @@ function getTokenFromSessionStorage() {
                 var commentLink = $("<button type=button id=comment_btn>")
                 .addClass("comment_link")
                 .on("click", function () {
-                    openModal(item.author.handle, data); 
+                    openModal(item.id, data); 
                 });
                 var commentImg = $("<img>").attr({
                     src: "../image/comment.png",
@@ -213,7 +233,7 @@ function getTokenFromSessionStorage() {
                 // IdHashtag div (아이디, 해쉬태그)
                 var IdHashtag = $("<a>").prop({
                     class: "IdHashtag",
-                    href: "#",
+                    href: "../html/profile_ent.html",
                 });
                 var bottomUserId = $("<div>").prop({
                     class: "bottom_id",
@@ -233,7 +253,7 @@ function getTokenFromSessionStorage() {
                 // 업로드 날짜 (현재로부터 얼마 전인지)
                 var uploaded_date = $("<div>").addClass("uploaded_date");
 
-                var uploadDate = new Date(item.created_at); // 새로운 형식에 맞춰 파싱
+                var uploadDate = new Date(item.created_at); 
                 var currentDate = new Date();
                 var timeDiffInMilliseconds = currentDate - uploadDate;
 
@@ -253,6 +273,90 @@ function getTokenFromSessionStorage() {
                 feedItem.append(feedTopContainer, imageContainer, feedFunctionContainer, feedInfo);
                 $(".feed_list").append(feedItem);
 
+                // 유저 썸네일 받아오기
+                var userThumbnail = getCurrentUserThumbnailFromSessionStorage();
+                // 댓글 모달창 댓글 작성
+                var postingUserImg = $("<div>").addClass("postingUser_img");
+                var postingImg = $("<img>").attr({
+                    src: `${userThumbnail}`,
+                    alt: "comment",
+                    width: "3rem",
+                    height: "3rem",
+                    style: "border-radius: 50%; margin: 2rem;",
+                });
+                postingUserImg.append(postingImg);
+                $(".postComment").append(postingUserImg);
+
+                // 댓글 모달창 피드 정보
+                var feedsHtml = data.items
+                .map(function (feed) {
+                    return `
+                        <div class="feeds_item">
+                            <div class="feedAuthor_img"><img src="${feed.author.thumbnail}"></div>
+                            <div class="feedContent_info">
+                                <div style="font-weight:bold">${feed.author.handle}</div>
+                                <div style="color:#3E93E1">#${feed.tagged_user.name}</div>
+                                <div>${feed.content}</div>
+                            </div>
+                        </div>
+                    `;
+                })
+                .join("");
+                // 댓글 모달창 함수
+                function openModal(feedId, data){
+                    $.ajax({
+                        url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/feed/${currentFeedId}/comment`,
+                        type: "GET",
+                        dataType: "json",
+                        headers: {
+                            Authorization: `Bearer ${jwtToken}`,
+                        },
+                        success: function (data) {
+                            //console.log("sueccess: " + JSON.stringify(data.items));
+                            
+                            var commentsHtml = data.items
+                            .map(function (comment) {
+                                // 댓글 작성 시간 계산
+                                var uploadDate = new Date(comment.created_at); 
+                                var currentDate = new Date();
+                                var timeDiffInMilliseconds = currentDate - uploadDate;
+            
+                                var timeDiffInHours = Math.floor(timeDiffInMilliseconds / (1000 * 60 * 60));
+                                var timeDiffInDays = Math.floor(timeDiffInHours / 24);
+            
+                                var uploadDateString = timeDiffInHours < 24 ? timeDiffInHours + '시간 전' : timeDiffInDays + '일 전';
+            
+                                // 댓글 쓴 사람의 이미지 대신 일단 글쓴 사람 이미지 불러오도록 해놓음
+                                return `
+                                    <div class="comments_item">
+                                        <a><img src="${comment.author.thumbnail}"></a>
+                                        <div class="comments_info">
+                                            <div class="comments_idDate">
+                                                 <a style="margin-right: 0.5rem; font-weight: bold;">${comment.author.name}</a>
+                                                <div style="color:#888; font-size:small;">${uploadDateString}</div>
+                                            </div>
+                                            <div class="comments_content">${comment.content}</div>
+                                        </div>
+                                    </div>
+                                `;
+                            })
+                            .join("");
+
+            
+                            $(".feeds_container").html(feedsHtml);
+                            $(".comments_container").html(commentsHtml);
+                            $(".modal").css("display", "block");
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            if (jqXHR.status === 404) {
+                            console.error('Unauthorized:', jqXHR.responseText);
+                            alert("피드가 존재하지 않습니다.");
+                            } else {
+                            console.error('Error:', jqXHR.status, errorThrown);
+                            }
+                        }
+                    });
+                };
 
                 // 함수들
                 // 이미지 슬라이드
@@ -287,14 +391,14 @@ function getTokenFromSessionStorage() {
                     imageAlbum.empty(); 
                     imageAlbum.append(images[currentSlideIndex]);
                     
-                slideDotsList.forEach(function(dot, index) {
-                    if (index === currentSlideIndex){
-                    dot.addClass("active_dot");
-                    } else {
-                    dot.removeClass("active_dot");
-                }
-            });
-            
+                    slideDotsList.forEach(function(dot, index) {
+                        if (index === currentSlideIndex){
+                        dot.addClass("active_dot");
+                        } else {
+                        dot.removeClass("active_dot");
+                        }
+                    });
+                
                     sliding = false;
             
                     // prevBtn과 nextBtn 처음과 끝일 때 버튼 사용 X
@@ -325,6 +429,8 @@ function getTokenFromSessionStorage() {
         }
 
     });
+    
+    
 })
 
 
@@ -344,3 +450,5 @@ function changeSaveBtn() {
         item.is_saved = true;
     }
 }
+
+$.getScript("../js/corporation_feed.js");

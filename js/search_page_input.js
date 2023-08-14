@@ -13,6 +13,7 @@ $(document).ready(function () {
   var searchCompany = $("#searchCompany");
   var searchHashtag = $("#searchHashtag");
   var underline = $(".searchPage_nav_underline");
+  var currentSearchTerm = ""; // 현재 검색어
 
   // 검색 개인,회사,해쉬태그 페이지 숨기기
   $(".searchInner_nav, .person_container, .company_container, .hashtag_container")
@@ -22,33 +23,45 @@ $(document).ready(function () {
   searchInput.on("input", debounce(function () {
     var searchTerm = searchInput.val().toLowerCase();
 
-    $(".person_search_list .person_item").each(function () {
-      var personName = $(this).text().toLowerCase();
-      if(personName.includes(searchTerm)){
-        $(this).show();
-      } else {
-        $(this).hide();
-      }
-    });
+    if (searchTerm.startsWith("#")) {
+      searchHashtag.trigger("click");
+      $(".person_search_list .person_item").hide();
+      $(".company_search_list .company_item").hide();
 
-    $(".company_search_list .company_item").each(function () {
-      var companyName = $(this).text().toLowerCase();
-      if (companyName.includes(searchTerm)){
-        $(this).show();
-      } else {
-        $(this).hide();
-      }
-    });
+      $(".hashtag_search_list .hashtag_item ").each(function () {
+        var hashtagName = $(this).find(".hashtag_name").text().toLowerCase();
+        if (hashtagName.includes(searchTerm)) {
+          $(this).show();
+          $(this).find(".posting_num").show();
+        } else {
+          $(this).hide();
+          $(this).find(".posting_num").hide();
+        }
+      });
+    } else {
+      $(".hashtag_search_list .hashtag_item").hide();
 
-    $(".hashtag_search_list .hashtag_item").each(function () {
-      var hashtageText = $(this).text().toLowerCase();
-      if (hashtageText.includes(searchTerm)) {
-        $(this).show();
-      } else {
-        $(this).hide();
-      }
-    });
+      $(".person_search_list .person_item").each(function () {
+        var personName = $(this).text().toLowerCase();
+        if (personName.includes(searchTerm) && !searchTerm.startsWith("#")) {
+          $(this).show();
+        } else {
+          $(this).hide();
+        }
+      });
 
+      $(".company_search_list .company_item").each(function () {
+        var companyName = $(this).text().toLowerCase();
+        if (companyName.includes(searchTerm)){
+          $(this).show();
+        } else {
+          $(this).hide();
+        }
+      });
+    }
+
+    currentSearchTerm = searchTerm;
+    console.log(currentSearchTerm);
   }, 300));
 
   searchInput.on("input", function () {

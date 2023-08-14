@@ -341,6 +341,7 @@ a:active {
     width: 80%;
     max-width: 600px;
     height: 70%;
+    overflow-y: auto;
 }
   
   .modal_header {
@@ -358,3 +359,42 @@ a:active {
     margin-top: 20px;
   }
   
+.comments_item {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.comments_item a>img {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    margin-right: 1rem;
+}
+
+.comments_info {
+    display: flex;
+    flex-direction: column;
+}
+
+.comments_idDate {
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.feeds_item {
+    display: flex;
+    flex-direction: row;
+}
+
+.feedAuthor_img img{
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    margin-right: 1rem;
+}
+
+.feedContent_info {
+    display: flex;
+    flex-direction: column;
+}
