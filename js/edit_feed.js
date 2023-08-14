@@ -24,13 +24,35 @@ $('.open_modal').click(function () {
   $('.modal_overlay').show()
 })
 
+/* 서버에서 이미지 배열 받아서 슬라이더에 적용 */
+const imageList = ["data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAdCAYAAACuc5z4AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABQSURBVHgB7dOxCUAhDATQ+x87e1dxIQewt3Y4V7G3N4KCA0REuAdHuiMQAhC975vTSTJ0JEn9Qaet41mJh44iaWYrjtARRvGxjUELX5rohg6RewnhdtmsRQAAAABJRU5ErkJggg=="
+, "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAdCAYAAACuc5z4AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABQSURBVHgB7dOxCUAhDATQ+x87e1dxIQewt3Y4V7G3N4KCA0REuAdHuiMQAhC975vTSTJ0JEn9Qaet41mJh44iaWYrjtARRvGxjUELX5rohg6RewnhdtmsRQAAAABJRU5ErkJggg=="
+];       // 이미지 받아올 배열
+var imageLengthCount = imageList.length;   // 이미지 개수
+
+function image_slider_apply(imageList) {
+  let template = ``;
+  var sliderLengthCount = 0;
+
+  for(let i = 0; i < imageLengthCount; i++) {
+    template += `
+    <div class="slider" role="group"><img class="sliderImg" style="width:364px; height:374px;" src="${imageList[i]}"></div>\n
+    `
+  }
+  sliderLengthCount += imageLengthCount;
+  
+  console.log(template);
+  $('.slider__inner').append(template);
+}
+
+image_slider_apply(imageList);
+
 // Cancle 버튼 클릭 시 뒤로가기
 function goBack() {
     window.history.back();
 }
 
-const imageList = [];
-var imageLengthCount = 0;
+
 
 const sliderWrap = document.querySelector(".slider__wrap");
 const sliderImg = document.querySelector(".slider__img");       // 보여지는 영역
@@ -42,7 +64,7 @@ const sliderBtnNext = document.querySelector(".next");       //오른쪽버튼
 const sliderDot = document.querySelector(".slider__dot");       //닷 메뉴
 
 let currentIndex = 0;                       //현재 이미지
-let sliderCount = slider.length;            //이미지 갯수(imageList.length)
+let sliderCount = imageLengthCount;            //이미지 갯수(imageList.length)
 let sliderWidth = sliderImg.offsetWidth;    //이미지 가로
 let dotIndex = "";
 
@@ -75,19 +97,31 @@ sliderBtnNext.addEventListener("click", () => {
 
 // 초기값 설정 함수 init()
 function init(){
-    // <a href="#" class="dot active">이미지1</a>
-  
-    slider.forEach(() => {dotIndex += "<a href='#' class='dot'>이미지1</a>";});
-    sliderDot.innerHTML = dotIndex;
-  
-    // 첫 번째 닷 버튼에 활성화 표시(active)
-    sliderDot.firstChild.classList.add("active");
-  }
-  init();
+  // <a href="#" class="dot active">이미지1</a>
+
+  slider.forEach(() => {dotIndex += "<a href='#' class='dot'>이미지1</a>";});
+  sliderDot.innerHTML = dotIndex;
+
+  // 첫 번째 닷 버튼에 활성화 표시(active)
+  sliderDot.firstChild.classList.add("active");
+}
+init();
 
  // 닷 버튼을 클릭했을 때 해당 이미지로 이동
- document.querySelectorAll(".slider__dot .dot").forEach((dot, index) => {
-    dot.addEventListener("click", () => {
-        gotoSlider(index);
-    });
-  })
+document.querySelectorAll(".slider__dot .dot").forEach((dot, index) => {
+  dot.addEventListener("click", () => {
+      gotoSlider(index);
+  });
+})
+
+/*
+  profile_image와 handler(유저의 계정id) 받아왔을 때, 적용 부분
+*/
+
+function GetProfileImage(profileImage) {  // 아직 함수 호출 안했음
+  document.getElementsByClassName("profile")[0].src = profileImage;
+}
+
+function GetUserHandler(userId) { // 아직 함수 호출 안했음
+  document.getElementsByClassName("my_id")[0].innerText = userId;
+}
