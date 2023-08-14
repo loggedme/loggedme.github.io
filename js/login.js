@@ -27,7 +27,7 @@ $(".login_login_btn").click(function () {
         setCurrentUserIdFromSessionStorage(data.user.id);
         setHandleFromSessionStorage(data.user.handle);
         setCurrentUserAccountTypeFromSessionStorage(data.user.account_type);
-
+        setThumbnailFromSessionStorage(data.user.thumbnail);
         window.location.replace("./corporation_feed.html");
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -63,4 +63,8 @@ function setCurrentUserAccountTypeFromSessionStorage(currentUserAccountType) {
     "currentUserAccountType",
     currentUserAccountType
   );
+}
+
+function setThumbnailFromSessionStorage(thumbnail) {
+  return sessionStorage.setItem("thumbnail", thumbnail);
 }
