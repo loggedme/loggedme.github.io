@@ -37,6 +37,7 @@ $(".done_button").click(function () {
       },
       success: function (data) {
         console.log("뱃지 등록 성공: " + JSON.stringify(data));
+        setBadgeIdFromSessionStorage(data.id);
         window.location.href = "./badge_grant.html";
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -61,4 +62,8 @@ $(".done_button").click(function () {
 
 function getTokenFromSessionStorage() {
   return sessionStorage.getItem("jwtToken");
+}
+
+function setBadgeIdFromSessionStorage(badgeId) {
+  return sessionStorage.setItem("badgeId", badgeId);
 }
