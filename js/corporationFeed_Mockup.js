@@ -369,19 +369,29 @@ $(document).ready(function (jwtToken) {
                         },
                         success: function (data) {
                             //console.log("sueccess: " + JSON.stringify(data));
-
                             var commentPost = $("<div>").addClass("comment_post");
                             var commentPostBtn = $("<button type=button>")
                             .html("게시")
                             .on("click", function postingComment() {
+                                console.log(currentFeedId);
+
+                                var commentContent = $("#comment_input").val();
+                                if (commentContent.trim() === "") {
+                                    alert("댓글을 입력해주세요.");
+                                    return;
+                                }
+                                
                                 $.ajax({
                                     url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/feed/${currentFeedId}/comment`,
                                     type: "POST",
                                     headers: {
                                       Authorization: `Bearer ${jwtToken}`,
                                     },
+                                    data: JSON.stringify({content: commentContent}),
+                                    contentType: "application/json",
                                     success: function (data) {
                                       console.log("댓글 작성 성공: " + JSON.stringify(data));
+                                      $("#comment_input").val("");
                                     },
                                     error: function (jqXHR, textStatus, errorThrown) {
                                       if (jqXHR.status === 400) {
@@ -707,9 +717,3 @@ function changeSaveBtn() {
 
 $.getScript("../js/corporation_feed.js");
 
-
-// 댓글 작성 ajax
-// ajax for 팔로우 요청
-
-
-  // ajax for 좋아요 요청
