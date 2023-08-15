@@ -218,12 +218,16 @@ let endPoint = 0;
 $(".follow_list_main_section").on("mousedown touchstart", (e) => {
   startPoint = e.type === "mousedown" ? e.pageX : e.touches[0].pageX;
 });
+
+var state = "left";
 $(".follow_list_main_section").on("mouseup touchend", (e) => {
   endPoint = e.type === "mouseup" ? e.pageX : e.changedTouches[0].pageX;
-  if (startPoint < endPoint) {
+  if (startPoint < endPoint && state == "right") {
     slideFollwer();
-  } else if (startPoint > endPoint) {
+    state = "left";
+  } else if (startPoint > endPoint && state == "left") {
     slideFollowing();
+    state = "right";
   }
 });
 

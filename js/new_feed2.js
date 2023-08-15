@@ -10,14 +10,6 @@ $(document).ready(function () {
     );
   });
 
-// 원래 검정색인거 회색으로
-$(document).ready(function () {
-    $("#bottom_nav_person_image").attr(
-      "src",
-      "../image/bottom_nav_person.png"
-    );
-  });
-
 // close버튼 클릭 시 뒤로가기
 function goBack() {
   window.history.back();
@@ -168,87 +160,14 @@ function el(nodeName, attributes, ...children) {
   return node;
 }
 
-/* ***********이 부분은 드래그로 파일을 올릴 때만 필요***********
-
-document.addEventListener("dragenter", (event) => {
-  event.preventDefault();
-  console.log("dragenter");   // 확인하는 부분
-  if( event.target.className === "inner") {
-      event.target.style.background = "#616161";
-  }
-});
-
-document.addEventListener("dragover", (event) => {
-  console.log("dragover");
-  event.preventDefault();
-});
-
-document.addEventListener("dragleave", (event) => {
-  event.preventDefault();
-  console.log("dragleave");   // 확인하는 부분
-  if( event.target.className === "inner") {
-      event.target.style.background = "#3a3a3a";
-  }
-});
-
-document.addEventListener("drop", (event) => {
-  event.preventDefault();
-  console.log("drop");   // 확인하는 부분
-  if( event.target.className === "inner") {
-      const files = event.dataTransfer?.files;
-      
-      event.target.style.background = "#3a3a3a";
-      handleUpdate([...files]);
-  }
-});
-*/
-
-/* Next를 누르면 다음 new_feed2로 넘어갈 때, 리스트를 로컬 스토리지에 저장하는 함수
-function goNext(image_List) {
-  
-}
-
-goNext(imageList);
-*/
-
-
 // 이미지 리스트를 로컬 스토리지로 보내는 방법
 document.getElementById('Next').addEventListener("click", () => {
   localStorage.setItem('imageList', JSON.stringify(imageList));
 });
 
 /*
-const dataTranster = new DataTransfer();
-
-Array.from(imageList)
-  .filter(file => file.lastModified != removeTargetId)
-  .forEach(file => {
-      dataTranster.items.add(file);
-  });
-
-input.imageList = dataTranster.imageList;
-
-*/
-/*
-const resetFileList = (target: EventTarget & HTMLInputElement) => {
-  const dataTransfer = new DataTransfer();
-  target.files = dataTransfer.files;
-*/
-
-/*
     게시물 작성 페이지-2
  */
-
-/* 
-  이미지 슬라이더 부분!!!!!!
-*/
-// preview_image(업로드할 사진(10장이하)) 부분
-/* 스토리지에서 받아오는 코드
-const storedList = JSON.parse(localStorage.getItem('imageList'));
-*/
-// 2. 좌우 버튼
-
-// 3. 이미지가 보여질 div
 
 
 /*********************** 
@@ -468,3 +387,141 @@ $('.close_btn').click(function () {
 $('.open_modal').click(function () {
   $('.modal_overlay').show()
 })
+
+
+/*
+  ajax 연결... 
+*/
+
+/* GET 부분 */
+// 로그인 token(jstToken)을 get해와서 success되면 지금 위의
+// 함수들 실행하게 만들자.(corporationFeed_Mockup.js 참고)
+
+getProfileImageFromSessionStorage();
+var jwtToken = getTokenFromSessionStorage();
+// 모달 get 부분
+$.ajax({
+  url: 'http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/user?recommend=true&type=business',
+  type: 'GET',
+  dataType: "json",
+  contentType: 'application/json',
+  headers: {
+    Authorization: `Bearer ${jwtToken}`
+  },
+  success: function(data) {
+    console.log("success: " + JSON.stringify(data.items));
+    var DoneCount = 0;
+
+    var company_template = ``;
+    $.each(data.items, function (item) {      
+      company_template += `
+      <div class="company_item">
+        <div class="company">
+            <img class="company_image" src="${item.tumbnail}">
+            <p class="company_name">${item.handle}</p>
+        </div>
+        <input type="radio" name="tagged" value="${item.handle}">
+      </div>
+      `
+    })
+    $('.company_list').append(company_template);
+
+    $('.Done').click( function () {
+      var radioVal = $('input[name="tagged"]:checked').val();
+      var template = `
+      <div class=tagged_company>${radioVal}</div>
+      `
+      //$('.open_modal').insertBefore(template, $('.Tag_text').nextSibling);
+      if(DoneCount == 0) {
+        $('.Tag_text').append(template);
+        DoneCount++;
+      } else {
+        $("div").remove(".tagged_company");
+        $('.Tag_text').append(template);
+      }
+      
+      $('.modal_overlay').hide()
+    })
+  },
+  error: function(jqXHR, textStatus, errorThrown) {
+    if (jqXHR.status === 400) {
+      console.error('Bad Request:', jqXHR.responseText);
+      alert("존재하지 않는 계정 종류거나, reccomend가 true가 아닐 때");
+    } 
+  }
+});
+
+
+/* POST 부분*/
+// Share 눌렀을 때, ajax 발동하게(데이터들 주자)
+
+function giveText() {
+  /* content 입력할 때, value가 적용되는지 확인 */
+  return document.getElementById('text').value;
+}
+
+$('#Share').click(function () {
+/* share 눌렀을 때, 내가 작성한 게시물로 이동해버리자. */
+
+  console.log(giveText());
+  var postData = {
+    content: giveText(),
+    images: imageList,
+    //tagged_user: $(".tagged_company").val("person"),  // 잠시 보류(아직 모달에서 태그 데이터를 가져오지 못했음)
+  }
+  $.ajax({
+    url: 'http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/feed',
+    type: 'POST',
+    data: JSON.stringify(postData),
+    contentType: 'application/json',
+    headers: {
+      Authorization: `Bearer ${jwtToken}`
+    },
+    success: function(data) {
+      
+      console.log(data);
+      setContentFromSessionStorage(data.content);
+      setImagesFromSessionStorage(data.images);
+      //setTaggedUserFromSessionStorage(data.tagged_user);
+      // url에 피드 아이디 값을 넣어서 보내는 부분
+      window.location.href = `./single_feed.html?feedId=${data.id}`;
+      
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      if (jqXHR.status === 400) {
+        console.error('Bad Request:', jqXHR.responseText);
+        alert("올바르지 않은 형식의 입력.");
+      } else if (jqXHR.status === 401) {
+        console.error('Unauthorized:', jqXHR.responseText);
+        alert("로그인 되지 않은 사용자.");
+      } else if (jqXHR.status === 413) {
+        console.error('Payload Too Large:', jqXHR.responseText);
+        alert("이미지의 크기가 규격보다 클 때");
+      } 
+    }
+    
+  });
+})
+
+// 토큰 받아오는 함수
+function getTokenFromSessionStorage() {
+  return sessionStorage.getItem("jwtToken");
+}
+
+function setContentFromSessionStorage(content) {
+  return sessionStorage.setItem("content", content);
+}
+
+function setImagesFromSessionStorage(images) {
+  return sessionStorage.setItem("images", images);
+}
+
+function setTaggedUserFromSessionStorage(tagged_user) {
+  return sessionStorage.setItem("tagged_user", tagged_user);
+}
+
+// 프사 가져오는 함수 
+function getProfileImageFromSessionStorage() {
+  // 사용자 프사 세션에서 받아오는 코드(로그인 후 풀 받아서 사용)
+  return $("#profile").attr("src", sessionStorage.getItem("thumbnail"));
+}
