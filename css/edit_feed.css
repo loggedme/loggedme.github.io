@@ -152,16 +152,17 @@ hr {
     margin: 0;
 }
 
-#profile_image {
+#profile {
     display: flex;
-    width: 48px;
+    flex-direction: row;
+    align-items: center;
     height: 46px;
     padding: 0 2.25rem;
     margin-top: 0.25rem;
     margin-bottom: 0.5rem;
 }
 
-.profile {
+#profile_image {
     width: 48px;
     height: 46px;
     border-radius: 70%;
@@ -218,6 +219,21 @@ hr {
 .Tag_text {
     margin-left: 2.25rem;
     opacity: 0.9;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: #000;
+    font-family: Inter;
+    font-size: 0.9375rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    opacity: 0.9;
+}
+
+.tagged_company {
+    margin-left: 0.63rem;
+    font-weight: 400;
 }
 
 .arrow {
@@ -322,4 +338,29 @@ hr {
     width:65%;
     background: rgba(217, 217, 217, 0);
     border: none;
+ }
+
+ /* 모달창 기업 목록 부분 */
+ .company_list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+ }
+
+ .company_item {
+    width: 70%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+ }
+
+ .company {
+    display: flex;
+    flex-direction: row;
+ }
+
+ .company_name {
+    margin-left: 0.63rem;
  }
