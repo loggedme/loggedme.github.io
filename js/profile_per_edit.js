@@ -8,6 +8,33 @@ $(document).ready(function () {
     );
 });
 
+/*
+$.ajax({
+  url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/user/${user.id}`,
+  type: 'GET',
+  dataType: 'json',
+  contentType: 'application/json',
+  headers: {
+    Authorization: `Bearer ${jwtToken}`
+  },
+  success: function(data) {
+    console.log('response:', jqXHR.responseText);
+  },
+  error: function(jqXHR, textStatus, errorThrown) {
+    if (jqXHR.status === 400) {
+      console.error('Bad Request:', jqXHR.responseText);
+    } else if (jqXHR.status === 401) {
+      console.error('Unauthorized:', jqXHR.responseText);
+    } else if (jqXHR.status === 404) {
+      console.error('Not Found:', jqXHR.responseText);
+    } else {
+      console.error('Error:', jqXHR.status, errorThrown);
+    }
+  }
+});
+
+*/
+
 /* ok 누르면 전 화면으로 돌아가(근데 지금까지 수정된 것들을 보내주긴 해야 됨.) */
 function sendAndGoBack() {
   
