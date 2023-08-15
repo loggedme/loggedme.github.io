@@ -16,13 +16,32 @@ function getCurrentUserAccountTypeFromSessionStorage() {
 }
 
 function getCurrentUserThumbnailFromSessionStorage() {
-    return sessionStorage.getItem("currentUserThumbnail");
+    return sessionStorage.getItem("thumbnail");
 }
 
 $(document).ready(function (jwtToken) {
     var jwtToken = getTokenFromSessionStorage();
     //var currentUserId = getCurrentUserIdFromSessionStorage();
-    var currentFeedId = 1;
+    
+    // 유저 썸네일 받아오기
+    var userThumbnail = getCurrentUserThumbnailFromSessionStorage();
+    console.log(userThumbnail);
+    // 댓글 모달창 댓글 작성
+    var postingUserImg = $("<div>").addClass("postingUser_img");
+    var postingImg = $("<img>").attr({
+        src: `${userThumbnail}`,
+        alt: "imgs",
+    });
+    postingUserImg.append(postingImg);
+
+    var commentInputContainer = $("<div>").addClass("commentInput");
+    var commentInput = $("<input type=text id=comment_input autocomplete=off placeholder=댓글작성>")
+    commentInputContainer.append(commentInput);
+    
+    $(".postComment").append(postingUserImg, commentInputContainer);
+    
+
+    
 
     $.ajax({
         url: "http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/feed?following=true&type=business",
@@ -33,17 +52,20 @@ $(document).ready(function (jwtToken) {
         },
         success: function (data) {
             
-            console.log("sueccess: " + JSON.stringify(data.items));
+            console.log("sueccess: " + JSON.stringify(data));
         
             $.each(data.items, function (index, item) {
-                
+                var currentFeedId = item.id;
+                console.log(currentFeedId);
+
                 // 전체 아이템 박스
                 var feedItem = $("<div>").prop({
                     class: "feed_item",
                 });
                 var feedInfo = $("<div>").prop({
                     class: "feed_info",
-                })
+                    id: "feedInfo" + item.id,
+                });
 
                 // feed 상단 부분 사용자 사진, 아이디
                 var feedTopContainer = $("<div>").prop({
@@ -179,6 +201,9 @@ $(document).ready(function (jwtToken) {
                         item.is_liked = true;
                     }
                 });
+                heartLink.prop({
+                    id: "heart_link" + item.id,
+                })
                 heartLink.append(heartImg);
                 heartLink.append(heartImg);
 
@@ -193,6 +218,9 @@ $(document).ready(function (jwtToken) {
                     width: "31rem",
                     style: "margin-left: 0.3rem; padding-top: 0.1rem;",
                 });
+                commentLink.prop({
+                    id: item.id,
+                })
                 commentLink.append(commentImg);
             
                 var shareLink = $("<button type=button>").addClass("share_link");
@@ -201,6 +229,9 @@ $(document).ready(function (jwtToken) {
                     alt: "shareBtn",
                     width: "40rem",
                     style: "margin-left: 0.4rem; padding-top: 0.2rem;",
+                });
+                shareLink.prop({
+                    id: "share_link" + item.id,
                 });
                 shareLink.append(shareImg);
                 functionIconItem.append(heartLink, commentLink, shareLink);
@@ -216,6 +247,9 @@ $(document).ready(function (jwtToken) {
                     var currentSrc = saveImg.attr("src");
                     var newSrc = currentSrc === "../image/save.png" ? "../image/filled_save.png" : "../image/save.png";
                     saveImg.attr("src", newSrc);
+                });
+                saveLink.prop({
+                    id: "save_link" + item.id,
                 });
                 saveLink.append(saveImg);
                 functionIconContainer.append(functionIconItem, saveLink);
@@ -239,10 +273,9 @@ $(document).ready(function (jwtToken) {
                     class: "bottom_id",
                     textContent: item.author.handle,
                 });
-                var feedHashtag = $("<div>").prop({
-                    class: "feed_hashtag",
-                    textContent: `#${item.tagged_user.name}`,
-                });
+                var feedHashtag = $("<div>").addClass("feed_hashtag").text(
+                    `#${item.tagged_user && item.tagged_user.name !== null ? item.tagged_user.name : "태그된 기업"}`
+                );
                 IdHashtag.append(bottomUserId, feedHashtag);
 
                 var feedScript = $("<div>").prop({
@@ -273,35 +306,10 @@ $(document).ready(function (jwtToken) {
                 feedItem.append(feedTopContainer, imageContainer, feedFunctionContainer, feedInfo);
                 $(".feed_list").append(feedItem);
 
-                // 유저 썸네일 받아오기
-                var userThumbnail = getCurrentUserThumbnailFromSessionStorage();
-                // 댓글 모달창 댓글 작성
-                var postingUserImg = $("<div>").addClass("postingUser_img");
-                var postingImg = $("<img>").attr({
-                    src: `${userThumbnail}`,
-                    alt: "comment",
-                    width: "3rem",
-                    height: "3rem",
-                    style: "border-radius: 50%; margin: 2rem;",
-                });
-                postingUserImg.append(postingImg);
-                $(".postComment").append(postingUserImg);
 
-                // 댓글 모달창 피드 정보
-                var feedsHtml = data.items
-                .map(function (feed) {
-                    return `
-                        <div class="feeds_item">
-                            <div class="feedAuthor_img"><img src="${feed.author.thumbnail}"></div>
-                            <div class="feedContent_info">
-                                <div style="font-weight:bold">${feed.author.handle}</div>
-                                <div style="color:#3E93E1">#${feed.tagged_user.name}</div>
-                                <div>${feed.content}</div>
-                            </div>
-                        </div>
-                    `;
-                })
-                .join("");
+                var modalFeedContent = $("<div>").addClass("modalFeedContent");
+                
+                
                 // 댓글 모달창 함수
                 function openModal(feedId, data){
                     $.ajax({
@@ -313,7 +321,8 @@ $(document).ready(function (jwtToken) {
                         },
                         success: function (data) {
                             //console.log("sueccess: " + JSON.stringify(data.items));
-                            
+                            var feedsHtml = "";
+
                             var commentsHtml = data.items
                             .map(function (comment) {
                                 // 댓글 작성 시간 계산
@@ -418,13 +427,14 @@ $(document).ready(function (jwtToken) {
         },
         error: function(jqXHR, textStatus, errorThrown) {
             if (jqXHR.status === 400) {
-            console.error('Bad Request:', jqXHR.responseText);
-            alert("잘못된 주소입니다.");
+                console.error('Bad Request:', jqXHR.responseText);
+                alert("잘못된 주소입니다.");
             } else if (jqXHR.status === 401) {
-            console.error('Unauthorized:', jqXHR.responseText);
-            alert("로그인되지 않은 사용자입니다.")
+                console.error('Unauthorized:', jqXHR.responseText);
+                alert("로그인되지 않은 사용자입니다.");
+                location.href="../html/login.html";
             } else {
-            console.error('Error:', jqXHR.status, errorThrown);
+                console.error('Error:', jqXHR.status, errorThrown);
             }
         }
 
