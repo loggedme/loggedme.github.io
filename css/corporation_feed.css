@@ -271,6 +271,10 @@ a:active {
     color: #3E93E1;
 }
 
+.feed_hashtag:visited {
+    color: #3E93E1;
+}
+
 .feed_script {
     order: 2;
     font-size: medium;
@@ -331,10 +335,12 @@ a:active {
     bottom: 0;
     left: 0;
     right: 0;
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background-color: #fefefe;
     margin: 10% auto 0 auto;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
     border: 1px solid #888;
     border-top-left-radius: 40px;
     border-top-right-radius: 40px;
@@ -345,15 +351,20 @@ a:active {
 }
 
 .modal_header_container {
+    width: 72%;
+    height: 11%;
     background-color: white;
     display: flex;
     flex-direction: column;
+    position: fixed;
+    
 }
 
   
   .modal_header {
     display: flex;
     justify-content: space-between;
+    border-bottom: solid 1px #888;
   }
   
   .close_modal {
@@ -364,6 +375,7 @@ a:active {
   
   .modal_body {
     margin-top: 20px;
+    padding: 28% 0;
   }
   
 .comments_item {
@@ -415,6 +427,8 @@ a:active {
     left: 20;
     position: fixed;
     display: flex;
+    background-color: white;
+    align-items: center;
 }
 
 .postingUser_img {
@@ -423,15 +437,15 @@ a:active {
 }
 
 .postingUser_img img {
-    margin: 0 0.7rem 0 0;
-    width: 3rem;
-    height: 3rem;
+    margin: 0 0.7rem;
+    width: 3.2rem;
+    height: 3.2rem;
     border-radius: 50%;
     
 }
 
 .commentInput input {
-    width: 70%;
+    width: 75%;
     max-width: 100%;
     border: 1px solid #D9D9D9;
     border-radius: 0.75rem;
@@ -439,4 +453,28 @@ a:active {
     font-size: 14px;
     background-color: #D9D9D9;
     outline: none;
+}
+
+.comment_post button {
+    width: 50px;
+    height: 35px;
+    border: none;
+    background-color: transparent;
+    color: #6970F2;
+    font-size:small;
+    font-weight: bold;
+}
+
+#empty1 {
+    font-size: large;
+    font-weight: bold;
+    margin-left: 3.5rem;
+    margin-top: 1.5rem;
+}
+
+#empty2 {
+    font-size: small;
+    color: #888;
+    margin-left: 5rem;
+    margin-top: 0.5rem;
 }
