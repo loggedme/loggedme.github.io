@@ -5,26 +5,6 @@ $(document).ready(function () {
   );
 });
 
-// 세션에서 받아올 값
-function getTokenFromSessionStorage() {
-  return sessionStorage.getItem("jwtToken");
-}
-
-function getCurrentUserIdFromSessionStorage() {
-  return sessionStorage.getItem("currentUserId");
-}
-
-function getCurrentFeedIdFromSessionStorage() {
-  return sessionStorage.getItem("currentFeedId");
-}
-
-function getCurrentUserAccountTypeFromSessionStorage() {
-  return sessionStorage.getItem("currentUserAccountType");
-}
-
-function getCurrentUserThumbnailFromSessionStorage() {
-  return sessionStorage.getItem("thumbnail");
-}
 
 $(document).ready(function (jwtToken) {
   var jwtToken = getTokenFromSessionStorage();
@@ -241,7 +221,12 @@ $(document).ready(function (jwtToken) {
               })
               commentLink.append(commentImg);
           
-              var shareLink = $("<button type=button>").addClass("share_link");
+              var CopyUrl = `http://127.0.0.1:5500/html/single_feed.html?feedId=${currentFeedId}`;
+              var shareLink = $("<button type=button>")
+              .addClass("share_link")
+              .on("click", function() {
+                copyLink(CopyUrl);
+              });
               var shareImg = $("<img>").attr({
                   src: "../image/share.png",
                   alt: "shareBtn",
@@ -714,3 +699,26 @@ function changeSaveBtn() {
       item.is_saved = true;
   }
 }
+
+
+// 세션에서 받아올 값
+function getTokenFromSessionStorage() {
+    return sessionStorage.getItem("jwtToken");
+  }
+  
+  function getCurrentUserIdFromSessionStorage() {
+    return sessionStorage.getItem("currentUserId");
+  }
+  
+  function getCurrentFeedIdFromSessionStorage() {
+    return sessionStorage.getItem("currentFeedId");
+  }
+  
+  function getCurrentUserAccountTypeFromSessionStorage() {
+    return sessionStorage.getItem("currentUserAccountType");
+  }
+  
+  function getCurrentUserThumbnailFromSessionStorage() {
+    return sessionStorage.getItem("thumbnail");
+  }
+  

@@ -66,7 +66,7 @@ $(document).ready(function () {
 
   searchInput.on("input", function () {
     // 탐색 메인 페이지 숨기기
-    $(".grid_container_forYou, .searchMain_nav, .grid_container_person, .grid_container_company").fadeOut('fast');
+    $(".grid_container_forYou, .searchMain_nav, .grid_container_person, .grid_container_company").hide('fast');
     // 검색어 없으면 탐색 메인페이지 보이기
     if (searchInput.val() === "") {
       $(".searchMain_nav, .grid_container_forYou").fadeIn('fast');
@@ -88,7 +88,7 @@ $(document).ready(function () {
   // Person 클릭시 개인 검색만 보기
   searchPerson.on("click", function () {
     $(".person_container").fadeIn('fast');
-    $(".company_container, .hashtag_container").fadeOut('fast');
+    $(".company_container, .hashtag_container").hide('fast');
     underline.css("transform", "translateX(-110%)");
     searchPerson.addClass('selected');
     searchCompany.removeClass('selected');
@@ -97,7 +97,7 @@ $(document).ready(function () {
   // Company 클릭시 회사 검색만 보기
   searchCompany.on("click", function () {
     $(".company_container").fadeIn('fast');
-    $(".hashtag_container, .person_container").fadeOut('fast');
+    $(".hashtag_container, .person_container").hide('fast');
     underline.css("transform", "translateX(0%)");
     searchCompany.addClass('selected');
     searchHashtag.removeClass('selected');
@@ -106,7 +106,7 @@ $(document).ready(function () {
   // hashtag 클릭시 해시태그 검색만 보기
   searchHashtag.on("click", function () {
     $(".hashtag_container").fadeIn('fast');
-    $(".person_container, .company_container").fadeOut('fast');
+    $(".person_container, .company_container").hide('fast');
     underline.css("transform", "translateX(110%)");
     searchHashtag.addClass('selected');
     searchCompany.removeClass('selected');
@@ -116,11 +116,13 @@ $(document).ready(function () {
   goBack.on("click", function () {
     // 뒤로가기 버튼 클릭시 검색 페이지 숨기기
     $(".searchInner_nav, .person_container, .company_container, .hashtag_container")
-    .fadeOut();
+    .hide();
     
     // 탐색 메인 페이지 보이기
     $(".searchMain_nav, .grid_container_forYou").fadeIn();
     searchInput.val("");
+
+    window.history.back();
   });
 });
   
