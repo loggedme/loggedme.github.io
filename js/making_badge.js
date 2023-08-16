@@ -29,7 +29,7 @@ $(".done_button").click(function () {
       description: document.val().trim(),
     };
     $.ajax({
-      url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/badge`,
+      url: `http://203.237.169.125:2002/badge`,
       type: "POST",
       data: badgeData,
       headers: {

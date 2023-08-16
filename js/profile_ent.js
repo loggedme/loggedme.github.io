@@ -47,7 +47,7 @@ var jwtToken = getTokenFromSessionStorage();
 
 // get 부분 (handle, 프사, 팔로워, 팔로잉, 뱃지)
 $.ajax({
-url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/user/${userId}`,  // ${userId}에 백엔드의 user.id가 들어갈거고
+url: `http://203.237.169.125:2002/user/${userId}`,  // ${userId}에 백엔드의 user.id가 들어갈거고
 type: 'GET',
 dataType: 'json',
 contentType: 'application/json',
@@ -98,7 +98,7 @@ error: function(jqXHR, textStatus, errorThrown) {
 
 // get 부분(피드, 피드썸네일) (-> 피드를 눌렀을 때, 해당 피드로 이동)
 $.ajax({
-url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/user/${userId}`,
+url: `http://203.237.169.125:2002/user/${userId}`,
 type: 'GET',
 dataType: 'json',
 contentType: 'application/json',
