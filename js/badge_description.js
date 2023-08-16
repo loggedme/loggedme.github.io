@@ -32,7 +32,7 @@ function modifyBadgeHandler(badgeId) {
     description: document.val().trim(),
   };
   $.ajax({
-    url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/badge/${badgeId}`,
+    url: `http://203.237.169.125:2002/badge/${badgeId}`,
     type: "PATCH",
     data: badgeData,
     headers: {

@@ -401,7 +401,7 @@ getProfileImageFromSessionStorage();
 var jwtToken = getTokenFromSessionStorage();
 // 모달 get 부분
 $.ajax({
-  url: 'http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/user?recommend=true&type=business',
+  url: 'http://203.237.169.125:2002/user?recommend=true&type=business',
   type: 'GET',
   dataType: "json",
   contentType: 'application/json',
@@ -470,7 +470,7 @@ $('#Share').click(function () {
     //tagged_user: $(".tagged_company").val("person"),  // 잠시 보류(아직 모달에서 태그 데이터를 가져오지 못했음)
   }
   $.ajax({
-    url: 'http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/feed',
+    url: 'http://203.237.169.125:2002/feed',
     type: 'POST',
     data: JSON.stringify(postData),
     contentType: 'application/json',

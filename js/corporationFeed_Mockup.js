@@ -46,7 +46,7 @@ $(document).ready(function (jwtToken) {
     commentInputContainer.append(commentInput);
     
     $.ajax({
-        url: "http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/feed?following=true&type=business",
+        url: "http://203.237.169.125:2002/feed?following=true&type=business",
         type: "GET",
         dataType: "json",
         headers: {
@@ -167,7 +167,9 @@ $(document).ready(function (jwtToken) {
                     slideDotsList.push(dot);
                 }
                 // 점들에 .dot 클래스 부여 후 슬라이드 점들 추가
-                slideDotsList[0].addClass("active_dot");
+                if (slideDotsList.length > 0) {
+                    slideDotsList[0].addClass("active_dot");
+                };
                 // 이미지 슬라이드 점 클릭 이벤트
                 $(".dot").on("click", dotClick);
                 btnContainer.append(prevBtn, nextBtn);
@@ -207,15 +209,11 @@ $(document).ready(function (jwtToken) {
 
                     heartImg.attr("src", newSrc);
                 });
-
-                heartLink.prop({
-                    id: "heart_link" + item.id,
-                });
-                heartLink.append(heartImg);
-
+                // 현재 src가 is_liked의 참/거짓 여부에 따라 바뀌게
                 var currentSrc = item.is_liked ? "../image/filled_heart.png" : "../image/heart.png";
                 heartImg.attr("src", currentSrc);
 
+                // 현재 src에 따라 heartLink의 클래스 이름을 고치기
                 if (currentSrc === "../image/filled_heart.png") {
                     heartLink.removeClass("heart_link");
                     heartLink.addClass("filled_heart_link");
@@ -224,7 +222,20 @@ $(document).ready(function (jwtToken) {
                     heartLink.addClass("heart_link");
                 }
 
+                heartLink.prop({
+                    id: "heart_link" + item.id,
+                });
+                heartLink.append(heartImg);
 
+                // 좋아요 수
+                var likesContainer = $("<div>").addClass("likesNum_container");
+                var likesNum = item.likes;
+                likesContainer = likesNum + '명이 좋아합니다.'; 
+                var likesNumContainer = $("<div>")
+                    .addClass("likesNum_container")
+                    .text(likesContainer);
+
+                // 댓글 버튼
                 var commentLink = $("<button type=button id=comment_btn>")
                 .addClass("comment_link")
                 .on("click", function () {
@@ -241,6 +252,7 @@ $(document).ready(function (jwtToken) {
                 })
                 commentLink.append(commentImg);
             
+                // 공유 버튼
                 var shareLink = $("<button type=button>").addClass("share_link");
                 var shareImg = $("<img>").attr({
                     src: "../image/share.png",
@@ -254,6 +266,7 @@ $(document).ready(function (jwtToken) {
                 shareLink.append(shareImg);
                 functionIconItem.append(heartLink, commentLink, shareLink);
                 
+                // 저장 버튼
                 var saveImg = $("<img>").attr({
                     src: "../image/save.png",
                     alt: "saveBtn",
@@ -297,13 +310,7 @@ $(document).ready(function (jwtToken) {
 
                 saveLink.append(saveImg);
                 functionIconContainer.append(functionIconItem, saveLink);
-                // 좋아요 수
-                var likesContainer = $("<div>").addClass("likesNum_container");
-                var likesNum = item.likes;
-                likesContainer = likesNum + '명이 좋아합니다.'; 
-                var likesNumContainer = $("<div>")
-                    .addClass("likesNum_container")
-                    .text(likesContainer);
+                
                 // 기능목록 flex 합치기
                 feedFunctionContainer.append(functionIconContainer, likesNumContainer);
             
@@ -342,10 +349,21 @@ $(document).ready(function (jwtToken) {
                 var currentDate = new Date();
                 var timeDiffInMilliseconds = currentDate - uploadDate;
 
-                var timeDiffInHours = Math.floor(timeDiffInMilliseconds / (1000 * 60 * 60));
+                var timeDiffInMinutes = Math.floor(timeDiffInMilliseconds / (1000 * 60));
+                var timeDiffInHours = Math.floor(timeDiffInMinutes / 60);
                 var timeDiffInDays = Math.floor(timeDiffInHours / 24);
 
-                var uploadDateString = timeDiffInHours < 24 ? timeDiffInHours + '시간 전 게시' : timeDiffInDays + '일 전 게시';
+                var uploadDateString;
+
+                if (timeDiffInDays > 0) {
+                    uploadDateString = timeDiffInDays + '일 전';
+                } else if (timeDiffInHours > 0) {
+                    uploadDateString = timeDiffInHours + '시간 전';
+                } else if (timeDiffInMinutes > 0) {
+                    uploadDateString = timeDiffInMinutes + '분 전';
+                } else {
+                    uploadDateString = '방금 전';
+                }
 
                 var uploadedDate = $("<div>")
                     .addClass("uploaded_date")
@@ -361,7 +379,7 @@ $(document).ready(function (jwtToken) {
                 // 댓글 모달창 함수
                 function openModal(feedId, data){
                     $.ajax({
-                        url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/feed/${currentFeedId}/comment`,
+                        url: `http://203.237.169.125:2002/feed/${currentFeedId}/comment`,
                         type: "GET",
                         dataType: "json",
                         headers: {
@@ -382,7 +400,7 @@ $(document).ready(function (jwtToken) {
                                 }
                                 
                                 $.ajax({
-                                    url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/feed/${currentFeedId}/comment`,
+                                    url: `http://203.237.169.125:2002/feed/${currentFeedId}/comment`,
                                     type: "POST",
                                     headers: {
                                       Authorization: `Bearer ${jwtToken}`,
@@ -395,18 +413,18 @@ $(document).ready(function (jwtToken) {
                                     },
                                     error: function (jqXHR, textStatus, errorThrown) {
                                       if (jqXHR.status === 400) {
-                                        console.error("Bad Request:", jqXHR.responseText);
-                                        alert("올바르지 않은 형식입니다.");
+                                            console.error("Bad Request:", jqXHR.responseText);
+                                            alert("올바르지 않은 형식입니다.");
                                       } else if (jqXHR.status === 401) {
-                                          console.error("Unauthorized:", jqXHR.responseText);
-                                          alert("접근 권한이 없습니다.");
-                                          window.location.href = "./login.html";
+                                            console.error("Unauthorized:", jqXHR.responseText);
+                                            alert("접근 권한이 없습니다.");
+                                            window.location.href = "./login.html";
                                       } else if (jqXHR.status === 404) {
-                                        console.error("Not found:", jqXHR.responseText);
-                                        alert("사용자가 존재하지 않습니다.");
+                                            console.error("Not found:", jqXHR.responseText);
+                                            alert("사용자가 존재하지 않습니다.");
                                       } else {
-                                        console.error("Error:", jqXHR.status, errorThrown);
-                                        alert("서버 에러");
+                                            console.error("Error:", jqXHR.status, errorThrown);
+                                            alert("서버 에러");
                                       }
                                     },
                                   });
@@ -431,13 +449,24 @@ $(document).ready(function (jwtToken) {
                                     var uploadDate = new Date(comment.created_at); 
                                     var currentDate = new Date();
                                     var timeDiffInMilliseconds = currentDate - uploadDate;
-                
-                                    var timeDiffInHours = Math.floor(timeDiffInMilliseconds / (1000 * 60 * 60));
+
+                                    var timeDiffInMinutes = Math.floor(timeDiffInMilliseconds / (1000 * 60));
+                                    var timeDiffInHours = Math.floor(timeDiffInMinutes / 60);
                                     var timeDiffInDays = Math.floor(timeDiffInHours / 24);
+
+                                    var uploadDateString;
+
+                                    if (timeDiffInDays > 0) {
+                                        uploadDateString = timeDiffInDays + '일 전';
+                                    } else if (timeDiffInHours > 0) {
+                                        uploadDateString = timeDiffInHours + '시간 전';
+                                    } else if (timeDiffInMinutes > 0) {
+                                        uploadDateString = timeDiffInMinutes + '분 전';
+                                    } else {
+                                        uploadDateString = '방금 전';
+                                    }
                 
-                                    var uploadDateString = timeDiffInHours < 24 ? timeDiffInHours + '시간 전' : timeDiffInDays + '일 전';
-                
-                                    // 댓글 쓴 사람의 이미지 대신 일단 글쓴 사람 이미지 불러오도록 해놓음
+                                    // 댓글 쓴 사람 이미지
                                     return `
                                         <div class="comments_item">
                                             <a><img src="${comment.author.thumbnail}"></a>
@@ -537,16 +566,15 @@ $(document).ready(function (jwtToken) {
                 //좋아요 버튼
                 function likedFeed(feedId) {
                     $.ajax({
-                      url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/feed/${feedId}/like`,
+                      url: `http://203.237.169.125:2002/feed/${feedId}/like`,
                       type: "POST",
                       headers: {
                         Authorization: `Bearer ${jwtToken}`,
                       },
                       success: function (data) {
-
-                        
-
                         console.log("좋아요 성공: " + JSON.stringify(data));
+
+
                       },
                       error: function (jqXHR, textStatus, errorThrown) {
                         if (jqXHR.status === 401) {
@@ -576,13 +604,14 @@ $(document).ready(function (jwtToken) {
                   }
                   function unlikedFeed(feedId) {
                     $.ajax({
-                      url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/feed/${feedId}/like`,
+                      url: `http://203.237.169.125:2002/feed/${feedId}/like`,
                       type: "DELETE",
                       headers: {
                         Authorization: `Bearer ${jwtToken}`,
                       },
                       success: function (data) {
                         console.log("좋아요 취소 성공: " + JSON.stringify(data));
+
                       },
                       error: function (jqXHR, textStatus, errorThrown) {
                         if (jqXHR.status === 401) {
@@ -614,7 +643,7 @@ $(document).ready(function (jwtToken) {
                 //피드 스크랩 ajax
                 function savedFeed(feedId) {
                     $.ajax({
-                      url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/user/${currentUserId}/saved/${currentFeedId}`,
+                      url: `http://203.237.169.125:2002/user/${currentUserId}/saved/${currentFeedId}`,
                       type: "POST",
                       headers: {
                         Authorization: `Bearer ${jwtToken}`,
@@ -643,7 +672,7 @@ $(document).ready(function (jwtToken) {
                   }
                   function unsavedFeed(feedId) {
                     $.ajax({
-                      url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/user/${currentUserId}/saved/${currentFeedId}`,
+                      url: `http://203.237.169.125:2002/user/${currentUserId}/saved/${currentFeedId}`,
                       type: "DELETE",
                       headers: {
                         Authorization: `Bearer ${jwtToken}`,

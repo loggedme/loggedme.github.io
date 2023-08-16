@@ -22,8 +22,8 @@ function getDataforPageInit(param) {
   var jwtToken = getTokenFromSessionStorage();
   var currentUserId = getCurrentUserIdFromSessionStorage();
   $.ajax({
-    // url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/user/${currentUserId}/following`,
-    url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/user/${currentUserId}/${param}`,
+    // url: `http://203.237.169.125:2002/user/${currentUserId}/following`,
+    url: `http://203.237.169.125:2002/user/${currentUserId}/${param}`,
     type: "GET",
     dataType: "json",
     headers: {
@@ -265,7 +265,7 @@ function unfollowHandler(userId) {
   var jwtToken = getTokenFromSessionStorage();
   var currentUserId = getCurrentUserIdFromSessionStorage();
   $.ajax({
-    url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/user/${currentUserId}/following/${userId}`,
+    url: `http://203.237.169.125:2002/user/${currentUserId}/following/${userId}`,
     type: "DELETE",
     headers: {
       Authorization: `Bearer ${jwtToken}`,
@@ -294,7 +294,7 @@ function followHandler(userId) {
   var jwtToken = getTokenFromSessionStorage();
   var currentUserId = getCurrentUserIdFromSessionStorage();
   $.ajax({
-    url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/user/${currentUserId}/following/${userId}`,
+    url: `http://203.237.169.125:2002/user/${currentUserId}/following/${userId}`,
     type: "POST",
     headers: {
       Authorization: `Bearer ${jwtToken}`,

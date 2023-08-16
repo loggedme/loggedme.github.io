@@ -12,7 +12,7 @@ function getTokenFromSessionStorage() {
 $(document).ready(function (jwtToken) {
 
   $.ajax({
-    url: "http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/search?query=foo",
+    url: "http://203.237.169.125:2002/search?query=foo",
     type: "GET",
     dataType: "json",
     headers: {
