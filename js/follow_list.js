@@ -9,36 +9,36 @@ function getCurrentUserIdFromSessionStorage() {
   return sessionStorage.getItem("currentUserId");
 }
 
-function getStateFromSessionStorage() {
-  return sessionStorage.getItem("state");
-}
-
-function getHandleFromSessionStorage() {
-  return sessionStorage.getItem("handle");
+function getURLParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (param == "userHandle") {
+    return urlParams.get("userHandle");
+  } else if (param == "userId") {
+    return urlParams.get("userId");
+  } else if (param == "isFollowing") {
+    return urlParams.get("isFollowing");
+  }
 }
 
 // ajax function
 function getDataforPageInit(param) {
   var jwtToken = getTokenFromSessionStorage();
   var currentUserId = getCurrentUserIdFromSessionStorage();
+  var userId = getURLParam("userId");
   $.ajax({
-    // url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/user/${currentUserId}/following`,
-    url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/user/${currentUserId}/${param}`,
+    url: `http://203.237.169.125:2002/user/${userId}/${param}`,
     type: "GET",
     dataType: "json",
     headers: {
       Authorization: `Bearer ${jwtToken}`,
     },
     success: function (data) {
+      console.log(data);
       console.log("sueccess: " + JSON.stringify(data.items));
       $.each(data.items, function (index, item) {
         var itemElement = $("<a>").prop({
           class: "item_element",
           id: "wrap" + item.id,
-        });
-
-        var leftDiv = $("<div>").prop({
-          class: "item_left_div",
         });
 
         var imgElement = $("<img>").attr({
@@ -52,28 +52,22 @@ function getDataforPageInit(param) {
           textContent: item.handle,
         });
 
-        leftDiv.append(imgElement);
-        leftDiv.append(userNameElement);
-
-        var rightDiv = $("<div>").prop({
-          class: "item_right_div",
-        });
-
         var followElement = $("<button>").prop({
           class: "item_following_btn",
-          textContent: "Following",
+          textContent: item.is_following ? "Following" : "follow",
           id: "btn" + item.id,
         });
 
-        var moreElement = $("<i>").prop({
-          class: "fa-solid fa-ellipsis",
+        followElement.css({
+          backgroundColor: item.is_following
+            ? "#6970f2"
+            : "rgba(217, 217, 217, 0.5)",
+          color: item.is_following ? "white" : "#000",
         });
 
-        rightDiv.append(followElement);
-        rightDiv.append(moreElement);
-
-        itemElement.append(leftDiv);
-        itemElement.append(rightDiv);
+        itemElement.append(imgElement);
+        itemElement.append(userNameElement);
+        itemElement.append(followElement);
 
         $(`.${param}_list_main_section`).append(itemElement);
       });
@@ -94,70 +88,18 @@ function getDataforPageInit(param) {
   });
 }
 
-// function getDataforPageInit(param) {
-//   $.getJSON(`../mock/${param}Data.json`, function (data) {
-//     $.each(data, function (index, item) {
-//       var itemElement = $("<a>").prop({
-//         class: "item_element",
-//         id: "wrap" + item.id,
-//       });
-
-//       var leftDiv = $("<div>").prop({
-//         class: "item_left_div",
-//       });
-
-//       var imgElement = $("<img>").attr({
-//         src: item.imageSrc,
-//         alt: item.name,
-//         class: "item_image",
-//       });
-
-//       var userNameElement = $("<div>").prop({
-//         class: "item_userName",
-//         textContent: item.userName,
-//       });
-
-//       leftDiv.append(imgElement);
-//       leftDiv.append(userNameElement);
-
-//       var rightDiv = $("<div>").prop({
-//         class: "item_right_div",
-//       });
-
-//       var followElement = $("<button>").prop({
-//         class: item.Follow ? "item_following_btn" : "item_follow_btn",
-//         textContent: item.Follow ? "Following" : "Follow",
-//         id: "btn" + item.id,
-//       });
-
-//       var moreElement = $("<i>").prop({
-//         class: "fa-solid fa-ellipsis",
-//       });
-
-//       rightDiv.append(followElement);
-//       rightDiv.append(moreElement);
-
-//       itemElement.append(leftDiv);
-//       itemElement.append(rightDiv);
-
-//       $(`.${param}_list_main_section`).append(itemElement);
-//     });
-//   });
-// }
-
 $(function () {
   initUserHandle();
   getDataforPageInit("follower");
   getDataforPageInit("following");
-  if (getStateFromSessionStorage() === "following") {
+  if (getURLParam("isFollowing")) {
     slideFollowing();
   }
 });
 
 // init user handle
 function initUserHandle() {
-  const userHandle = getHandleFromSessionStorage();
-  $(".follow_list_main_header_title").text(userHandle);
+  $(".follow_list_main_header_title").text(getURLParam("userHandle"));
 }
 
 // button click event----------------------------------------------
@@ -170,17 +112,21 @@ $(document).on("click", ".item_element", function () {
 // following button click event
 $(document).on("click", ".item_following_btn", function (e) {
   e.stopPropagation();
-  $(this).attr("class", "item_follow_btn");
-  $(this).text("Follow");
-  unfollowHandler($(this).attr("id").slice(3));
-});
-
-// follow button click event
-$(document).on("click", ".item_follow_btn", function (e) {
-  e.stopPropagation();
-  $(this).attr("class", "item_following_btn");
-  $(this).text("Following");
-  followHandler($(this).attr("id").slice(3));
+  if ($(this).text() == "follow") {
+    followHandler($(this).attr("id").slice(3));
+    $(this).css({
+      "background-color": "#6970f2",
+      color: "white",
+    });
+    $(this).text("Following");
+  } else {
+    unfollowHandler($(this).attr("id").slice(3));
+    $(this).css({
+      "background-color": "rgba(217, 217, 217, 0.5)",
+      color: "#000",
+    });
+    $(this).text("follow");
+  }
 });
 
 $("#Follower_list").click(function () {
@@ -199,13 +145,14 @@ $(".follow_list_main_search_input").on("input", function () {
   }
   timer = setTimeout(function () {
     const query = $(".follow_list_main_search_input").val();
-    console.log(query);
+    // console.log(query);
     $(".item_userName").each(function () {
       var personName = $(this).text().toLowerCase();
+      console.log(personName);
       if (personName.includes(query)) {
-        $(this).parent().parent().show();
+        $(this).parent().show();
       } else {
-        $(this).parent().parent().hide();
+        $(this).parent().hide();
       }
     });
   }, 300);
@@ -265,7 +212,7 @@ function unfollowHandler(userId) {
   var jwtToken = getTokenFromSessionStorage();
   var currentUserId = getCurrentUserIdFromSessionStorage();
   $.ajax({
-    url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/user/${currentUserId}/following/${userId}`,
+    url: `http://203.237.169.125:2002/user/${currentUserId}/following/${userId}`,
     type: "DELETE",
     headers: {
       Authorization: `Bearer ${jwtToken}`,
@@ -294,7 +241,7 @@ function followHandler(userId) {
   var jwtToken = getTokenFromSessionStorage();
   var currentUserId = getCurrentUserIdFromSessionStorage();
   $.ajax({
-    url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/user/${currentUserId}/following/${userId}`,
+    url: `http://203.237.169.125:2002/user/${currentUserId}/following/${userId}`,
     type: "POST",
     headers: {
       Authorization: `Bearer ${jwtToken}`,

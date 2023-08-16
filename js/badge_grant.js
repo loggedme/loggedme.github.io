@@ -70,6 +70,7 @@ $(document).on("click", ".item_element", function (e) {
 
 // 가져온 데이터로 화면을 채워주는 함수
 function setPersonData(data) {
+  console.log(data);
   $.each(data, function (index, item) {
     var itemElement = $("<a>").prop({
       class: "item_element",
@@ -150,15 +151,15 @@ function getSearchData(query) {
   var jwtToken = getTokenFromSessionStorage();
   if (query.replace(/\s+/g, "") === "") {
     $.ajax({
-      url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/user?recommend=true&type=personal`,
+      url: `http://203.237.169.125:2002/user?recommend=true&type=personal`,
       method: "GET",
       dataType: "json",
       headers: {
         Authorization: `Bearer ${jwtToken}`,
       },
       success: function (responseData) {
-        // console.log(responseData);
-        setPersonData(responseData.items);
+        console.log(responseData);
+        setPersonData(responseData);
       },
       error: function (jqXHR, textStatus, errorThrown) {
         if (jqXHR.status === 400) {
@@ -171,13 +172,14 @@ function getSearchData(query) {
       },
     });
   } else {
+    console.log(2);
     $.ajax({
-      url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/user?type=personal&query=${query}`,
+      url: `http://203.237.169.125:2002/user?type=personal&query=${query}`,
       method: "GET",
       dataType: "json",
       success: function (responseData) {
         console.log(responseData);
-        setPersonData(responseData.items);
+        setPersonData(responseData);
       },
       error: function (jqXHR, textStatus, errorThrown) {
         if (jqXHR.status === 400) {
@@ -206,18 +208,20 @@ $(".done_button").click(function () {
   $.each(getPersonData(), function (index, item) {
     bodyData.users.push(item.userId);
   });
-  // console.log(bodyData);
+  // console.log(JSON.stringify(bodyData));
   var badgeId = getBadgeIdFromSessionStorage();
+  // console.log(badgeId);
   $.ajax({
-    url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/badge/${badgeId}/user`,
+    url: `http://203.237.169.125:2002/badge/${badgeId}/user`,
     method: "POST",
-    // dataType: "json",
+    dataType: "json",
+    contentType: "application/json",
     data: JSON.stringify(bodyData),
     headers: {
       Authorization: `Bearer ${jwtToken}`,
     },
     success: function (responseData) {
-      // console.log(JSON.stringify(responseData));
+      console.log(JSON.stringify(responseData));
       alert("뱃지 부여 성공!");
       window.location.replace("./profile_ent.html");
     },

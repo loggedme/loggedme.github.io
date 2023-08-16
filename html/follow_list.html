@@ -141,11 +141,13 @@
       justify-content: space-around;
       margin-bottom: 1.12rem;
       text-decoration: none;
+      align-items: center;
     }
 
     .item_left_div,
     .item_right_div {
-      flex: 1;
+      width: 50%;
+      overflow: hidden;
       display: flex;
       align-items: center;
     }
@@ -160,30 +162,13 @@
     }
 
     .item_userName {
+      flex: 1;
       color: #000;
       font-family: Inter;
       font-size: 0.875rem;
       font-style: normal;
       font-weight: 400;
       line-height: normal;
-    }
-
-    .item_follow_btn {
-      color: white;
-      font-family: Inter;
-      font-size: 0.8125rem;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      border: none;
-      margin-left: 3rem;
-      width: 5.625rem;
-      height: 1.4375rem;
-      flex-shrink: 0;
-      border-radius: 0.3125rem;
-      background: #6970f2;
-      color: white;
-      margin-right: 0.5rem;
     }
 
     .item_following_btn {
@@ -194,13 +179,12 @@
       font-weight: 400;
       line-height: normal;
       border: none;
-      margin-left: 2rem;
       width: 5.625rem;
       height: 1.4375rem;
       flex-shrink: 0;
       border-radius: 0.3125rem;
       background: rgba(217, 217, 217, 0.50);
-      margin-right: 0.5rem;
+      margin-right: 2rem;
 
     }
   </style>

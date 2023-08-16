@@ -69,7 +69,7 @@ function certificationHandler() {
   };
   console.log(postData);
   $.ajax({
-    url: "http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/auth/validation",
+    url: "http://203.237.169.125:2002/auth/validation",
     type: "POST",
     data: JSON.stringify(postData),
     contentType: "application/json",
@@ -117,7 +117,7 @@ function check_email_num() {
   };
   console.log(postData);
   $.ajax({
-    url: "http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/auth/validation/check",
+    url: "http://203.237.169.125:2002/auth/validation/check",
     type: "POST",
     data: JSON.stringify(postData),
     contentType: "application/json",
@@ -149,6 +149,10 @@ function check_email_num() {
 
 function check_name() {
   return $("#signup_input_name").val().trim() ? true : false;
+}
+
+function check_handle() {
+  return $("#signup_input_handle").val().trim() ? true : false;
 }
 
 function check_password() {
@@ -226,10 +230,11 @@ $(".signup_signup_btn").click(function () {
   if (!check_email()) {
   } else if (!getIsRequestEmail() || !getIsResponseEmail()) {
     console.log(3);
-
     $("#signup_input_email_num").focus();
   } else if (!check_name()) {
     $("#signup_input_name").focus();
+  } else if (!check_handle()) {
+    $("#signup_input_handle").focus();
   } else if (!check_password()) {
     $("#signup_input_password").focus();
   } else if (!check_re_password()) {
@@ -244,12 +249,20 @@ $(".signup_signup_btn").click(function () {
       code: JSON.parse(sessionStorage.getItem("code")),
       name: $("#signup_input_name").val().trim(),
       password: $("#signup_input_password").val().trim(),
-      handle: "churi__",
-      account_type: $("input[name=radiobutton1]:checked").val(),
+      handle: $("#signup_input_handle").val().trim(),
+      account_type:
+        $("input[name=radiobutton1]:checked").val() == "personal" ? 1 : 2,
+      // email: "test2@test.com",
+      // code: "123455",
+      // name: "2연출",
+      // username: "2연출",
+      // password: "1234",
+      // handle: "test2",
+      // account_type: 2,
     };
     console.log(postData);
     $.ajax({
-      url: "http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/user",
+      url: "http://203.237.169.125:2002/user",
       type: "POST",
       data: JSON.stringify(postData),
       contentType: "application/json",
