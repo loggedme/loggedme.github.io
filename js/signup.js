@@ -151,6 +151,10 @@ function check_name() {
   return $("#signup_input_name").val().trim() ? true : false;
 }
 
+function check_handle() {
+  return $("#signup_input_handle").val().trim() ? true : false;
+}
+
 function check_password() {
   return $("#signup_input_password").val().trim() ? true : false;
 }
@@ -226,10 +230,11 @@ $(".signup_signup_btn").click(function () {
   if (!check_email()) {
   } else if (!getIsRequestEmail() || !getIsResponseEmail()) {
     console.log(3);
-
     $("#signup_input_email_num").focus();
   } else if (!check_name()) {
     $("#signup_input_name").focus();
+  } else if (!check_handle()) {
+    $("#signup_input_handle").focus();
   } else if (!check_password()) {
     $("#signup_input_password").focus();
   } else if (!check_re_password()) {
@@ -244,8 +249,16 @@ $(".signup_signup_btn").click(function () {
       code: JSON.parse(sessionStorage.getItem("code")),
       name: $("#signup_input_name").val().trim(),
       password: $("#signup_input_password").val().trim(),
-      handle: "churi__",
-      account_type: $("input[name=radiobutton1]:checked").val(),
+      handle: $("#signup_input_handle").val().trim(),
+      account_type:
+        $("input[name=radiobutton1]:checked").val() == "personal" ? 1 : 2,
+      // email: "test2@test.com",
+      // code: "123455",
+      // name: "2연출",
+      // username: "2연출",
+      // password: "1234",
+      // handle: "test2",
+      // account_type: 2,
     };
     console.log(postData);
     $.ajax({
