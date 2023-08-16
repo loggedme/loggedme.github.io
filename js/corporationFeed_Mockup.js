@@ -5,45 +5,15 @@ $(document).ready(function () {
     );
 });
 
-// 세션에서 받아올 값
-function getTokenFromSessionStorage() {
-    return sessionStorage.getItem("jwtToken");
-  }
-
-function getCurrentUserIdFromSessionStorage() {
-    return sessionStorage.getItem("currentUserId");
-}
-
-function getCurrentFeedIdFromSessionStorage() {
-    return sessionStorage.getItem("currentFeedId");
-}
-
-function getCurrentUserAccountTypeFromSessionStorage() {
-    return sessionStorage.getItem("currentUserAccountType");
-}
-
-function getCurrentUserThumbnailFromSessionStorage() {
-    return sessionStorage.getItem("thumbnail");
-}
+// 세션에서 유저 정보 받아오기
+var currentUserId = getCurrentUserIdFromSessionStorage();
+var userAccountType = getCurrentUserAccountTypeFromSessionStorage();
+var userThumbnail = getCurrentUserThumbnailFromSessionStorage();
+    
 
 $(document).ready(function (jwtToken) {
     var jwtToken = getTokenFromSessionStorage();
-    var currentUserId = getCurrentUserIdFromSessionStorage();
-    
-    // 유저 썸네일 받아오기
-    var userThumbnail = getCurrentUserThumbnailFromSessionStorage();
     //console.log(userThumbnail);
-    // 댓글 모달창 댓글 작성
-    var postingUserImg = $("<div>").addClass("postingUser_img");
-    var postingImg = $("<img>").attr({
-        src: `${userThumbnail}`,
-        alt: "imgs",
-    });
-    postingUserImg.append(postingImg);
-
-    var commentInputContainer = $("<div>").addClass("commentInput");
-    var commentInput = $("<input type=text id=comment_input autocomplete=off placeholder=댓글남기기>")
-    commentInputContainer.append(commentInput);
     
     $.ajax({
         url: "http://203.237.169.125:2002/feed?following=true&type=business",
@@ -58,6 +28,7 @@ $(document).ready(function (jwtToken) {
         
             $.each(data.items, function (index, item) {
                 var currentFeedId = item.id;
+                
                 //console.log(currentFeedId);
 
                 // 전체 아이템 박스
@@ -75,10 +46,19 @@ $(document).ready(function (jwtToken) {
                 var feedTop =$("<div>").prop({
                     class: "feed_top",
                 })
+                //유저 프로필 링크, 회원유형에 따라 구분
+                var userProfileLink = "";
+                if (userAccountType === "personal") {
+                    userProfileLink = "./profile_per.html";
+                } else {
+                    userProfileLink = "./profile_ent.html";
+                }
+
                 // 사용자 프로필 정보 컨테이너
-                var profileInfo = $("<a>").prop({
-                    class: "profile_info",
-                    href: "../html/profile_ent.html",
+                var profileInfo = $("<a>")
+                .addClass("profile_info")
+                .on("click", function() {
+                    window.location.href=`${userProfileLink}?userId=${item.author.id}`;
                 });
                 var profileImg = $("<img>").attr({
                     src: item.author.thumbnail,
@@ -91,24 +71,19 @@ $(document).ready(function (jwtToken) {
                 profileInfo.append(profileImg, userId);
 
                 // 옵션 토글 버튼 (점 세 개)
-                var optionContent = $("<div style=display:none>").prop({
-                    class: "option_content",
-                });
-                var gotoUserInfo = $("<a>").prop({
-                    class: "goTo_userInfo",
-                    href: "../html/profile_ent.html",
-                    textContent: "이 계정 정보",
-                });
-                var saveBtnOption = $("<button type=button>")
-                .addClass("save_btn")
-                .html("저장하기")
-                .on("click", changeSaveBtn);
-                optionContent.append(gotoUserInfo, saveBtnOption)
-                var optionBtn = $("<button style=background-color:transparent;border:none;>")
-                .addClass("optionBtn")
-                .on("click", function() {
+                var optionContent = $("<div>").addClass("option_content").hide();
+                var gotoUserInfo = $("<a>")
+                    .addClass("goTo_userInfo")
+                    .on("click", function(){
+                        window.location.href=`${userProfileLink}?userId=${item.author.id}`;
+                    })
+                    .text("이 계정 정보");
+                var saveBtnOption = $("<button>").addClass("save_btn").html("저장하기").on("click", changeSaveBtn);
+                optionContent.append(gotoUserInfo, saveBtnOption);
+
+                var optionBtn = $("<button>").addClass("optionBtn").on("click", function() {
                     optionContent.toggle();
-                })
+                });
                 var optionImg = $("<img>").attr({
                     src: "../image/option_btn.png",
                     alt: "optionButton",
@@ -239,7 +214,7 @@ $(document).ready(function (jwtToken) {
                 var commentLink = $("<button type=button id=comment_btn>")
                 .addClass("comment_link")
                 .on("click", function () {
-                    openModal(item.id, data); 
+                    openModal(currentFeedId, currentUserId, userProfileLink); 
                 });
                 var commentImg = $("<img>").attr({
                     src: "../image/comment.png",
@@ -253,7 +228,12 @@ $(document).ready(function (jwtToken) {
                 commentLink.append(commentImg);
             
                 // 공유 버튼
-                var shareLink = $("<button type=button>").addClass("share_link");
+                var CopyUrl = `http://127.0.0.1:5500/html/single_feed.html?feedId=${currentFeedId}`;
+                var shareLink = $("<button type=button>")
+                .addClass("share_link")
+                .on("click", function() {
+                    copyLink(CopyUrl);
+                  });
                 var shareImg = $("<img>").attr({
                     src: "../image/share.png",
                     alt: "shareBtn",
@@ -283,13 +263,13 @@ $(document).ready(function (jwtToken) {
                         saveLink.removeClass("filled_save_link");
                         saveLink.addClass("save_link");
                         item.is_saved = false;
-                        unsavedFeed(currentFeedId);
+                        unsavedFeed(currentUserId, currentFeedId);
                     } else {
                         newSaveSrc = "../image/filled_save.png";
                         saveLink.addClass("filled_save_link");
                         saveLink.removeClass("save_link");
                         item.is_saved = true;
-                        savedFeed(currentFeedId);
+                        savedFeed(currentUserId, currentFeedId);
                     }
 
                     saveImg.attr("src", newSaveSrc);
@@ -376,143 +356,6 @@ $(document).ready(function (jwtToken) {
                 feedItem.append(feedTopContainer, imageContainer, feedFunctionContainer, feedInfo);
                 $(".feed_list").append(feedItem);
                 
-                // 댓글 모달창 함수
-                function openModal(feedId, data){
-                    $.ajax({
-                        url: `http://203.237.169.125:2002/feed/${currentFeedId}/comment`,
-                        type: "GET",
-                        dataType: "json",
-                        headers: {
-                            Authorization: `Bearer ${jwtToken}`,
-                        },
-                        success: function (data) {
-                            //console.log("sueccess: " + JSON.stringify(data));
-                            var commentPost = $("<div>").addClass("comment_post");
-                            var commentPostBtn = $("<button type=button>")
-                            .html("게시")
-                            .on("click", function postingComment() {
-                                console.log(currentFeedId);
-
-                                var commentContent = $("#comment_input").val();
-                                if (commentContent.trim() === "") {
-                                    alert("댓글을 입력해주세요.");
-                                    return;
-                                }
-                                
-                                $.ajax({
-                                    url: `http://203.237.169.125:2002/feed/${currentFeedId}/comment`,
-                                    type: "POST",
-                                    headers: {
-                                      Authorization: `Bearer ${jwtToken}`,
-                                    },
-                                    data: JSON.stringify({content: commentContent}),
-                                    contentType: "application/json",
-                                    success: function (data) {
-                                      console.log("댓글 작성 성공: " + JSON.stringify(data));
-                                      $("#comment_input").val("");
-                                    },
-                                    error: function (jqXHR, textStatus, errorThrown) {
-                                      if (jqXHR.status === 400) {
-                                            console.error("Bad Request:", jqXHR.responseText);
-                                            alert("올바르지 않은 형식입니다.");
-                                      } else if (jqXHR.status === 401) {
-                                            console.error("Unauthorized:", jqXHR.responseText);
-                                            alert("접근 권한이 없습니다.");
-                                            window.location.href = "./login.html";
-                                      } else if (jqXHR.status === 404) {
-                                            console.error("Not found:", jqXHR.responseText);
-                                            alert("사용자가 존재하지 않습니다.");
-                                      } else {
-                                            console.error("Error:", jqXHR.status, errorThrown);
-                                            alert("서버 에러");
-                                      }
-                                    },
-                                  });
-                            });
-                            commentPost.append(commentPostBtn);
-
-                            $(".postComment").append(postingUserImg, commentInputContainer, commentPost);
-    
-                            
-                            var $modalFeedInfo = $(`#feedInfo${feedId}`).clone();
-                            var modalFeedInfoId = $modalFeedInfo.attr("id");
-                           
-                            if (modalFeedInfoId === "feedInfo"+feedId){
-                                $(".feeds_container").append($modalFeedInfo);
-                            }
-
-                            // 피드의 댓글이 있을 경우
-                            if (data.items.length > 0) {
-                                var commentsHtml = data.items
-                                .map(function (comment) {
-                                    // 댓글 작성 시간 계산
-                                    var uploadDate = new Date(comment.created_at); 
-                                    var currentDate = new Date();
-                                    var timeDiffInMilliseconds = currentDate - uploadDate;
-
-                                    var timeDiffInMinutes = Math.floor(timeDiffInMilliseconds / (1000 * 60));
-                                    var timeDiffInHours = Math.floor(timeDiffInMinutes / 60);
-                                    var timeDiffInDays = Math.floor(timeDiffInHours / 24);
-
-                                    var uploadDateString;
-
-                                    if (timeDiffInDays > 0) {
-                                        uploadDateString = timeDiffInDays + '일 전';
-                                    } else if (timeDiffInHours > 0) {
-                                        uploadDateString = timeDiffInHours + '시간 전';
-                                    } else if (timeDiffInMinutes > 0) {
-                                        uploadDateString = timeDiffInMinutes + '분 전';
-                                    } else {
-                                        uploadDateString = '방금 전';
-                                    }
-
-                                    //유저 프로필 링크
-                                    var userProfileLink = "";
-                                    if (comment.author.account_type === "personal") {
-                                        userProfileLink = "../html/profile_per.html";
-                                    } else {
-                                        userProfileLink = "../html/profile_ent.html";
-                                    }
-                
-                                    // 댓글 쓴 사람 이미지
-                                    return `
-                                        <div class="comments_item">
-                                            <a window.location.href=${userProfileLink}?userId=${comment.author.id};><img src="${comment.author.thumbnail}"></a>
-                                            <div class="comments_info">
-                                                <div class="comments_idDate">
-                                                    <a style="margin-right: 0.5rem; font-weight: bold;">${comment.author.name}</a>
-                                                    <div style="color:#888; font-size:small;">${uploadDateString}</div>
-                                                </div>
-                                                <div class="comments_content">${comment.content}</div>
-                                            </div>
-                                        </div>
-                                    `;
-                                })
-                                .join("");
-
-                                $(".comments_container").html(commentsHtml);
-                                
-                            // 피드의 댓글이 없을 경우
-                            } else {
-                                var commentEmptyMessage1 = $("<div id=empty1>").html("아직 댓글이 없습니다.");
-                                var commentEmptyMessage2 = $("<div id=empty2>").html("댓글을 남겨보세요.");
-                                $(".comments_container").append(commentEmptyMessage1,commentEmptyMessage2);
-                            };
-
-                            $(".modal").css("display", "block");
-
-
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            if (jqXHR.status === 404) {
-                            console.error('Unauthorized:', jqXHR.responseText);
-                            alert("피드가 존재하지 않습니다.");
-                            } else {
-                            console.error('Error:', jqXHR.status, errorThrown);
-                            }
-                        }
-                    });
-                };
 
                 // 함수들
                 // 이미지 슬라이드
@@ -571,142 +414,7 @@ $(document).ready(function (jwtToken) {
                     }
                 }
 
-                //좋아요 버튼
-                function likedFeed(feedId) {
-                    $.ajax({
-                      url: `http://203.237.169.125:2002/feed/${feedId}/like`,
-                      type: "POST",
-                      headers: {
-                        Authorization: `Bearer ${jwtToken}`,
-                      },
-                      success: function (data) {
-                        console.log("좋아요 성공: " + JSON.stringify(data));
-
-
-                      },
-                      error: function (jqXHR, textStatus, errorThrown) {
-                        if (jqXHR.status === 401) {
-                            console.error("Unauthorized:", jqXHR.responseText);
-                            alert("접근 권한이 없습니다.");
-                            heartLink.removeClass("filled_heart_link");
-                            heartLink.addClass("heart_link");
-                            item.is_liked = false;
-                        } else if (jqXHR.status === 404) {
-                            console.error("Not found:", jqXHR.responseText);
-                            alert("사용자가 존재하지 않습니다.");
-                            heartLink.removeClass("filled_heart_link");
-                            heartLink.addClass("heart_link");
-                            item.is_liked = false;
-                        } else {
-                             console.error("Error:", jqXHR.status, errorThrown);
-                             alert("서버 에러");
-                             heartLink.removeClass("filled_heart_link");
-                            heartLink.addClass("heart_link");
-                            item.is_liked = false;
-                        }
-                        
-                        console.log(item.is_liked);
-                      },
-                    });
-
-                  }
-                  function unlikedFeed(feedId) {
-                    $.ajax({
-                      url: `http://203.237.169.125:2002/feed/${feedId}/like`,
-                      type: "DELETE",
-                      headers: {
-                        Authorization: `Bearer ${jwtToken}`,
-                      },
-                      success: function (data) {
-                        console.log("좋아요 취소 성공: " + JSON.stringify(data));
-
-                      },
-                      error: function (jqXHR, textStatus, errorThrown) {
-                        if (jqXHR.status === 401) {
-                            console.error("Unauthorized:", jqXHR.responseText);
-                            alert("접근 권한이 없습니다.");
-                            heartLink.removeClass("filled_heart_link");
-                            heartLink.addClass("heart_link");
-                            item.is_liked = false;
-                        } else if (jqXHR.status === 404) {
-                            console.error("Not found:", jqXHR.responseText);
-                            alert("사용자가 존재하지 않습니다.");
-                            heartLink.removeClass("filled_heart_link");
-                            heartLink.addClass("heart_link");
-                            item.is_liked = false;
-                        } else {
-                             console.error("Error:", jqXHR.status, errorThrown);
-                             alert("서버 에러");
-                             heartLink.removeClass("filled_heart_link");
-                            heartLink.addClass("heart_link");
-                            item.is_liked = false;
-                        }
-                        
-                        //console.log(item.is_liked);
-                      },
-                    });
-
-                  }
-
-                //피드 스크랩 ajax
-                function savedFeed(feedId) {
-                    $.ajax({
-                      url: `http://203.237.169.125:2002/user/${currentUserId}/saved/${currentFeedId}`,
-                      type: "POST",
-                      headers: {
-                        Authorization: `Bearer ${jwtToken}`,
-                      },
-                      success: function (data) {
-                        console.log(`피드 스크랩 성공: ${currentUserId}, ${currentFeedId}`);
-                      },
-                      error: function (jqXHR, textStatus, errorThrown) {
-                        if (jqXHR.status === 401) {
-                            console.error("Unauthorized:", jqXHR.responseText);
-                            
-                        } else if (jqXHR.status === 404) {
-                            console.error("Not found:", jqXHR.responseText);
-                            
-                        } else if(jqXHR.status === 409){
-                            console.error("Already saved", jqXHR.responseText);
-                            alert("이미 저장된 피드입니다.");
-                        } else {
-                             console.error("Error:", jqXHR.status, errorThrown);
-                             alert("서버 에러");
-                             
-                        }
-                      },
-                    });
-
-                  }
-                  function unsavedFeed(feedId) {
-                    $.ajax({
-                      url: `http://203.237.169.125:2002/user/${currentUserId}/saved/${currentFeedId}`,
-                      type: "DELETE",
-                      headers: {
-                        Authorization: `Bearer ${jwtToken}`,
-                      },
-                      success: function (data) {
-                        console.log(`피드 스크랩 취소 성공: ${currentUserId}, ${currentFeedId}`);
-                      },
-                      error: function (jqXHR, textStatus, errorThrown) {
-                        if (jqXHR.status === 401) {
-                            console.error("Unauthorized:", jqXHR.responseText);
-                            alert("접근 권한이 없습니다.");
-                            
-                        } else if (jqXHR.status === 404) {
-                            console.error("Not found:", jqXHR.responseText);
-                            alert("사용자가 존재하지 않습니다.");
-                            
-                        } else {
-                             console.error("Error:", jqXHR.status, errorThrown);
-                             alert("서버 에러");
-                             
-                        }
-                      },
-                    });
-
-                  }
-                
+                  
             });
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -716,7 +424,7 @@ $(document).ready(function (jwtToken) {
             } else if (jqXHR.status === 401) {
                 console.error('Unauthorized:', jqXHR.responseText);
                 alert("로그인되지 않은 사용자입니다.");
-                location.href="../html/login.html";
+                window.location.href="./login.html";
             } else {
                 console.error('Error:', jqXHR.status, errorThrown);
             }
@@ -730,10 +438,9 @@ $(".close_modal").on("click", function () {
 
     $(".feeds_container").empty();
     $(".comments_container").empty();
-    $(".comment_post").empty();
+    $(".postComment").empty();
     $("#comment_input").val(null);
 });
-
 
 // 저장 버튼 onclick 이벤트
 function changeSaveBtn() {
@@ -750,4 +457,25 @@ function changeSaveBtn() {
         saveLink.addClass("filled_save_link");
         item.is_saved = true;
     }
+}
+
+// 세션에서 받아올 값
+function getTokenFromSessionStorage() {
+    return sessionStorage.getItem("jwtToken");
+  }
+
+function getCurrentUserIdFromSessionStorage() {
+    return sessionStorage.getItem("currentUserId");
+}
+
+function getCurrentFeedIdFromSessionStorage() {
+    return sessionStorage.getItem("currentFeedId");
+}
+
+function getCurrentUserAccountTypeFromSessionStorage() {
+    return sessionStorage.getItem("currentUserAccountType");
+}
+
+function getCurrentUserThumbnailFromSessionStorage() {
+    return sessionStorage.getItem("thumbnail");
 }
