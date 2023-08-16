@@ -39,7 +39,6 @@ body {
   padding-top: 8rem;
   display: flex;
   flex-direction: column;
-  min-height: 150px;
   justify-content: space-around;
 }
 
@@ -116,7 +115,7 @@ body {
   display: flex;
   justify-content: space-around;
   width: 50%;
-  margin-bottom: 5.31rem;
+  margin-bottom: 1rem;
 }
 
 .radiobutton1_wrap > label {

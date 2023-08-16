@@ -18,15 +18,16 @@ $.getJSON("../mock/searchingData.json", function (data) {
 */
 
 function rightAccountType() {
-  if(getCurrentUserAccountType() === 1) {
+  if (getCurrentUserAccountType() == 1) {
     window.location.href = "./profile_per.html";
-  } else if(getCurrentUserAccountType() === 2) {
+  } else if (getCurrentUserAccountType() == 2) {
     window.location.href = "./profile_ent.html";
   } else {
     alert("뭔가 이상이 생겼따...");
   }
 }
 
-function getCurrentUserAccountType() {  // 세션에 있는 (personal또는 business인지 받아오는 함수)
-  return sessionStorage.getItem("currentUserAccountType");  // 값이 1이면 personal, 2면 business 
+function getCurrentUserAccountType() {
+  // 세션에 있는 (personal또는 business인지 받아오는 함수)
+  return sessionStorage.getItem("currentUserAccountType"); // 값이 1이면 personal, 2면 business
 }

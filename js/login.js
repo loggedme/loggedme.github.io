@@ -16,7 +16,7 @@ $(".login_login_btn").click(function () {
       email: $("#login_input_id").val().trim(),
       password: $("#login_input_password").val().trim(),
     };
-    // console.log(postData);
+    console.log(postData);
     $.ajax({
       url: "http://203.237.169.125:2002/auth/token",
       type: "POST",
