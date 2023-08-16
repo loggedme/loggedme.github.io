@@ -465,11 +465,19 @@ $(document).ready(function (jwtToken) {
                                     } else {
                                         uploadDateString = '방금 전';
                                     }
+
+                                    //유저 프로필 링크
+                                    var userProfileLink = "";
+                                    if (comment.author.account_type === "personal") {
+                                        userProfileLink = "../html/profile_per.html";
+                                    } else {
+                                        userProfileLink = "../html/profile_ent.html";
+                                    }
                 
                                     // 댓글 쓴 사람 이미지
                                     return `
                                         <div class="comments_item">
-                                            <a><img src="${comment.author.thumbnail}"></a>
+                                            <a window.location.href=${userProfileLink}?userId=${comment.author.id};><img src="${comment.author.thumbnail}"></a>
                                             <div class="comments_info">
                                                 <div class="comments_idDate">
                                                     <a style="margin-right: 0.5rem; font-weight: bold;">${comment.author.name}</a>
@@ -743,6 +751,3 @@ function changeSaveBtn() {
         item.is_saved = true;
     }
 }
-
-$.getScript("../js/corporation_feed.js");
-
