@@ -63,6 +63,13 @@ $.ajax({
     /* 
     뱃지 받아오는 부분
   */
+  
+  // ajax 밖에 있는 빈 배열 badgeList에 뱃지의 data 넣기
+  $.each(data.badge.items, function (item) {
+    badgeList.push(item); // 각각의 뱃지 썸네일을 빈 badgeImage 배열에 하나씩 푸쉬
+  })
+  console.log("뱃지 배열 출력:");
+  console.log(badgeList);
 
     // ajax 밖에 있는 빈 배열 badgeList에 뱃지의 data 넣기
     $.each(data.badge.items, function (item) {
