@@ -10,7 +10,7 @@ $(document).ready(function () {
 
 /*
 $.ajax({
-  url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/user/${user.id}`,
+  url: `http://203.237.169.125:2002/user/${user.id}`,
   type: 'GET',
   dataType: 'json',
   contentType: 'application/json',

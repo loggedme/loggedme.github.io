@@ -86,7 +86,7 @@ $(".certification_check_btn").click(function () {
     };
     console.log(postData);
     $.ajax({
-      url: "http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/auth/validation/check",
+      url: "http://203.237.169.125:2002/auth/validation/check",
       type: "POST",
       data: JSON.stringify(postData),
       contentType: "application/json",
@@ -141,7 +141,7 @@ $(".reset_password_main_btn").click(function () {
     };
     console.log(postData);
     $.ajax({
-      url: "http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/auth/reset-password",
+      url: "http://203.237.169.125:2002/auth/reset-password",
       type: "POST",
       dataType: "json",
       data: JSON.stringify(postData),

@@ -29,7 +29,7 @@ $('.open_modal').click(function () {
 /* 세션에서 get (프사, 태그된 기업, content, image_urls) */ 
 
 $.ajax({
-  url: 'http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/feed/{feed.id}',
+  url: 'http://203.237.169.125:2002/feed/{feed.id}',
   type: 'GET',
   datatype: "json",
   contentType: 'application/json',
@@ -163,7 +163,7 @@ $.ajax({
 // 모달 get 부분
 
 $.ajax({
-  url: 'http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/user?recommend=true&type=business',
+  url: 'http://203.237.169.125:2002/user?recommend=true&type=business',
   type: 'GET',
   dataType: "json",
   contentType: 'application/json',
@@ -257,7 +257,7 @@ var putData = {
   tagged_user: $(".tagged_company").val(),
 }
 $.ajax({
-  url: `http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/feed/${feed.id}`,
+  url: `http://203.237.169.125:2002/feed/${feed.id}`,
   type: 'PUT',
   data: JSON.stringify(putData),
   contentType: 'application/json',

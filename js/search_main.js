@@ -64,7 +64,7 @@ function getCurrentUserAccountTypeFromSessionStorage() {
 
     // foryou 이미지 그리드 
     $.ajax({
-        url: "http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/feed?trending=true",
+        url: "http://203.237.169.125:2002/feed?trending=true",
         type: "GET",
         dataType: "json",
         headers: {
@@ -106,7 +106,7 @@ function getCurrentUserAccountTypeFromSessionStorage() {
 
     // person 이미지 그리드
     $.ajax({
-      url: "http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/feed?type=personal",
+      url: "http://203.237.169.125:2002/feed?type=personal",
       type: "GET",
       dataType: "json",
       headers: {
@@ -150,7 +150,7 @@ function getCurrentUserAccountTypeFromSessionStorage() {
 
     // company 이미지 그리드
     $.ajax({
-      url: "http://ec2-52-79-233-240.ap-northeast-2.compute.amazonaws.com/feed?type=business",
+      url: "http://203.237.169.125:2002/feed?type=business",
       type: "GET",
       dataType: "json",
       headers: {
