@@ -5,43 +5,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/base.css">
+
   <title>Document</title>
   <style>
+    main {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     header {
       top: 0;
       width: 100%;
       min-height: 4rem;
     }
 
-    main {
-      width: 100%;
+    .making_badge_main_header {
+      width: 90%;
       display: flex;
-      flex-direction: column;
       justify-content: center;
+      position: relative;
+      padding-bottom: 1.44rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.6);
     }
 
-    .main_header {
-      width: 100%;
-      padding: 0 1rem 1rem 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-sizing: border-box;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.60);
-
+    .cancel_button,
+    .edit_button {
+      position: absolute;
+      flex-shrink: 0;
+      color: #000;
+      font-family: Inter;
+      font-size: 1.0625rem;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      text-decoration: none;
     }
 
-    .goback_btn {
-      padding: 0;
-      border: none;
-      background-color: transparent;
-      align-items: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .cancel_button {
+      left: 0;
     }
 
-    .header_title {
+    .edit_button {
+      right: 0;
+    }
+
+    .making_badge_main_header_title {
+      height: 1.0625rem;
+      flex-shrink: 0;
       color: #000;
       font-family: Inter;
       font-size: 1.0625rem;
@@ -50,33 +62,16 @@
       line-height: normal;
     }
 
-    .edit_button {
-      color: #000;
-      font-family: Inter;
-      font-size: 1.0625rem;
-      font-style: normal;
-      font-weight: 500;
-      line-height: normal;
-    }
-
-    .main_body {
-      width: 100%;
-      min-height: 10rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .image_wrap {
-      min-height: 25rem;
+    .making_badge_attach_image_label {
+      margin-top: 5rem;
+      width: 11rem;
+      height: 11rem;
+      flex-shrink: 0;
+      background: #d9d9d9;
       display: flex;
       justify-content: center;
       align-items: center;
-    }
-
-    .badge_image {
-      width: 11rem;
-      height: 11rem;
+      margin-bottom: 5rem;
     }
 
     .making_badge_attach_document {
@@ -98,23 +93,20 @@
 </head>
 
 <body>
-  <header></header>
+  <header>
+  </header>
   <main>
-    <section class="main_header">
-      <a class="goback_btn" href="javascript:history.back();">
-        <img src="../image/goback.png" alt="">
-      </a>
-      <div class="header_title">Badge info</div>
-      <a class="edit_button">EDIT</a>
-    </section>
-    <sectoin class="main_body">
-      <sectoin class="image_wrap">
-        <img src="" alt="badge_image" class="badge_image">
-      </sectoin>
-      <textarea class="making_badge_attach_document"></textarea>
-    </sectoin>
+    <div class="making_badge_main_header">
+      <a href="javascript:history.back();" class="cancel_button">Cancel</a>
+      <div class="making_badge_main_header_title">Badge info</div>
+      <a class="edit_button">Edit</a>
+    </div>
+    <label class="making_badge_attach_image_label" for="making_badge_attach_image_input"> <img
+        id="making_badge_attach_image" src="../image/upload.png" alt="" width="40px" height="44px">
+      <input id="making_badge_attach_image_input" type="file" hidden>
+    </label>
+    <textarea placeholder=" Write a caption" class="making_badge_attach_document"></textarea>
   </main>
-  <!--base-->
   <section class="base_bottom_nav">
     <a href="./corporation_feed.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_enterprise.png"
         alt="enterprise" id="bottom_nav_enterprise_image" class="base_bottom_nav_item_image"></a>
