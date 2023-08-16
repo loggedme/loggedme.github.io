@@ -6,37 +6,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/search_main.css">
+  <link rel="stylesheet" href="../css/search_page.css">
   <title>Document</title>
 </head>
 
 <body>
   <header>
-    <a href="#">
+    <a href="../html/corporation_feed.html">
         <img src="../image/logo.png" alt="logo">
     </a>
     </header>
 
   <main>
     <div class="search_header">
-        <a href="javascript:history.back();">
+        <a id="goBack">
             <img src="../image/goback.png" alt="goBack"
                 width="30rem" height="30rem" style="padding-top: 0.2rem;"
             >
         </a>
         <div class="search_bar">
             <img src="../image/bottom_nav_search.png" alt="search_icon">
-            <input type="text" placeholder="search">
+            <input type="text" id="search_input" placeholder="search">
         </div>
     </div>
 
-    <nav>
-        <a href="#">For you</a>
-        <a href="#" style="color: rgb(162, 162, 162);">person</a>
-        <a href="#" style="color: rgb(162, 162, 162);">corporation</a>
-        <div class="nav_underline"></div>
+    <!-- 탐색 메인 페이지 -->
+    <nav class="searchMain_nav">
+        <div class="searchNav_item">
+            <button id="foryou">For you</button>
+            <button id="person">person</button>
+            <button id="company">company</button>
+            <div class="searchMain_nav_underline"></div>
+        </div>
+        <hr style="margin: 0;">
     </nav>
 
-    <div class="grid_container"></div>
+    
+    <div class="grid_container_forYou"></div>
+    <div class="grid_container_person"></div>
+    <div class="grid_container_company"></div>
+
+    <div class="searchPage">
+        <!-- 탐색 검색 페이지 상단 네브바-->
+        <nav class="searchInner_nav">
+            <button id="searchPerson">Person</button>
+            <button id="searchCompany">Company</button>
+            <button id="searchHashtag">Hashtag</button>
+            <div class="searchPage_nav_underline"></div>
+        </nav>
+        <hr style="margin: 0;">
+
+        <!-- 탐색 검색 > 개인 페이지 -->
+        <div class="person_container">
+            <h2 style="margin: 0;">개인</h2>
+            <div class="person_search_list"></div>
+        </div>
+
+        <!-- 탐색 검색 > 기업 페이지 -->
+        <div class="company_container">
+            <h2 style="margin: 0;">기업</h2>
+            <div class="company_search_list"></div>
+        </div>
+
+        <!-- 탐색 검색 > 해쉬태그 페이지 -->
+        <div class="hashtag_container">
+            <h2 style="margin: 0;">해시태그</h2>
+            <div class="hashtag_search_list"></div>
+        </div>
+    </div>
   </main>
 
   <section class="base_bottom_nav">
@@ -46,14 +83,16 @@
         id="bottom_nav_person_image" class="base_bottom_nav_item_image"></a>
     <a href="./search_main.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_search.png" alt="search"
         id="bottom_nav_search_image" class="base_bottom_nav_item_image"></a>
-    <a href="#" class="base_bottom_nav_item"><img src="../image/bottom_nav_plus.png" alt="addPost"
+    <a href="../html/new_feed1.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_plus.png" alt="addPost"
         class="base_bottom_nav_plus_image">
     </a>
-    <a href="#" class="base_bottom_nav_item"><img src="../image/bottom_nav_profile.png" alt="profile"
+    <a href="../html/profile_ent.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_profile.png" alt="profile"
         id="bottom_nav_profile_image" class="base_bottom_nav_item_image"></a>
   </section>
 </body>
+<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="../js/search_page_input.js"></script>
+<script src="../js/search_page_mockup.js"></script>
 <script src="../js/search_main.js"></script>
-
 </html>

@@ -10,6 +10,7 @@ $.getJSON("../mock/corporationFeedData.json", function (data) {
       var feedItem = $("<div>").addClass("feed_item");
   
       // feed 상단 부분 사용자 사진, 아이디
+      var feedTopContainer = $("<div>").addClass("feedTop_container");
       var feedTop = $("<div>").addClass("feed_top");
   
       var profileInfo = $("<div>").addClass("profile_info");
@@ -21,15 +22,46 @@ $.getJSON("../mock/corporationFeedData.json", function (data) {
         .addClass("user_id")
         .text(item.userId);
   
-      var optionBtn = $("<button style=background-color:transparent;border:none;>").addClass("optionBtn");
+      profileInfo.append(profileImg, userId);
+
+      // 드롭다운 옵션 버튼 
+      var optionContent = $("<div style=display:none;>").addClass("option_content");
+      var gotoUserInfo = $("<button type=button>").addClass("goTo_userInfo").html("이 계정 정보");
+      var saveBtnOption = $("<button type=button>")
+      .addClass("save_btn")
+      .html("저장하기")
+      .on("click", function() {
+        var currentSrc = saveImg.attr("src");
+        var newSrc = currentSrc === "../image/save.png" ? "../image/filled_save.png" : "../image/save.png";
+        saveImg.attr("src", newSrc);
+
+        if (saveLink.hasClass("filled_save_link")) {
+          saveLink.removeClass("filled_save_link");
+          saveLink.addClass("save_link");
+         
+      } else {
+          saveLink.removeClass("save_link");
+          saveLink.addClass("filled_save_link");
+          
+      }
+      });
+      var unfollowBtn = $("<button type=button>").addClass("unfollow_btn").html("팔로우 취소");
+      
+      optionContent.append(gotoUserInfo, saveBtnOption, unfollowBtn);
+
+      var optionBtn = $("<button style=background-color:transparent;border:none;>")
+      .addClass("optionBtn")
+      .on("click", function() {
+        optionContent.toggle();
+      })
       var optionImg = $("<img>").attr({
         src: "../image/option_btn.png",
         alt: "optionButton",
       });
-  
-      profileInfo.append(profileImg, userId);
       optionBtn.append(optionImg);
+  
       feedTop.append(profileInfo, optionBtn);
+      feedTopContainer.append(feedTop, optionContent);
   
   
       // feed 이미지
@@ -73,30 +105,48 @@ $.getJSON("../mock/corporationFeedData.json", function (data) {
 
       prevBtn.prop("disabled", true);
 
-      prevBtn.on("click", function () {
-        // 이전 이미지로 이동, 현재 인덱스 업데이트
-        currentSlideIndex = (currentSlideIndex - 1 + images.length) % images.length;
-        updateSlide();
-      });
+      prevBtn.on("click", goToPrev);
+
+        // 이미지 슬라이드 함수
+        function goToPrev() {
+          if (!sliding) {
+              sliding = true;
+              currentSlideIndex = (currentSlideIndex - 1 + images.length) % images.length;
+              updateSlide();
+            } 
+        }
+
+        function goToNext() {
+          if (!sliding) {
+              sliding = true;
+              currentSlideIndex = (currentSlideIndex + 1) % images.length;
+              updateSlide();
+            }
+        }
 
       nextBtn.on("click", function () {
-        // 다음 이미지로 이동, 현재 인덱스 업데이트
-        currentSlideIndex = (currentSlideIndex + 1) % images.length;
-        updateSlide();
+        if (!sliding) {
+          sliding = true;
+          currentSlideIndex = (currentSlideIndex + 1) % images.length;
+          updateSlide();
+        }
       });
 
       // 이미지 슬라이드 현재 위치 점 표시
+
       // 이미지 슬라이드 점들 추가
       var slideDots = $("<div>").addClass("slide_dots");
+      var slideDotsList = [];
 
       for (var i = 0; i < feedImgList.length; i++) {
-        var dot = $("<div>").addClass("dot").html(".");
+        var dot = $("<div>").addClass("dot").html(" ");
         slideDots.append(dot);
+        slideDotsList.push(dot);
       }
       
       // 점들에 .dot 클래스 부여 후 슬라이드 점들 추가
-      $(".dot").eq(currentSlideIndex).addClass("active_dot");
-
+      slideDotsList[0].addClass("active_dot");
+ 
       // 이미지 슬라이드 점 클릭 이벤트
       $(".dot").on("click", function () {
         if (!sliding) {
@@ -113,7 +163,16 @@ $.getJSON("../mock/corporationFeedData.json", function (data) {
       function updateSlide() {
         imageAlbum.empty(); 
         imageAlbum.append(images[currentSlideIndex]);
+        
+       slideDotsList.forEach(function(dot, index) {
+        if (index === currentSlideIndex){
+          dot.addClass("active_dot");
+        } else {
+          dot.removeClass("active_dot");
+        }
+       });
 
+        sliding = false;
 
         // prevBtn과 nextBtn 처음과 끝일 때 버튼 사용 X
         if (currentSlideIndex === 0) {
@@ -127,56 +186,82 @@ $.getJSON("../mock/corporationFeedData.json", function (data) {
         } else {
           nextBtn.prop("disabled", false);
         }
-
-        $(".dot").removeClass("active_dot");
-        $(".dot").eq(currentSlideIndex).addClass("active_dot");
       }
-      
+
       btnContainer.append(prevBtn, nextBtn);
       imageContainer.append(imageAlbum, btnContainer, slideDots);
-
         
       // 기능 버튼 아이콘 (좋아요, 댓글, 공유, 저장)
       var feedFunctionContainer = $("<div>").addClass("feedFunction_container");
       var functionIconContainer = $("<div>").addClass("functionIcon_container");
       var functionIconItem = $("<div>").addClass("functionIcon_item");
   
-      var heartLink = $("<a>").attr("href", "#");
       var heartImg = $("<img>").attr({
         id: "heart",
         src: "../image/heart.png",
         alt: "heart",
-        width: "35rem",
+        width: "38rem",
         style: "padding-top: 0.1rem;",
       });
+      var heartLink = $("<button type=button>")
+      .addClass("heart_link")
+      .on("click", function() {
+          var currentSrc = heartImg.attr("src");
+          var newSrc = currentSrc === "../image/heart.png" ? "../image/filled_heart.png" : "../image/heart.png";
+          heartImg.attr("src", newSrc);
+
+          if (heartLink.hasClass("filled_heart_link")) {
+              heartLink.removeClass("filled_heart_link");
+              heartLink.addClass("heart_link");
+          } else {
+              heartLink.removeClass("heart_link");
+              heartLink.addClass("filled_heart_link");
+          }
+
+          
+        });
+
       heartLink.append(heartImg);
+
+      heartLink.append(heartImg);
+
   
-      var commentLink = $("<a>").attr("href", "#");
+      var commentLink = $("<button type=button id=comment_btn>")
+      .addClass("comment_link")
+      .on("click", function () {
+        openModal(item.feedId, data); 
+      });
       var commentImg = $("<img>").attr({
         src: "../image/comment.png",
         alt: "comment",
         width: "31rem",
-        style: "margin-left: 0.5rem; padding-top: 0.2rem;",
+        style: "margin-left: 0.3rem; padding-top: 0.1rem;",
       });
       commentLink.append(commentImg);
   
-      var shareLink = $("<a>").attr("href", "#");
+      var shareLink = $("<button type=button>").addClass("share_link");
       var shareImg = $("<img>").attr({
         src: "../image/share.png",
         alt: "shareBtn",
         width: "40rem",
-        style: "margin-left: 0.3rem;",
+        style: "margin-left: 0.4rem; padding-top: 0.2rem;",
       });
       shareLink.append(shareImg);
-  
       functionIconItem.append(heartLink, commentLink, shareLink);
       
-      var saveLink = $("<a>").attr("href", "#");
       var saveImg = $("<img>").attr({
         src: "../image/save.png",
         alt: "saveBtn",
         width: "32rem",
       });
+      var saveLink = $("<button type=button>")
+      .addClass("save_link")
+      .on("click", function () {
+        var currentSrc = saveImg.attr("src");
+        var newSrc = currentSrc === "../image/save.png" ? "../image/filled_save.png" : "../image/save.png";
+        saveImg.attr("src", newSrc);
+      });
+      
       saveLink.append(saveImg);
   
       functionIconContainer.append(functionIconItem, saveLink);
@@ -277,7 +362,7 @@ $.getJSON("../mock/corporationFeedData.json", function (data) {
           .addClass("commentNum_container")
           .text(commentsCount)
           .on("click", function () {
-            openModal(item.feedId, data); // openModal 함수에 data를 전달합니다.
+            openModal(item.feedId, data); // openModal 함수에 data를 전달
           });
   
         // 댓글 컨테이너에 댓글 수, 댓글 목록 넣기
@@ -285,7 +370,7 @@ $.getJSON("../mock/corporationFeedData.json", function (data) {
         feedInfo.append(commentContainer);
       });
   
-      feedItem.append(feedTop, imageContainer, feedFunctionContainer, feedInfo);
+      feedItem.append(feedTopContainer, imageContainer, feedFunctionContainer, feedInfo);
       $(".feed_list").append(feedItem);
 
       

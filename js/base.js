@@ -1,12 +1,3 @@
-// 각자 페이지에서 맡게 불러오면 됩니다.
-//페이지 로딩 시 각 카테고리에 맡게 하단바의 이미지를 변경
-$(document).ready(function () {
-  $("#bottom_nav_person_image").attr(
-    "src",
-    "../image/bottom_nav_person_black.png"
-  );
-});
-
 // mock data 사용법
 /*
 $.getJSON("../mock/searchingData.json", function (data) {
@@ -25,3 +16,18 @@ $.getJSON("../mock/searchingData.json", function (data) {
   });
 });
 */
+
+function rightAccountType() {
+  if (getCurrentUserAccountType() == 1) {
+    window.location.href = "./profile_per.html";
+  } else if (getCurrentUserAccountType() == 2) {
+    window.location.href = "./profile_ent.html";
+  } else {
+    alert("뭔가 이상이 생겼따...");
+  }
+}
+
+function getCurrentUserAccountType() {
+  // 세션에 있는 (personal또는 business인지 받아오는 함수)
+  return sessionStorage.getItem("currentUserAccountType"); // 값이 1이면 personal, 2면 business
+}

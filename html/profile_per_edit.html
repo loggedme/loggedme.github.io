@@ -1,40 +1,135 @@
-<!--
-    개인 프로필 수정 페이지
--->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../css/base.css">
-  <title>Logged.me</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/base.css">
+    <!-- <link rel="stylesheet" href="../css/profile_per_edit.css"> -->
+    <title>Logged.me</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+        }
+
+        header {
+            width: 100%;
+            height: 4rem;
+        }
+
+        main {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main_header {
+            width: 90%;
+            display: flex;
+            justify-content: end;
+        }
+
+        .header_button {
+            background-color: transparent;
+            border: none;
+            text-decoration: underline;
+        }
+
+        .edit_wrap {
+            flex: 1;
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .edit_input {
+            width: 17rem;
+            height: 2.7rem;
+            border: none;
+            border-radius: 0.625rem;
+            background: rgba(217, 217, 217, 0.35);
+            margin-bottom: 2rem;
+            outline: none;
+            color: #000;
+            font-family: Inter;
+            font-size: 1.125rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+
+        .edit_title {
+            width: 17rem;
+            margin-bottom: 0.5rem;
+            color: #000;
+            font-family: Inter;
+            font-size: 1rem;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+        }
+
+        .image_label {
+            margin-top: 1rem;
+        }
+
+        #preview {
+            width: 5rem;
+            height: 5rem;
+            border-radius: 100%;
+        }
+    </style>
 </head>
 
 <body>
-  <header></header>
-  <main></main>
+    <header>
 
-  <!--base-->
-  <section class="base_bottom_nav">
-    <a href="./enterprise_feed.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_enterprise.png"
-        alt="enterprise" id="bottom_nav_enterprise_image" class="base_bottom_nav_item_image"></a>
-    <a href="./personal_feed.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_person.png" alt="person"
-        id="bottom_nav_person_image" class="base_bottom_nav_item_image"></a>
-    <a href="#" class="base_bottom_nav_item"><img src="../image/bottom_nav_search.png" alt="search"
-        id="bottom_nav_search_image" class="base_bottom_nav_item_image"></a>
-    <a href="#" class="base_bottom_nav_item"><img src="../image/bottom_nav_plus.png" alt="addPost"
-        class="base_bottom_nav_plus_image">
-    </a>
-    <a href="#" class="base_bottom_nav_item"><img src="../image/bottom_nav_profile.png" alt="profile"
-        id="bottom_nav_profile_image" class="base_bottom_nav_item_image"></a>
-  </section>
-  <!--base-->
+    </header>
+    <main>
+        <section class="main_header">
+            <div class="button_wrap">
+                <button class="header_button logout">로그아웃</button>
+                <button class="header_button signout">회원탈퇴</button>
+            </div>
+        </section>
+        <section class="edit_wrap">
+            <div class="edit_title">Handle</div>
+            <input type="text" id="handle" class="edit_input">
+            <div class="edit_title">Name</div>
+            <input type="text" id="name" class="edit_input">
+            <div class="edit_title">Image</div>
+            <label class="image_label" for="image_input">
+                <img id="preview" alt="" width="44px" height="44px">
+                <input id="image_input" type="file" hidden>
+            </label>
+        </section>
+    </main>
+    <!--base-->
+    <section class="base_bottom_nav">
+        <a href="./corporation_feed.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_enterprise.png"
+                alt="enterprise" id="bottom_nav_enterprise_image" class="base_bottom_nav_item_image"></a>
+        <a href="./personal_feed.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_person.png"
+                alt="person" id="bottom_nav_person_image" class="base_bottom_nav_item_image"></a>
+        <a href="./search_main.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_search.png" alt="search"
+                id="bottom_nav_search_image" class="base_bottom_nav_item_image"></a>
+        <a href="./new_feed2.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_plus.png" alt="addPost"
+                class="base_bottom_nav_plus_image">
+        </a>
+        <div class="base_bottom_nav_item" onclick="rightAccountType()"><img src="../image/bottom_nav_profile.png"
+                alt="profile" id="bottom_nav_profile_image" class="base_bottom_nav_item_image"></div>
+    </section>
+    <!--base-->
 </body>
-
-<!--base-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="../js/base.js"></script>
-<!--base-->
+<script src="../js/profile_per_edit.js"></script>
 
 </html>
