@@ -224,20 +224,6 @@ if(getCurrentAccountTypeFromSessionStorage() == 1) {
 }
 
 
-      $("div").remove(".tagged_company");
-      $(".Tag_text").append(template);
-
-      $(".modal_overlay").hide();
-    });
-  },
-  error: function (jqXHR, textStatus, errorThrown) {
-    if (jqXHR.status === 400) {
-      console.error("Bad Request:", jqXHR.responseText);
-      alert("존재하지 않는 계정 종류거나, reccomend가 true가 아닐 때");
-    }
-  },
-});
-
 // 토큰 받아오는 함수
 
 function getTokenFromSessionStorage() {
