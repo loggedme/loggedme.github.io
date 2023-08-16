@@ -256,7 +256,7 @@ body {
     모달창 부분!! tag company
 */
 
-.open_modal {
+#open_modal {
     display: flex;
     justify-content: space-between;
     align-items: center;

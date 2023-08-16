@@ -19,7 +19,7 @@ function goBack() {
 
 var input = document.getElementById("input");
 var initLabel = document.getElementById("label");
-const imageList = [];
+const imageList = []; // 이미지 백에서 받아서 담을 배열
 var imageLengthCount = 0;
 var imgFirstInput = 0;
 
@@ -168,9 +168,6 @@ document.getElementById("Next").addEventListener("click", () => {
   localStorage.setItem("imageList", JSON.stringify(imageList));
 });
 
-/*
-    게시물 작성 페이지-2
- */
 
 /*********************** 
 const sliderWrap = document.querySelector(".slider__wrap");
@@ -263,10 +260,15 @@ BtnNext.addEventListener("click", () => {
     }
     sliderLengthCount = imageLengthCount;
   }
-  console.log(template);
-  $(".slider__inner").append(template);
 
-  //const sliderInner = document.querySelector(".slider__inner");
+  // tag company가 보여질지 아닐지의 부분
+  if(getCurrentAccountTypeFromSessionStorage() == 2) {
+    $('#open_modal').remove();
+  }
+
+  $('.slider__inner').append(template);
+  
+  //const sliderInner = document.querySelector(".slider__inner"); 
 
   //document.slider__inner.innerHTML = template;
 
@@ -333,8 +335,8 @@ BtnBack.addEventListener("click", () => {
   dotIndex = "";
 });
 
-// 초기값 설정 함수 init()
-function init() {
+ // 슬라이드 초기값 설정 함수 init()
+ function init(){
   // <a href="#" class="dot active">이미지1</a>
   const slider = document.querySelectorAll(".slider");
   const sliderDot = document.querySelector(".slider__dot");
@@ -461,32 +463,49 @@ function giveText() {
   return document.getElementById("text").value;
 }
 
-$("#Share").click(function () {
-  /* share 눌렀을 때, 내가 작성한 게시물로 이동해버리자. */
+var formData = new FormData();
+$('#Share').click(function () {
+  const formDom = document.getElementById('new-post-form');
+/* share 눌렀을 때, 내가 작성한 게시물로 이동해버리자. */
+  const inputTaggedUser = document.createElement('input');
+  inputTaggedUser.setAttribute('type', 'hidden');
+  inputTaggedUser.setAttribute('name', 'tagged_user');
+  if (getCurrentAccountTypeFromSessionStorage() == 1) {
+    inputTaggedUser.setAttribute('value', $(".tagged_company").val());
+  }
+  formDom.appendChild(inputTaggedUser);
 
-  console.log(giveText());
-  var postData = {
-    content: giveText(),
-    images: imageList,
-    //tagged_user: $(".tagged_company").val("person"),  // 잠시 보류(아직 모달에서 태그 데이터를 가져오지 못했음)
-  };
+  formData = new FormData(formDom);
+
   $.ajax({
-    url: "http://203.237.169.125:2002/feed",
-    type: "POST",
-    data: JSON.stringify(postData),
-    contentType: "application/json",
+    url: 'http://203.237.169.125:2002/feed',
+    type: 'POST',
+    data: formData,
+    processData: false, // FormData 처리 방지
+    contentType: false, // 컨텐츠 타입 설정 방지
     headers: {
       Authorization: `Bearer ${jwtToken}`,
     },
-    success: function (data) {
+    success: function(data) {
       console.log(data);
-      setContentFromSessionStorage(data.content);
-      setImagesFromSessionStorage(data.images);
-      //setTaggedUserFromSessionStorage(data.tagged_user);
+
+      /* 게시물 작성시 내용들 세션에 갈 필요가 없다고 판단(보류)
+      if(getCurrentAccountTypeFromSessionStorage() == 1) {
+        setContentFromSessionStorage(data.content);
+        setImagesFromSessionStorage(data.images);
+        setTaggedUserFromSessionStorage(data.tagged_user);
+      } else if(getCurrentAccountTypeFromSessionStorage() == 2) {
+        setContentFromSessionStorage(data.content);
+        setImagesFromSessionStorage(data.images);
+      }
+      */
+      console.log(formData);
+      debugger;
       // url에 피드 아이디 값을 넣어서 보내는 부분
       window.location.href = `./single_feed.html?feedId=${data.id}`;
     },
-    error: function (jqXHR, textStatus, errorThrown) {
+    error: function(jqXHR, textStatus, errorThrown) {
+      debugger;
       if (jqXHR.status === 400) {
         console.error("Bad Request:", jqXHR.responseText);
         alert("올바르지 않은 형식의 입력.");
@@ -518,7 +537,12 @@ function setTaggedUserFromSessionStorage(tagged_user) {
   return sessionStorage.setItem("tagged_user", tagged_user);
 }
 
-// 프사 가져오는 함수
+// 사용자의 AccountType을 세션에서 가져오는 함수
+function getCurrentAccountTypeFromSessionStorage() {
+  return sessionStorage.getItem("currentUserAccountType");
+}
+
+// 프사 가져오는 함수 
 function getProfileImageFromSessionStorage() {
   // 사용자 프사 세션에서 받아오는 코드(로그인 후 풀 받아서 사용)
   return $("#profile").attr("src", sessionStorage.getItem("thumbnail"));
