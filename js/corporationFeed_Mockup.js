@@ -55,30 +55,56 @@ $(document).ready(function (jwtToken) {
 
                 // 사용자 프로필 정보 컨테이너
                 var profileInfo = $("<a>")
-                .addClass("profile_info")
-                .on("click", function() {
-                    window.location.href=`${userProfileLink}?userId=${item.author.id}`;
-                });
+                    .addClass("profile_info")
+                    .on("click", function() {
+                        window.location.href = `${userProfileLink}?userId=${item.author.id}`;
+                    });
+
                 var profileImg = $("<img>").attr({
-                    src: item.author.thumbnail,
+                    src: item.author.thumbnail || "", 
                     alt: item.author.id,
                 });
+
+                if (!profileImg.attr("src")) {
+                    profileImg.addClass("profile_img");
+                }
+
                 var userId = $("<div>").prop({
                     class: "user_id",
-                    textContent: `${item.author.handle}`,
+                    textContent: item.author.handle,
                 });
+
                 profileInfo.append(profileImg, userId);
+
 
                 // 옵션 토글 버튼 (점 세 개)
                 var optionContent = $("<div>").addClass("option_content").hide();
-                var gotoUserInfo = $("<a>")
-                    .addClass("goTo_userInfo")
-                    .on("click", function(){
-                        window.location.href=`${userProfileLink}?userId=${item.author.id}`;
-                    })
-                    .text("이 계정 정보");
-                var saveBtnOption = $("<button>").addClass("save_btn").html("저장하기").on("click", changeSaveBtn);
-                optionContent.append(gotoUserInfo, saveBtnOption);
+                if (currentUserId === item.author.id){
+                    var editFeed = $("<a>")
+                        .addClass("edit_feed")
+                        .on("click", function(){
+                            // 피드 수정 페이지 연결
+                            window.location.href=`./edit_feed.html?feedId=${item.id}`;
+                        })
+                        .text("게시물 수정");
+                    var deleteFeedBtn = $("<a>")
+                        .addClass("delete_feed")
+                        .on("click", function() {
+                            deleteFeed(item.id);
+                        })
+                        .text("게시물 삭제");
+                        optionContent.append(editFeed, deleteFeedBtn);
+                  } else {
+                    var gotoUserInfo = $("<a>")
+                        .addClass("goTo_userInfo")
+                        .on("click", function(){
+                            window.location.href=`${userProfileLink}?userId=${item.author.id}`;
+                        })
+                        .text("이 계정 정보");
+                    var saveBtnOption = $("<button>").addClass("save_btn").html("저장하기");
+        
+                    optionContent.append(gotoUserInfo, saveBtnOption);
+                  };
 
                 var optionBtn = $("<button>").addClass("optionBtn").on("click", function() {
                     optionContent.toggle();
@@ -88,7 +114,7 @@ $(document).ready(function (jwtToken) {
                     alt: "optionButton",
                 });
                 optionBtn.append(optionImg);
-            
+                
                 feedTop.append(profileInfo, optionBtn);
                 feedTopContainer.append(feedTop, optionContent);
 
@@ -306,18 +332,8 @@ $(document).ready(function (jwtToken) {
                 .on("click", function () {
                     window.location.href = `${userProfileLink}?userId=${item.author.id}`
                 })
-                var feedHashtag = $("<a>")
-                .prop({
-                    class: "feed_hashtag",
-                    textContent: `${item.tagged_user && item.tagged_user.name !== null ? item.tagged_user.name : "태그된 기업"}`,
-                })
-                .on("click", function() {
-                    if (item.tagged_user && item.tagged_user.id) {
-                        window.location.href = `./profile_ent.html?userId=${item.tagged_user.id}`;
-                    }
-                });
 
-                IdHashtag.append(bottomUserId, feedHashtag);
+                IdHashtag.append(bottomUserId);
 
                 var feedScript = $("<div>").prop({
                     class: "feed_script",

@@ -70,6 +70,12 @@ $(document).ready(function () {
     console.log(currentSearchTerm);
 
     var jwtToken = getTokenFromSessionStorage();
+
+    // 먼저 기존 목록을 비워줌
+    $(".person_search_list").empty();
+    $(".company_search_list").empty();
+    $(".hashtag_search_list").empty();
+
     $.ajax({
       url: `http://203.237.169.125:2002/search?query=${currentSearchTerm}`,
       type: "GET",
@@ -82,14 +88,18 @@ $(document).ready(function () {
   
         // 개인, 기업 검색
         $.each(data.user.items, function (index, item) {
+          var imgSrc = item.thumbnail || "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png?20220226140232";
+
           var accountType = item.account_type;
           if (accountType == 1) {
             var personItem = $("<a>").prop({
               class: "person_item",
-              href: "../html/profile_per.html",
-            });
+            })
+            .on("click", function () {
+              window.location.href=`./profile_per.html?userId=${item.id}`;
+            })
             var imgElement = $("<img>").attr({
-              src: item.thumbnail,
+              src: imgSrc,
               //alt: item.name,
             });
             var personInfo = $("<div>").addClass("person_info");
@@ -103,13 +113,15 @@ $(document).ready(function () {
             personItem.append(personInfo);
   
             $(".person_search_list").append(personItem);
-          } else if (accountType == "business") {
+          } else {
             var companyItem = $("<a>").prop({
               class: "company_item",
-              href: "../html/profile_ent.html",
+            })
+            .on("click", function () {
+              window.location.href=`./profile_ent.html?userId=${item.id}`;
             });
             var imgElement = $("<img>").attr({
-              src: item.thumbnail,
+              src: imgSrc,
               //alt: item.name,
             });
             var companyInfo = $("<div>").addClass("company_info");
@@ -134,7 +146,6 @@ $(document).ready(function () {
         $.each(data.hashtag.items, function (index, item) {
           var hashtagItem = $("<a>").prop({
             class: "hashtag_item",
-            href: "../html/profile_per.html",
           });
           var imgElement = $("<img>").attr({
             src: "../image/hashtag.png",
@@ -160,7 +171,7 @@ $(document).ready(function () {
       },
     });
 
-    
+
 
   }, 300));
   

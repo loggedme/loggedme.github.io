@@ -16,7 +16,7 @@ $(document).ready(function (jwtToken) {
         .addClass("img_item")
         .on("click", function(){
           window.location.href=`./single_feed.html?feedId=${item.id}`;
-        })
+        });
         var foryouImgElement = $("<img>").attr({
           src: item.image_urls[0],
           //alt: item.image_urls,
