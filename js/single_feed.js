@@ -35,17 +35,16 @@ var currentUserId = getCurrentUserIdFromSessionStorage();
 
 $(document).ready(function (jwtToken) {
     var jwtToken = getTokenFromSessionStorage();
-    console.log(jwtToken);
     $.ajax({
       url: `http://203.237.169.125:2002/feed/${feedId}`,
       type: "GET",
       dataType: "json",
       headers: {
-        //Authorization: `Bearer ${jwtToken}`,
+            Authorization: `Bearer ${jwtToken}`,
         },
       success: function (data) {
-          console.log(feedId);
-          console.log("sueccess: " + JSON.stringify(data));
+          //console.log(feedId);
+          //console.log("sueccess: " + JSON.stringify(data));
           var currentFeedId = data.id;
                 
           // 전체 아이템 박스
@@ -89,15 +88,34 @@ $(document).ready(function (jwtToken) {
 
           // 옵션 토글 버튼 (점 세 개)
           var optionContent = $("<div>").addClass("option_content").hide();
-          var gotoUserInfo = $("<a>")
-              .addClass("goTo_userInfo")
-              .on("click", function(){
-                  window.location.href=`${userProfileLink}?userId=${data.author.id}`;
-              })
-              .text("이 계정 정보");
-          var saveBtnOption = $("<button>").addClass("save_btn").html("저장하기");
-          optionContent.append(gotoUserInfo, saveBtnOption);
+            
+          if (currentUserId === data.author.id){
+            var editFeed = $("<a>")
+                .addClass("edit_feed")
+                .on("click", function(){
+                    // 피드 수정 페이지 연결
+                    window.location.href=`./edit_feed.html?feedId=${data.id}`;
+                })
+                .text("게시물 수정");
+            var deleteFeedBtn = $("<a>")
+                .addClass("delete_feed")
+                .on("click", function() {
+                    deleteFeed(data.id);
+                })
+                .text("게시물 삭제");
+                optionContent.append(editFeed, deleteFeedBtn);
+          } else {
+            var gotoUserInfo = $("<a>")
+                .addClass("goTo_userInfo")
+                .on("click", function(){
+                    window.location.href=`${userProfileLink}?userId=${data.author.id}`;
+                })
+                .text("이 계정 정보");
+            var saveBtnOption = $("<button>").addClass("save_btn").html("저장하기");
 
+            optionContent.append(gotoUserInfo, saveBtnOption);
+          };
+         
           var optionBtn = $("<button>").addClass("optionBtn").on("click", function() {
               optionContent.toggle();
           });
@@ -455,3 +473,39 @@ $(".close_modal").on("click", function () {
   $(".postComment").empty();
   $("#comment_input").val(null);
 });
+
+
+// 피드 삭제 버튼
+function deleteFeed(feedId) {
+    var jwtToken = getTokenFromSessionStorage();
+    $.ajax({
+        url: `http://203.237.169.125:2002/feed/${feedId}`,
+        type: "DELETE",
+        headers: {
+            Authorization: `Bearer ${jwtToken}`,
+        },
+        success: function (data) {
+            console.log("sueccess: " + JSON.stringify(data));
+            console.log(`피드 삭제 성공: ${feedId}`);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+        if (jqXHR.status === 401) {
+            console.error("Unauthorized:", jqXHR.responseText);
+            alert("로그인이 필요합니다.");
+            window.location.href = "./login.html";
+        } else if (jqXHR.status === 403) {
+            console.error("Forbidden:", jqXHR.responseText);
+            alert("작성한 댓글이 아닙니다.");
+        } else if (jqXHR.status === 404) {
+            console.error("Not found:", jqXHR.responseText);
+            alert("피드가 존재하지 않습니다.");
+            
+        } else {
+                console.error("Error:", jqXHR.status, errorThrown);
+                alert("서버 에러");
+                
+        }
+        },
+    });
+
+}
