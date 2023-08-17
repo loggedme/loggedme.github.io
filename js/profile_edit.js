@@ -122,6 +122,7 @@ function setUserData() {
     },
     success: function (data) {
       console.log(data);
+      window.history.back();
     },
     error: function (jqXHR, textStatus, errorThrown) {
       if (jqXHR.status === 401) {
