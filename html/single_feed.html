@@ -5,13 +5,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/base.css">
-  <!-- <link rel="stylesheet" href="../css/sigle_feed.css"> -->
+  <link rel="stylesheet" href="../css/single_feed.css">
   <title>Document</title>
 </head>
 
 <body>
   <header>
-    <a href="../html/sigle_feed.html">
+    <a href="../html/corporation_feed.html">
         <img src="../image/logo.png" alt="logo">
     </a>
   </header>
@@ -36,31 +36,46 @@
     <div class="feed_list"></div>
 
     <!-- 모달창 -->
-    <!-- <div class="modal">
+    <div class="modal">
       <div class="modal_content">
-        <div class="modal_header">
-          <h2>댓글</h2>
-          <span class="close_modal">&times;</span>
+        <div class="modal_header_container">
+          <div class="modal_header">
+            <h2>댓글</h2>
+            <span class="close_modal">&times;</span>
+          </div>
         </div>
-        <hr>
         <div class="modal_body">
-          <div class="userFeed_container"></div>
+          <div class="feeds_container"></div>
           
-          <hr> -->
+          <hr>
 
           <!-- 댓글 목록을 표시할 컨테이너 -->
-          <!-- <div class="comments_container"></div>
+          <div class="comments_container"></div>
         </div>
-      </div> -->
+
+        <!-- 댓글 작성 컨테이너 -->
+        <div class="postComment">
+          
+        </div>
+      </div>
     </div>
     
-
   </main>
 
   <section class="base_bottom_nav">
-    
+    <a id="bottom_nav_enterprise_btn" class="base_bottom_nav_item" onclick="showCompanyFeed();"><img src="../image/bottom_nav_enterprise.png"
+        alt="enterprise" id="bottom_nav_enterprise_image" class="base_bottom_nav_item_image"></a>
+    <a href="./personal_feed.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_person.png" alt="person"
+        id="bottom_nav_person_image" class="base_bottom_nav_item_image"></a>
+    <a href="search_main.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_search.png" alt="search"
+        id="bottom_nav_search_image" class="base_bottom_nav_item_image"></a>
+    <a href="../html/new_feed2.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_plus.png" alt="addPost"
+        class="base_bottom_nav_plus_image"></a>
+    <a href="../html/profile_ent.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_profile.png" alt="profile"
+        id="bottom_nav_profile_image" class="base_bottom_nav_item_image"></a>
   </section>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<!-- <script src="../js/sigle_feed.js"></script> -->
+<script src="../js/single_feed.js"></script>
+<script src="../js/corporationFeed_function.js"></script>
 </html>

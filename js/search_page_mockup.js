@@ -10,6 +10,7 @@ function getTokenFromSessionStorage() {
 }
 
 $(document).ready(function (jwtToken) {
+  var jwtToken = getTokenFromSessionStorage();
   $.ajax({
     url: "http://203.237.169.125:2002/search?query=foo",
     type: "GET",
