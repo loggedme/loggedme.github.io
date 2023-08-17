@@ -37,8 +37,17 @@ function getTokenFromSessionStorage() {
   return sessionStorage.getItem("jwtToken");
 }
 
-function getBadgeIdFromSessionStorage() {
-  return sessionStorage.getItem("badgeId");
+function getURLBadge() {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get("badgeId");
+}
+
+function getCurrentUserIdFromSessionStorage() {
+  return sessionStorage.getItem("currentUserId");
+}
+
+function getCurrentUserAccountTypeFromSessionStorage() {
+  return sessionStorage.getItem("currentUserAccountType");
 }
 
 //document.ready()
@@ -209,7 +218,7 @@ $(".done_button").click(function () {
     bodyData.users.push(item.userId);
   });
   // console.log(JSON.stringify(bodyData));
-  var badgeId = getBadgeIdFromSessionStorage();
+  var badgeId = getURLBadge();
   // console.log(badgeId);
   $.ajax({
     url: `http://203.237.169.125:2002/badge/${badgeId}/user`,
@@ -223,7 +232,9 @@ $(".done_button").click(function () {
     success: function (responseData) {
       console.log(JSON.stringify(responseData));
       alert("뱃지 부여 성공!");
-      window.location.replace("./profile_ent.html");
+      window.location.replace(
+        `./profile_ent.html?userId=${getCurrentUserIdFromSessionStorage()}`
+      );
     },
     error: function (jqXHR, textStatus, errorThrown) {
       if (jqXHR.status === 400) {
