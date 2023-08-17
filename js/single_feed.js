@@ -1,4 +1,27 @@
 
+
+// 세션에서 받아올 값
+function getTokenFromSessionStorage() {
+    return sessionStorage.getItem("jwtToken");
+  }
+  
+  function getCurrentUserIdFromSessionStorage() {
+    return sessionStorage.getItem("currentUserId");
+  }
+  
+  function getCurrentFeedIdFromSessionStorage() {
+    return sessionStorage.getItem("currentFeedId");
+  }
+  
+  function getCurrentUserAccountTypeFromSessionStorage() {
+    return sessionStorage.getItem("currentUserAccountType");
+  }
+  
+  function getCurrentUserThumbnailFromSessionStorage() {
+    return sessionStorage.getItem("thumbnail");
+  }
+  
+
 // 쿼리 파라미터 가져오기
 // http://127.0.0.1:5500/html/single_feed.html?feedId=1
 let params = new URLSearchParams(window.location.search);
@@ -9,12 +32,17 @@ var CopyUrl = window.document.location.href;
 var userAccountType = getCurrentUserAccountTypeFromSessionStorage();
 var userThumbnail = getCurrentUserThumbnailFromSessionStorage();
 var currentUserId = getCurrentUserIdFromSessionStorage();
-  
+
 $(document).ready(function (jwtToken) {
-  $.ajax({
+    var jwtToken = getTokenFromSessionStorage();
+    console.log(jwtToken);
+    $.ajax({
       url: `http://203.237.169.125:2002/feed/${feedId}`,
       type: "GET",
       dataType: "json",
+      headers: {
+        //Authorization: `Bearer ${jwtToken}`,
+        },
       success: function (data) {
           console.log(feedId);
           console.log("sueccess: " + JSON.stringify(data));
@@ -279,25 +307,27 @@ $(document).ready(function (jwtToken) {
           feedFunctionContainer.append(functionIconContainer, likesNumContainer);
       
           // feed 하단부분 전체 (아이디, 해쉬태그, 내용)
-          // IdHashtag div (아이디, 해쉬태그)
-          var IdHashtag = $("<div>").prop({
-              class: "IdHashtag",
-          });
-          var bottomUserId = $("<a>").prop({
-              class: "bottom_id",
-              textContent: data.author.handle,
-              href: "",
-          });
-          var feedHashtag = $("<a>")
-          .prop({
-              class: "feed_hashtag",
-              textContent: `#${data.tagged_user && data.tagged_user.name !== null ? data.tagged_user.name : "태그된 기업"}`,
-              href: `./profile_per.html?userId=${data.author.id}`
-          })
-          .on("click", function() {
-              window.location.href = $(this).prop("href"); 
-              return false;
-          });
+            // IdHashtag div (아이디, 해쉬태그)
+            var IdHashtag = $("<div>").prop({
+                class: "IdHashtag",
+            });
+            var bottomUserId = $("<a>").prop({
+                class: "bottom_id",
+                textContent: item.author.handle,
+            })
+            .on("click", function () {
+                window.location.href = `${userProfileLink}?userId=${item.author.id}`
+            })
+            var feedHashtag = $("<a>")
+            .prop({
+                class: "feed_hashtag",
+                textContent: `${item.tagged_user && item.tagged_user.name !== null ? item.tagged_user.name : "태그된 기업"}`,
+            })
+            .on("click", function() {
+                if (item.tagged_user && item.tagged_user.id) {
+                    window.location.href = `./profile_ent.html?userId=${item.tagged_user.id}`;
+                }
+            });
 
           IdHashtag.append(bottomUserId, feedHashtag);
 
@@ -425,24 +455,3 @@ $(".close_modal").on("click", function () {
   $(".postComment").empty();
   $("#comment_input").val(null);
 });
-
-// 세션에서 받아올 값
-function getTokenFromSessionStorage() {
-  return sessionStorage.getItem("jwtToken");
-}
-
-function getCurrentUserIdFromSessionStorage() {
-  return sessionStorage.getItem("currentUserId");
-}
-
-function getCurrentFeedIdFromSessionStorage() {
-  return sessionStorage.getItem("currentFeedId");
-}
-
-function getCurrentUserAccountTypeFromSessionStorage() {
-  return sessionStorage.getItem("currentUserAccountType");
-}
-
-function getCurrentUserThumbnailFromSessionStorage() {
-  return sessionStorage.getItem("thumbnail");
-}
