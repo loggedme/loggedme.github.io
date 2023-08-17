@@ -9,6 +9,28 @@
 
   <title>Document</title>
 
+  <style>
+    .section_wrap {
+      width: 100%;
+      padding: 0 2rem;
+      box-sizing: border-box;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.60);
+      display: none;
+    }
+
+    .section_wrap p {
+      color: #000;
+      font-family: Inter;
+      font-size: 0.9375rem;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+    }
+
+    .section {
+      width: 100%;
+    }
+  </style>
 </head>
 
 <body>
@@ -22,7 +44,17 @@
       <div class="notification_main_header_title">Notifications</div>
     </div>
     <div class="notification_main_section">
-
+      <section class="today_section_wrap section_wrap">
+        <p>Today</p>
+        <div class="today_section section"></div>
+      </section>
+      <section class="this_week_section_wrap section_wrap">
+        <p>This_week</p>
+        <div class="this_week_section section"></div>
+      </section>
+      <section class="another_section_wrap section_wrap">
+        <div class="another_section section"></div>
+      </section>
     </div>
   </main>
   <section class="base_bottom_nav">
