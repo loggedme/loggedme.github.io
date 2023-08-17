@@ -514,3 +514,12 @@ a:active {
     margin-left: 5rem;
     margin-top: 0.5rem;
 }
+
+
+img:not([src]) {
+    content: url("https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png?20220226140232");
+  }
+
+img[src=""] {
+content: url("https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png?20220226140232");
+}
