@@ -32,7 +32,8 @@
         .main_header {
             width: 90%;
             display: flex;
-            justify-content: end;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .header_button {
@@ -86,6 +87,21 @@
             height: 5rem;
             border-radius: 100%;
         }
+
+        .edit_button {
+            margin-top: 2rem;
+            background-color: rgba(217, 217, 217, 0.50);
+            border: none;
+            color: #000;
+            font-family: Inter;
+            font-size: 1rem;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+            padding: 0.2rem 1rem;
+            text-align: center;
+            align-items: center;
+        }
     </style>
 </head>
 
@@ -95,6 +111,9 @@
     </header>
     <main>
         <section class="main_header">
+            <a href="javascript:history.back();">
+                <img src="../image/goback.png" alt="" class="goback_btn">
+            </a>
             <div class="button_wrap">
                 <button class="header_button logout">로그아웃</button>
                 <button class="header_button signout">회원탈퇴</button>
@@ -110,6 +129,7 @@
                 <img id="preview" alt="" width="44px" height="44px">
                 <input id="image_input" type="file" hidden>
             </label>
+            <button class="edit_button">EDIT</button>
         </section>
     </main>
     <!--base-->

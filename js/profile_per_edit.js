@@ -1,13 +1,10 @@
-function getURLParam(param) {
-  const urlParams = new URLSearchParams(window.location.search);
-  if (param == "userId") {
-    return urlParams.get("userId");
-  }
-}
-
 // session에 대한 get function
 function getTokenFromSessionStorage() {
   return sessionStorage.getItem("jwtToken");
+}
+
+function getCurrentUserIdFromSessionStorage() {
+  return sessionStorage.getItem("currentUserId");
 }
 
 $(function () {
@@ -16,7 +13,7 @@ $(function () {
 
 function getUserData() {
   var jwtToken = getTokenFromSessionStorage();
-  var userId = getURLParam("userId");
+  var userId = getCurrentUserIdFromSessionStorage();
   $.ajax({
     url: `http://203.237.169.125:2002/user/${userId}`,
     type: "GET",
@@ -70,7 +67,7 @@ $(".logout").click(function () {
 
 $(".signout").click(function () {
   var jwtToken = getTokenFromSessionStorage();
-  var userId = getURLParam("userId");
+  var userId = getCurrentUserIdFromSessionStorage();
   $.ajax({
     url: `http://203.237.169.125:2002/user/${userId}`,
     type: "DELETE",
@@ -94,22 +91,29 @@ $(".signout").click(function () {
   });
 });
 
+$(".edit_button").click(function () {
+  setUserData();
+});
 function setUserData() {
-  var jwtToken = getTokenFromSessionStorage();
-  var userId = getURLParam("userId");
+  const jwtToken = getTokenFromSessionStorage();
+  const userId = getCurrentUserIdFromSessionStorage();
+  const handle = $("#handle").val().trim();
+  const name = $("#name").val().trim();
+  const fileInput = $("#image_input")[0].files[0];
   var profileData = new FormData();
-  var handle = $("#handle").val();
-  var name = $("#name").val();
-  var fileInput = $("#image_input")[0].files[0];
-  profileData.append("handle", handle);
+
+  profileData.append("handle", $("#handle").val());
   profileData.append("name", name);
   profileData.append("profile_image", fileInput);
-
+  console.log(profileData);
+  console.log(handle);
   $.ajax({
     url: `http://203.237.169.125:2002/user/${userId}`,
     type: "PATCH",
     dataType: "json",
     data: profileData,
+    processData: false, // FormData 처리 방지
+    contentType: false, // 컨텐츠 타입 설정 방지
     headers: {
       Authorization: `Bearer ${jwtToken}`,
     },
