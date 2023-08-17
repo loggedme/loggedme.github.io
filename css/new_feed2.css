@@ -28,7 +28,7 @@ body {
 }
 
 .head {
-    padding-top: 5.75rem;
+    padding-top: 3rem;
     margin-bottom: 1.5rem;
     margin-left: 0.88rem;
     margin-right: 0.88rem;
@@ -56,14 +56,14 @@ body {
 /********************* 시작부분!test new_feed1 슬라이더 ********************/
 .new_feed1 {
     position: relative;
-    width: 430px;
-    height: 863.33px;
+    width: 360px;
+    height: 710px;
 }
 
 .new_feed2 {
     position: relative;
-    width: 430px;
-    height: 863.33px;
+    width: 360px;
+    height: 710px
 }
 
 #Next {
@@ -71,11 +71,18 @@ body {
 }
 
 /* preview 이미지 구간 */
+#new_post_image {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    width: 100%;
+}
+
 #preview_image {
-    display: block;
-    margin: auto;
-    width: 22.75rem;
-    height: 23.375rem;
+    display: flex;
+    align-items: center;
+    width: 100px;
+    height: 360px;
 }
 
 /* 추가한 이미지 구간 */
@@ -85,8 +92,6 @@ body {
 }
 
 .photo_add {
-    width: 22.75rem;
-    height: 20rem;
 }
 
 .preview_title {
@@ -109,16 +114,17 @@ body {
 
 /* 추가된 이미지의 크기 결정 */
 .embed-img {
-    width: 5.5rem;
-    height: 5.4375rem;
+    width: 3rem;
+    height: 3rem;
     object-position: center;
     object-fit: cover;
 }
 
 /* 상단 preview 이미지 */
 .preview_image {
-    width: 22.75rem;
-    height: 23.375rem;
+    margin-left: 15px;
+    width: 330px;
+    height: 350px;
 }
 /********************* 끝 부분!test new_feed1 슬라이더 ********************/
 
@@ -141,15 +147,15 @@ body {
 /* 이미지 보이는 부분 */
 .slider__img {
     position: relative;
-    width: 364px;
-    height: 374px;
+    width: 330px;
+    height: 330px;
     overflow: hidden;
 }
 
 .page__img {
     position: relative;
-    width: 430px;
-    height: 863.33px;
+    width: 360px;
+    height: 710px;
     overflow: hidden; 
 }
 
@@ -157,23 +163,23 @@ body {
 .page__inner {
     display: flex;
     flex-wrap: wrap;
-    width: 860px;
-    height: 863.33px;
+    width: 720px;
+    height: 710px;
 }
 
 /* 이미지 감싸고 있는 부모 : 움직이는 부분 */
 .slider__inner {
     display: flex;
     flex-wrap: wrap;
-    /* 총 이미지 6개 */
-    width: 2184px;
-    height: 374px;
+    /* 총 이미지 10개 */
+    width: 3300px;
+    height: 330px;
 }
 /* 개별적인 이미지 */
 .slider {
     position: relative;
-    width: 364px;
-    height: 374px;
+    width: 330px;
+    height: 330px;
 }
 .slider img{
     width: 100%;
@@ -241,6 +247,7 @@ body {
 }
 
 #profile {
+    margin-left: 15px;
     width: 48px;
     height: 46px;
     border-radius: 70%;

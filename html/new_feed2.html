@@ -31,8 +31,10 @@
                         </div>
 
                         <main class="main_body">
-                            <div id="preview_image">
+                            <div id="new_post_image">
+                                <div id="preview_image">
 
+                                </div>
                             </div>
                             <div class="photo_add">
                                 <div class="container">
@@ -82,6 +84,12 @@
                                 </div>
                                 <input id="text" type="text" onchange="giveText()" name="content" maxlength="120"
                                     placeholder="Write a caption...">
+                                <!-- 
+                                    input으로 text를 입력하는 것에 있어서 개행과 줄바꿈, 입력의 시작점 상단 설정이 불가능 하다.
+                                    가능한 방법은 textarea 또는 pre 태그 같은 놈들 이용
+                                    그러고 위에 id="text"의 input태그의 value값에 textarea의 value 값을 넣어주고
+                                    input type=text인 태그를 백에 전송해 주는 방법 밖에 없다.
+                                -->
                             </div>
 
                             <!-- 기업 태그 부분(모달창 띄우기 버튼)-->
