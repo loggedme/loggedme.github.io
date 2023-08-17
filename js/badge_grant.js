@@ -93,7 +93,7 @@ function setPersonData(data) {
     });
 
     var imgElement = $("<img>").attr({
-      src: item.image,
+      src: item.thumbnail,
       alt: item.name,
       class: "item_image",
     });
