@@ -88,8 +88,8 @@ $(".certification_check_btn").click(function () {
     $.ajax({
       url: "http://203.237.169.125:2002/auth/validation/check",
       type: "POST",
-      data: JSON.stringify(postData),
-      contentType: "application/json",
+      data: postData,
+      // contentType: "application/json",
       success: function (data) {
         alert("인증 성공");
         setIsCertification(true);
@@ -143,9 +143,7 @@ $(".reset_password_main_btn").click(function () {
     $.ajax({
       url: "http://203.237.169.125:2002/auth/reset-password",
       type: "POST",
-      dataType: "json",
-      data: JSON.stringify(postData),
-      contentType: "application/json",
+      data: postData,
       success: function (data) {
         alert("변경에 성공했습니다.");
         console.log(data);
