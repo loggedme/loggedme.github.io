@@ -91,6 +91,7 @@ $.ajax({
       badgeDescription.push(item.description);
     });
 
+    
     //----------------------------------------------------
   },
   error: function (jqXHR, textStatus, errorThrown) {
@@ -200,3 +201,10 @@ function GoToFeed(num) {
 
 showFeed(FeedList); // 피드의 개수에 따라 보여줄 화면에 대한 함수
 showBadge();
+
+
+$('.edit_btn').click(function () {
+  /* 프로필 수정 시 userId가 필요하지 않음(나중에 필요할 지도 모르니까 놔둬)
+    window.location.href = `./profile_edit.html?userId=${data.id}`; 
+    */
+})
