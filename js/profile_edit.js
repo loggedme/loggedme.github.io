@@ -22,7 +22,7 @@ function getUserData() {
       Authorization: `Bearer ${jwtToken}`,
     },
     success: function (data) {
-      console.log(data.user);
+      // console.log(data.user);
       $("#handle").attr("value", data.user.handle);
       $("#name").attr("value", data.user.name);
       $("#preview").attr("src", data.user.thumbnail);
@@ -105,10 +105,7 @@ function setUserData() {
   profileData.append("handle", $("#handle").val());
   profileData.append("name", name);
   profileData.append("profile_image", fileInput);
-  console.log(profileData);
-  console.log(handle);
-  console.log(name);
-  console.log(fileInput);
+
   $.ajax({
     url: `http://203.237.169.125:2002/user/${userId}`,
     // type: "PATCH",
@@ -121,7 +118,6 @@ function setUserData() {
       Authorization: `Bearer ${jwtToken}`,
     },
     success: function (data) {
-      console.log(data);
       window.history.back();
     },
     error: function (jqXHR, textStatus, errorThrown) {

@@ -33,8 +33,7 @@ function getDataforPageInit(param) {
       Authorization: `Bearer ${jwtToken}`,
     },
     success: function (data) {
-      console.log(data);
-      console.log("sueccess: " + JSON.stringify(data.items));
+      // console.log("sueccess: " + JSON.stringify(data.items));
       $.each(data.items, function (index, item) {
         var itemElement = $("<a>").prop({
           class: "item_element",
@@ -107,8 +106,6 @@ function initUserHandle() {
 $(document).on("click", ".item_element", function () {
   let userId = $(this).attr("id").slice(4, -1);
   let userAccountType = $(this).attr("id").slice(-1);
-  console.log(userId);
-  console.log(userAccountType);
   profileClickHandler(userId, userAccountType);
 });
 // following button click event
@@ -150,7 +147,7 @@ $(".follow_list_main_search_input").on("input", function () {
     // console.log(query);
     $(".item_userName").each(function () {
       var personName = $(this).text().toLowerCase();
-      console.log(personName);
+      // console.log(personName);
       if (personName.includes(query)) {
         $(this).parent().show();
       } else {
@@ -223,7 +220,7 @@ function unfollowHandler(userId) {
       Authorization: `Bearer ${jwtToken}`,
     },
     success: function (data) {
-      console.log("팔로우 취소: " + JSON.stringify(data));
+      // console.log("팔로우 취소: " + JSON.stringify(data));
     },
     error: function (jqXHR, textStatus, errorThrown) {
       if (jqXHR.status === 401) {
@@ -252,7 +249,7 @@ function followHandler(userId) {
       Authorization: `Bearer ${jwtToken}`,
     },
     success: function (data) {
-      console.log("팔로우 성공: " + JSON.stringify(data));
+      // console.log("팔로우 성공: " + JSON.stringify(data));
     },
     error: function (jqXHR, textStatus, errorThrown) {
       if (jqXHR.status === 401) {
