@@ -293,25 +293,27 @@ $(document).ready(function (jwtToken) {
               feedFunctionContainer.append(functionIconContainer, likesNumContainer);
           
               // feed 하단부분 전체 (아이디, 해쉬태그, 내용)
-              // IdHashtag div (아이디, 해쉬태그)
-              var IdHashtag = $("<div>").prop({
-                  class: "IdHashtag",
-              });
-              var bottomUserId = $("<a>").prop({
-                  class: "bottom_id",
-                  textContent: item.author.handle,
-                  href: "",
-              });
-              var feedHashtag = $("<a>")
-              .prop({
-                  class: "feed_hashtag",
-                  textContent: `#${item.tagged_user && item.tagged_user.name !== null ? item.tagged_user.name : "태그된 기업"}`,
-                  href: `./profile_per.html?userId=${item.author.id}`
-              })
-              .on("click", function() {
-                  window.location.href = $(this).prop("href"); 
-                  return false;
-              });
+                // IdHashtag div (아이디, 해쉬태그)
+                var IdHashtag = $("<div>").prop({
+                    class: "IdHashtag",
+                });
+                var bottomUserId = $("<a>").prop({
+                    class: "bottom_id",
+                    textContent: item.author.handle,
+                })
+                .on("click", function () {
+                    window.location.href = `${userProfileLink}?userId=${item.author.id}`
+                })
+                var feedHashtag = $("<a>")
+                .prop({
+                    class: "feed_hashtag",
+                    textContent: `${item.tagged_user && item.tagged_user.name !== null ? item.tagged_user.name : "태그된 기업"}`,
+                })
+                .on("click", function() {
+                    if (item.tagged_user && item.tagged_user.id) {
+                        window.location.href = `./profile_ent.html?userId=${item.tagged_user.id}`;
+                    }
+                });
 
               IdHashtag.append(bottomUserId, feedHashtag);
 

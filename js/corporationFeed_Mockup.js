@@ -24,16 +24,15 @@ $(document).ready(function (jwtToken) {
         },
         success: function (data) {
             
-            //console.log("sueccess: " + JSON.stringify(data));
+            console.log("sueccess: " + JSON.stringify(data.items));
         
             $.each(data.items, function (index, item) {
                 var currentFeedId = item.id;
-                
                 //console.log(currentFeedId);
 
                 // 전체 아이템 박스
                 var feedItem = $("<div>").prop({
-                    class: "feed_item",
+                    class: "feed_item" + currentFeedId,
                 });
                 var feedInfo = $("<div>").prop({
                     class: "feed_info",
@@ -48,7 +47,7 @@ $(document).ready(function (jwtToken) {
                 })
                 //유저 프로필 링크, 회원유형에 따라 구분
                 var userProfileLink = "";
-                if (userAccountType === "personal") {
+                if (userAccountType === 1) {
                     userProfileLink = "./profile_per.html";
                 } else {
                     userProfileLink = "./profile_ent.html";
@@ -94,6 +93,7 @@ $(document).ready(function (jwtToken) {
                 feedTopContainer.append(feedTop, optionContent);
 
                 // feed 이미지
+               
                 var imgUrls = item.image_urls;
                 var imageContainer = $("<div>").addClass("image_container");
                 var imageAlbum = $("<div>").addClass("image_album");
@@ -302,17 +302,19 @@ $(document).ready(function (jwtToken) {
                 var bottomUserId = $("<a>").prop({
                     class: "bottom_id",
                     textContent: item.author.handle,
-                    href: "",
-                });
+                })
+                .on("click", function () {
+                    window.location.href = `${userProfileLink}?userId=${item.author.id}`
+                })
                 var feedHashtag = $("<a>")
                 .prop({
                     class: "feed_hashtag",
-                    textContent: `#${item.tagged_user && item.tagged_user.name !== null ? item.tagged_user.name : "태그된 기업"}`,
-                    href: `./profile_per.html?userId=${item.author.id}`
+                    textContent: `${item.tagged_user && item.tagged_user.name !== null ? item.tagged_user.name : "태그된 기업"}`,
                 })
                 .on("click", function() {
-                    window.location.href = $(this).prop("href"); 
-                    return false;
+                    if (item.tagged_user && item.tagged_user.id) {
+                        window.location.href = `./profile_ent.html?userId=${item.tagged_user.id}`;
+                    }
                 });
 
                 IdHashtag.append(bottomUserId, feedHashtag);
@@ -356,6 +358,11 @@ $(document).ready(function (jwtToken) {
                 feedItem.append(feedTopContainer, imageContainer, feedFunctionContainer, feedInfo);
                 $(".feed_list").append(feedItem);
                 
+                $(".feed_list").sort(function(a, b) {
+                    var dateA = new Date(a.created_at);
+                    var dateB = new Date(b.created_at);
+                    return dateB - dateA; 
+                  });
 
                 // 함수들
                 // 이미지 슬라이드
