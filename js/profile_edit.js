@@ -107,9 +107,12 @@ function setUserData() {
   profileData.append("profile_image", fileInput);
   console.log(profileData);
   console.log(handle);
+  console.log(name);
+  console.log(fileInput);
   $.ajax({
     url: `http://203.237.169.125:2002/user/${userId}`,
-    type: "PATCH",
+    // type: "PATCH",
+    type: "PUT",
     dataType: "json",
     data: profileData,
     processData: false, // FormData 처리 방지
