@@ -28,7 +28,7 @@
     </div>
     <div class="information">   <!-- 프사 , post, 팔로워, 팔로잉, 이름(이건 프사 밑으로)-->
         <div class="information_inner">   
-            <div class="profile_img"><img src="../image/new_feed1_rectangle.png" class="pro_img"></div>
+            <div class="profile_img"><img src="../image/new_feed1_rectangle.png" id="pro_img"></div>
             <div class="pff">
                 <div id="post" class="pff_product">
                     <p class="number">50</p>
@@ -48,13 +48,15 @@
     </div>
   </header>
   <main id="main">
-    <div class="edit_profile_btn">
-        <button class="edit_btn"><a href="../html/profile_per_edit.html">edit profile</a></button>
+    <div class="edit_profile_btn">        
+        <button class="follow_btn">follow</button>
+        <button class="edit_btn"><a href="../html/profile_edit.html">edit profile</a></button>
     </div>
     <div class="badge_field">
         <div class="badge_inner">
-            <!-- 밑에 badge는 그냥 예시(더미). 없애도 무관-->
-            <div class="badge" id="badge1" value=""><img class="open_modal" onclick="badgeClicked(0)" src="../image/free-icon-faved-mark-20414 1.png"></div>
+            <!-- 밑에 badge는 그냥 예시(더미). 없애도 무관
+            <div class="badge" id="badge0" value=""><img class="open_modal" onclick="badgeClicked(0)" src="../image/free-icon-faved-mark-20414 1.png"></div>
+            -->
         </div>
     </div>
     <div class="feed_slide">
