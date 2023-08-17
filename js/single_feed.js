@@ -313,19 +313,19 @@ $(document).ready(function (jwtToken) {
             });
             var bottomUserId = $("<a>").prop({
                 class: "bottom_id",
-                textContent: item.author.handle,
+                textContent: data.author.handle,
             })
             .on("click", function () {
-                window.location.href = `${userProfileLink}?userId=${item.author.id}`
+                window.location.href = `${userProfileLink}?userId=${data.author.id}`
             })
             var feedHashtag = $("<a>")
             .prop({
                 class: "feed_hashtag",
-                textContent: `${item.tagged_user && item.tagged_user.name !== null ? item.tagged_user.name : "태그된 기업"}`,
+                textContent: `${data.tagged_user && data.tagged_user.name !== null ? data.tagged_user.name : "태그된 기업"}`,
             })
             .on("click", function() {
-                if (item.tagged_user && item.tagged_user.id) {
-                    window.location.href = `./profile_ent.html?userId=${item.tagged_user.id}`;
+                if (data.tagged_user && data.tagged_user.id) {
+                    window.location.href = `./profile_ent.html?userId=${data.tagged_user.id}`;
                 }
             });
 
