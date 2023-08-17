@@ -1,413 +1,448 @@
-$(document).ready(function () {
-    $("#bottom_nav_enterprise_image").attr(
-      "src",
-      "../image/bottom_nav_enterprise_black.png"
-    );
+
+// 쿼리 파라미터 가져오기
+// http://127.0.0.1:5500/html/single_feed.html?feedId=1
+let params = new URLSearchParams(window.location.search);
+let feedId = params.get("feedId");
+
+var CopyUrl = window.document.location.href;
+
+var userAccountType = getCurrentUserAccountTypeFromSessionStorage();
+var userThumbnail = getCurrentUserThumbnailFromSessionStorage();
+var currentUserId = getCurrentUserIdFromSessionStorage();
   
-    // 모달창 닫기 버튼 클릭 시 모달창을 닫도록 이벤트를 추가합니다.
-    $(".close_modal").on("click", function () {
-      $(".modal").css("display", "none");
-    });
-  });
-  
-  // 모달창을 열고 댓글 목록을 표시하는 함수
-  function openModal(feedId, data) {
-    var commentsForFeed = data.filter(function (comment) {
-      return comment.feedId === feedId;
-    });
-  
-    var commentsHtml = commentsForFeed
-      .map(function (comment) {
-        return `
-          <div class="comment_item">
-            <div style="margin-right: 0.5rem; font-weight: bold;">${comment.userId}</div>
-            <div class="comment_script">${comment.commentScript}</div>
-          </div>
-        `;
-      })
-      .join("");
-  
-    $(".userFeed_container").html(commentsHtml);
-    $(".modal").css("display", "block");
-  }
-
-// mock data
-$.getJSON("../mock/singleFeedData.json", function (data) {
-    console.log(data);
-  
-   
-    $.each(data, function (index, item) {
-      var feedInfo = $("<div>").addClass("feed_info");
-      var feedItem = $("<div>").addClass("feed_item");
-  
-      // feed 상단 부분 사용자 사진, 아이디
-      var feedTopContainer = $("<div>").addClass("feedTop_container");
-      var feedTop = $("<div>").addClass("feed_top");
-  
-      var profileInfo = $("<div>").addClass("profile_info");
-      var profileImg = $("<img onclick=location.href='#';>").attr({
-          src: item.profileImgSrc,
-          alt: item.taggedCompany,
-        });
-      var userId = $("<div onclick=location.href='#';>")
-        .addClass("user_id")
-        .text(item.userId);
-  
-      profileInfo.append(profileImg, userId);
-
-      // 드롭다운 옵션 버튼 
-      var optionContent = $("<div style=display:none;>").addClass("option_content");
-      var gotoUserInfo = $("<button type=button>").addClass("goTo_userInfo").html("이 계정 정보");
-      var saveBtnOption = $("<button type=button>")
-      .addClass("save_btn")
-      .html("저장하기")
-      .on("click", function() {
-        var currentSrc = saveImg.attr("src");
-        var newSrc = currentSrc === "../image/save.png" ? "../image/filled_save.png" : "../image/save.png";
-        saveImg.attr("src", newSrc);
-
-        if (saveLink.hasClass("filled_save_link")) {
-          saveLink.removeClass("filled_save_link");
-          saveLink.addClass("save_link");
-         
-      } else {
-          saveLink.removeClass("save_link");
-          saveLink.addClass("filled_save_link");
-          
-      }
-      });
-      var unfollowBtn = $("<button type=button>").addClass("unfollow_btn").html("팔로우 취소");
-      
-      optionContent.append(gotoUserInfo, saveBtnOption, unfollowBtn);
-
-      var optionBtn = $("<button style=background-color:transparent;border:none;>")
-      .addClass("optionBtn")
-      .on("click", function() {
-        optionContent.toggle();
-      })
-      var optionImg = $("<img>").attr({
-        src: "../image/option_btn.png",
-        alt: "optionButton",
-      });
-      optionBtn.append(optionImg);
-  
-      feedTop.append(profileInfo, optionBtn);
-      feedTopContainer.append(feedTop, optionContent);
-  
-  
-      // feed 이미지
-      var feedImgList = item.feedImgList;
-      var imageContainer = $("<div>").addClass("image_container");
-      var imageAlbum = $("<div>").addClass("image_album");
-      var images = [];
-
-      var btnContainer = $("<div>").addClass("btn_container");
-
-      var prevBtn = $("<button>").addClass("previous");
-      var prevImg = $("<img>").attr({
-        src: "../image/new_feed2_leftarrow.png",
-        alt: "prevButton",
-      });
-      prevBtn.append(prevImg);
-
-      var nextBtn = $("<button>").addClass("next");
-      var nextImg = $("<img>").attr({
-        src: "../image/new_feed2_rightarrow.png",
-        alt: "nextButton",
-      });
-      nextBtn.append(nextImg);
-
-      var currentSlideIndex = 0; // 현재 이미지 인덱스
-      var sliding = false;
-
-      // 이미지들 images 배열에 넣기
-      $.each(feedImgList, function (imgIndex, imgItem) {
-        var feedImg = $("<img>").attr({
-          src: imgItem.feedImg,
-          alt: "Image " + imgItem.imgId,
-          class: "feed_image",
-        });
-
-        images.push(feedImg);
-      });
-
-      // 첫 번째 이미지 추가
-      imageAlbum.append(images[currentSlideIndex]);
-
-      prevBtn.prop("disabled", true);
-
-      prevBtn.on("click", goToPrev);
-
-        // 이미지 슬라이드 함수
-        function goToPrev() {
-          if (!sliding) {
-              sliding = true;
-              currentSlideIndex = (currentSlideIndex - 1 + images.length) % images.length;
-              updateSlide();
-            } 
-        }
-
-        function goToNext() {
-          if (!sliding) {
-              sliding = true;
-              currentSlideIndex = (currentSlideIndex + 1) % images.length;
-              updateSlide();
-            }
-        }
-
-      nextBtn.on("click", function () {
-        if (!sliding) {
-          sliding = true;
-          currentSlideIndex = (currentSlideIndex + 1) % images.length;
-          updateSlide();
-        }
-      });
-
-      // 이미지 슬라이드 현재 위치 점 표시
-
-      // 이미지 슬라이드 점들 추가
-      var slideDots = $("<div>").addClass("slide_dots");
-      var slideDotsList = [];
-
-      for (var i = 0; i < feedImgList.length; i++) {
-        var dot = $("<div>").addClass("dot").html(" ");
-        slideDots.append(dot);
-        slideDotsList.push(dot);
-      }
-      
-      // 점들에 .dot 클래스 부여 후 슬라이드 점들 추가
-      slideDotsList[0].addClass("active_dot");
- 
-      // 이미지 슬라이드 점 클릭 이벤트
-      $(".dot").on("click", function () {
-        if (!sliding) {
-          var index = $(this).index();
-          if (index !== currentSlideIndex) {
-            sliding = true;
-            currentSlideIndex = index;
-            updateSlide();
-          }
-        }
-      });
-
-      // 이미지 슬라이드 업데이트
-      function updateSlide() {
-        imageAlbum.empty(); 
-        imageAlbum.append(images[currentSlideIndex]);
-        
-       slideDotsList.forEach(function(dot, index) {
-        if (index === currentSlideIndex){
-          dot.addClass("active_dot");
-        } else {
-          dot.removeClass("active_dot");
-        }
-       });
-
-        sliding = false;
-
-        // prevBtn과 nextBtn 처음과 끝일 때 버튼 사용 X
-        if (currentSlideIndex === 0) {
-          prevBtn.prop("disabled", true);
-        } else {
-          prevBtn.prop("disabled", false);
-        }
-
-        if (currentSlideIndex === images.length - 1) {
-          nextBtn.prop("disabled", true);
-        } else {
-          nextBtn.prop("disabled", false);
-        }
-      }
-
-      btnContainer.append(prevBtn, nextBtn);
-      imageContainer.append(imageAlbum, btnContainer, slideDots);
-        
-      // 기능 버튼 아이콘 (좋아요, 댓글, 공유, 저장)
-      var feedFunctionContainer = $("<div>").addClass("feedFunction_container");
-      var functionIconContainer = $("<div>").addClass("functionIcon_container");
-      var functionIconItem = $("<div>").addClass("functionIcon_item");
-  
-      var heartImg = $("<img>").attr({
-        id: "heart",
-        src: "../image/heart.png",
-        alt: "heart",
-        width: "38rem",
-        style: "padding-top: 0.1rem;",
-      });
-      var heartLink = $("<button type=button>")
-      .addClass("heart_link")
-      .on("click", function() {
-          var currentSrc = heartImg.attr("src");
-          var newSrc = currentSrc === "../image/heart.png" ? "../image/filled_heart.png" : "../image/heart.png";
-          heartImg.attr("src", newSrc);
-
-          if (heartLink.hasClass("filled_heart_link")) {
-              heartLink.removeClass("filled_heart_link");
-              heartLink.addClass("heart_link");
+$(document).ready(function (jwtToken) {
+  $.ajax({
+      url: `http://203.237.169.125:2002/feed/${feedId}`,
+      type: "GET",
+      dataType: "json",
+      success: function (data) {
+          console.log(feedId);
+          console.log("sueccess: " + JSON.stringify(data));
+          var currentFeedId = data.id;
+                
+          // 전체 아이템 박스
+          var feedItem = $("<div>").prop({
+              class: "feed_item",
+          });
+          var feedInfo = $("<div>").prop({
+              class: "feed_info",
+              id: "feedInfo" + data.id,
+          });
+          // feed 상단 부분 사용자 사진, 아이디
+          var feedTopContainer = $("<div>").prop({
+              class: "feedTop_container"
+          });
+          var feedTop =$("<div>").prop({
+              class: "feed_top",
+          })
+          //유저 프로필 링크, 회원유형에 따라 구분
+          var userProfileLink = "";
+          if (userAccountType === "personal") {
+              userProfileLink = "./profile_per.html";
           } else {
+              userProfileLink = "./profile_ent.html";
+          }
+
+          // 사용자 프로필 정보 컨테이너
+          var profileInfo = $("<a>")
+          .addClass("profile_info")
+          .on("click", function() {
+              window.location.href=`${userProfileLink}?userId=${data.author.id}`;
+          });
+          var profileImg = $("<img>").attr({
+              src: data.author.thumbnail,
+              alt: data.author.id,
+          });
+          var userId = $("<div>").prop({
+              class: "user_id",
+              textContent: `${data.author.handle}`,
+          });
+          profileInfo.append(profileImg, userId);
+
+          // 옵션 토글 버튼 (점 세 개)
+          var optionContent = $("<div>").addClass("option_content").hide();
+          var gotoUserInfo = $("<a>")
+              .addClass("goTo_userInfo")
+              .on("click", function(){
+                  window.location.href=`${userProfileLink}?userId=${data.author.id}`;
+              })
+              .text("이 계정 정보");
+          var saveBtnOption = $("<button>").addClass("save_btn").html("저장하기");
+          optionContent.append(gotoUserInfo, saveBtnOption);
+
+          var optionBtn = $("<button>").addClass("optionBtn").on("click", function() {
+              optionContent.toggle();
+          });
+          var optionImg = $("<img>").attr({
+              src: "../image/option_btn.png",
+              alt: "optionButton",
+          });
+          optionBtn.append(optionImg);
+      
+          feedTop.append(profileInfo, optionBtn);
+          feedTopContainer.append(feedTop, optionContent);
+
+          // feed 이미지
+          var imgUrls = data.image_urls;
+          var imageContainer = $("<div>").addClass("image_container");
+          var imageAlbum = $("<div>").addClass("image_album");
+          var images = [];
+
+          var btnContainer = $("<div>").addClass("btn_container");
+
+          var prevBtn = $("<button>").addClass("previous");
+          var prevImg = $("<img>").attr({
+              src: "../image/new_feed2_leftarrow.png",
+              alt: "prevButton",
+          });
+          prevBtn.append(prevImg);  
+
+          var nextBtn = $("<button>").addClass("next");
+          var nextImg = $("<img>").attr({
+              src: "../image/new_feed2_rightarrow.png",
+              alt: "nextButton",
+          });
+          nextBtn.append(nextImg);
+
+          var currentSlideIndex = 0; // 현재 이미지 인덱스
+          var sliding = false;
+
+          // 이미지들 images 배열에 넣기
+          $.each(imgUrls, function (imgIndex, imgUrl) {
+              var feedImg = $("<img>").attr({
+                  src: imgUrl,
+                  alt: "Image " + (imgIndex + 1), 
+                  class: "feed_image",
+              });
+
+              images.push(feedImg);
+          });       
+          // 첫 번째 이미지 추가
+          imageAlbum.append(images[currentSlideIndex]);
+          prevBtn.prop("disabled", true);
+          prevBtn.on("click", goToPrev);
+          nextBtn.on("click", goToNext);
+          // 이미지 슬라이드 점들 추가
+          var slideDots = $("<div>").addClass("slide_dots");
+          var slideDotsList = [];
+          for (var i = 0; i < imgUrls.length; i++) {
+              var dot = $("<div>").addClass("dot").html(" ");
+              slideDots.append(dot);
+              slideDotsList.push(dot);
+          }
+          // 점들에 .dot 클래스 부여 후 슬라이드 점들 추가
+          if (slideDotsList.length > 0) {
+              slideDotsList[0].addClass("active_dot");
+          };
+          // 이미지 슬라이드 점 클릭 이벤트
+          $(".dot").on("click", dotClick);
+          btnContainer.append(prevBtn, nextBtn);
+          imageContainer.append(imageAlbum, btnContainer, slideDots);
+
+          // 기능 버튼 아이콘 (좋아요, 댓글, 공유, 저장)
+          var feedFunctionContainer = $("<div>").addClass("feedFunction_container");
+          var functionIconContainer = $("<div>").addClass("functionIcon_container");
+          var functionIconItem = $("<div>").addClass("functionIcon_item");
+      
+          var heartImg = $("<img>").attr({
+              id: "heart",
+              src: "../image/heart.png",
+              alt: "heart",
+              width: "38rem",
+              style: "padding-top: 0.1rem;",
+          });
+          var heartLink = $("<button type=button>")
+          .addClass("heart_link")
+          .on("click", function() {
+            var currentSrc = heartImg.attr("src");
+            var newSrc;
+
+            if (heartLink.hasClass("filled_heart_link") && currentSrc === "../image/filled_heart.png" && data.is_liked == true) {
+                newSrc = "../image/heart.png";
+                heartLink.removeClass("filled_heart_link");
+                heartLink.addClass("heart_link");
+                data.is_liked = false;
+                unlikedFeed(currentFeedId);
+            } else {
+                newSrc = "../image/filled_heart.png";
+                heartLink.addClass("filled_heart_link");
+                heartLink.removeClass("heart_link");
+                data.is_liked = true;
+                likedFeed(currentFeedId);
+            }
+
+            heartImg.attr("src", newSrc);
+          });
+          // 현재 src가 is_liked의 참/거짓 여부에 따라 바뀌게
+          var currentSrc = data.is_liked ? "../image/filled_heart.png" : "../image/heart.png";
+          heartImg.attr("src", currentSrc);
+
+          // 현재 src에 따라 heartLink의 클래스 이름을 고치기
+          if (currentSrc === "../image/filled_heart.png") {
               heartLink.removeClass("heart_link");
               heartLink.addClass("filled_heart_link");
+          } else {
+              heartLink.removeClass("filled_heart_link");
+              heartLink.addClass("heart_link");
           }
 
-          
-        });
-
-      heartLink.append(heartImg);
-
-      heartLink.append(heartImg);
-
-  
-      var commentLink = $("<button type=button id=comment_btn>")
-      .addClass("comment_link")
-      .on("click", function () {
-        openModal(item.feedId, data); 
-      });
-      var commentImg = $("<img>").attr({
-        src: "../image/comment.png",
-        alt: "comment",
-        width: "31rem",
-        style: "margin-left: 0.3rem; padding-top: 0.1rem;",
-      });
-      commentLink.append(commentImg);
-  
-      var shareLink = $("<button type=button>").addClass("share_link");
-      var shareImg = $("<img>").attr({
-        src: "../image/share.png",
-        alt: "shareBtn",
-        width: "40rem",
-        style: "margin-left: 0.4rem; padding-top: 0.2rem;",
-      });
-      shareLink.append(shareImg);
-      functionIconItem.append(heartLink, commentLink, shareLink);
-      
-      var saveImg = $("<img>").attr({
-        src: "../image/save.png",
-        alt: "saveBtn",
-        width: "32rem",
-      });
-      var saveLink = $("<button type=button>")
-      .addClass("save_link")
-      .on("click", function () {
-        var currentSrc = saveImg.attr("src");
-        var newSrc = currentSrc === "../image/save.png" ? "../image/filled_save.png" : "../image/save.png";
-        saveImg.attr("src", newSrc);
-      });
-      
-      saveLink.append(saveImg);
-  
-      functionIconContainer.append(functionIconItem, saveLink);
-      
-  
-  
-      // 좋아요 수
-      var likesContainer = $("<div>").addClass("likesNum_container");
-  
-      var likesNum = item.likesNum;
-      likesContainer = likesNum + '명이 좋아합니다.';
-  
-      var likesNumContainer = $("<div>")
-        .addClass("likesNum_container")
-        .text(likesContainer);
-  
-      // 기능목록 flex 합치기
-      feedFunctionContainer.append(functionIconContainer, likesNumContainer);
-  
-  
-  
-      // feed 하단부분 전체(아이디, 해쉬태그, 내용)
-      
-      // IdHashtag div (아이디, 해쉬태그)
-      var IdHashtag = $("<div>").addClass("IdHashtag");
-  
-      var bottomUserId = $("<div onclick=location.href='#';>")
-        .addClass("bottom_id")
-        .text(item.userId);
-  
-      var feedHashtag = $("<div onclick=location.href='#'; style=color:#3E93E1>")
-        .addClass("feed_hashtag")
-        .text(item.hashtag);
-  
-      IdHashtag.append(bottomUserId, feedHashtag);
-  
-      // feed 내용
-      var feedScript = $("<div>")
-        .addClass("feed_script")
-        .text(item.script);
-  
-  
-      // 업로드 날짜 (현재로부터 얼마 전인지) 표시
-      var uploaded_date = $("<div>").addClass("uploaded_date");
-  
-      var uploadDate = new Date(item.uploadDate.replace(/-/g, "/"));
-      var currentDate = new Date();
-      var timeDiffInMilliseconds = currentDate - uploadDate;
-  
-      var timeDiffInHours = Math.floor(timeDiffInMilliseconds / (1000 * 60 * 60));
-      var timeDiffInDays = Math.floor(timeDiffInHours / 24);
-  
-      var uploadDateString = timeDiffInHours < 24 ? timeDiffInHours + '시간 전 게시' : timeDiffInDays + '일 전 게시';
-  
-      var uploadedDate = $("<div>")
-        .addClass("uploaded_date")
-        .text(uploadDateString);
-  
-      uploaded_date.append(uploadedDate);
-  
-      feedInfo.append(IdHashtag,feedScript ,uploaded_date);
-  
-  
-      // 댓글 Mock 데이터
-      $.getJSON("../mock/commentData.json", function (commentsData) {
-        console.log(commentsData);
-  
-        var commentsForFeed = commentsData.filter(function (comment) {
-          return comment.feedId === item.feedId;
-        });
-  
-        // 댓글 수, 목록을 포함하는 컨테이너
-        var commentContainer = $("<div>").addClass("comment_container");
-        var commentList = $("<div>").addClass("comment_list");
-          
-        // 최대 2개까지만 댓글 보이게
-        $.each(commentsForFeed.slice(0, 2), function (
-          index, item
-        ) {
-          // 댓글 목록 리스트 컨테이너
-          var commentItem = $("<div>").addClass("comment_item");
-          var commentUserId = $("<div style= margin-right:0.5rem;font-weight:bold;>")
-            .addClass("commentUser_id")
-            .text(item.userId);
-  
-          var commentScript = $("<div>")
-            .addClass("comment_script")
-            .text(item.commentScript);
-  
-          commentItem.append(commentUserId, commentScript);
-          commentList.append(commentItem);
-        });
-  
-        // 댓글 수 세기
-        var commentsCount = '댓글 ' + commentsForFeed.length + '개 모두 보기';
-          
-        var commentNumContainer = $("<button type=button>")
-          .addClass("commentNum_container")
-          .text(commentsCount)
-          .on("click", function () {
-            openModal(item.feedId, data); // openModal 함수에 data를 전달
+          heartLink.prop({
+              id: "heart_link" + data.id,
           });
-  
-        // 댓글 컨테이너에 댓글 수, 댓글 목록 넣기
-        commentContainer.append(commentNumContainer, commentList);
-        feedInfo.append(commentContainer);
-      });
-  
-      feedItem.append(feedTopContainer, imageContainer, feedFunctionContainer, feedInfo);
-      $(".feed_list").append(feedItem);
+          heartLink.append(heartImg);
 
+          // 좋아요 수
+          var likesContainer = $("<div>").addClass("likesNum_container");
+          var likesNum = data.likes;
+          likesContainer = likesNum + '명이 좋아합니다.'; 
+          var likesNumContainer = $("<div>")
+              .addClass("likesNum_container")
+              .text(likesContainer);
+
+          // 댓글 버튼
+          var commentLink = $("<button type=button id=comment_btn>")
+          .addClass("comment_link")
+          .on("click", function () {
+              openModal(currentFeedId, currentUserId, userProfileLink); 
+          });
+          var commentImg = $("<img>").attr({
+              src: "../image/comment.png",
+              alt: "comment",
+              width: "31rem",
+              style: "margin-left: 0.3rem; padding-top: 0.1rem;",
+          });
+          
+          commentLink.append(commentImg);
       
-    });
+          // 공유 버튼
+          var shareLink = $("<button type=button>")
+          .addClass("share_link")
+          .on("click", function() {
+            copyLink(CopyUrl);
+          });
+          var shareImg = $("<img>").attr({
+              src: "../image/share.png",
+              alt: "shareBtn",
+              width: "40rem",
+              style: "margin-left: 0.4rem; padding-top: 0.2rem;",
+          });
+          
+          shareLink.append(shareImg);
+          functionIconItem.append(heartLink, commentLink, shareLink);
+          
+          // 저장 버튼
+          var saveImg = $("<img>").attr({
+              src: "../image/save.png",
+              alt: "saveBtn",
+              width: "32rem",
+          });
+          var saveLink = $("<button type=button>")
+          .addClass("save_link")
+          .on("click", function () {
+            var currentSaveSrc = saveImg.attr("src");
+            var newSaveSrc;
+
+            if (saveLink.hasClass("filled_save_link") && currentSaveSrc === "../image/filled_save.png" && data.is_saved == true) {
+                newSaveSrc = "../image/save.png";
+                saveLink.removeClass("filled_save_link");
+                saveLink.addClass("save_link");
+                data.is_saved = false;
+                unsavedFeed(currentUserId, currentFeedId);
+            } else {
+                newSaveSrc = "../image/filled_save.png";
+                saveLink.addClass("filled_save_link");
+                saveLink.removeClass("save_link");
+                data.is_saved = true;
+                savedFeed(currentUserId, currentFeedId);
+            }
+
+            saveImg.attr("src", newSaveSrc);
+          });
+          saveLink.prop({
+              id: "save_link" + data.id,
+          });
+          var currentSaveSrc = data.is_saved ? "../image/filled_save.png" : "../image/save.png";
+          saveImg.attr("src", currentSaveSrc);
+
+          if (currentSaveSrc === "../image/filled_save.png") {
+              saveLink.removeClass("save_link");
+              saveLink.addClass("filled_save_link");
+          } else {
+              saveLink.removeClass("filled_save_link");
+              saveLink.addClass("save_link");
+          }
+
+          saveLink.append(saveImg);
+          functionIconContainer.append(functionIconItem, saveLink);
+          
+          // 기능목록 flex 합치기
+          feedFunctionContainer.append(functionIconContainer, likesNumContainer);
+      
+          // feed 하단부분 전체 (아이디, 해쉬태그, 내용)
+          // IdHashtag div (아이디, 해쉬태그)
+          var IdHashtag = $("<div>").prop({
+              class: "IdHashtag",
+          });
+          var bottomUserId = $("<a>").prop({
+              class: "bottom_id",
+              textContent: data.author.handle,
+              href: "",
+          });
+          var feedHashtag = $("<a>")
+          .prop({
+              class: "feed_hashtag",
+              textContent: `#${data.tagged_user && data.tagged_user.name !== null ? data.tagged_user.name : "태그된 기업"}`,
+              href: `./profile_per.html?userId=${data.author.id}`
+          })
+          .on("click", function() {
+              window.location.href = $(this).prop("href"); 
+              return false;
+          });
+
+          IdHashtag.append(bottomUserId, feedHashtag);
+
+          var feedScript = $("<div>").prop({
+              class: "feed_script",
+              textContent: data.content,
+          });
+
+          // 업로드 날짜 (현재로부터 얼마 전인지)
+          var uploaded_date = $("<div>").addClass("uploaded_date");
+
+          var uploadDate = new Date(data.created_at); 
+          var currentDate = new Date();
+          var timeDiffInMilliseconds = currentDate - uploadDate;
+
+          var timeDiffInMinutes = Math.floor(timeDiffInMilliseconds / (1000 * 60));
+          var timeDiffInHours = Math.floor(timeDiffInMinutes / 60);
+          var timeDiffInDays = Math.floor(timeDiffInHours / 24);
+
+          var uploadDateString;
+
+          if (timeDiffInDays > 0) {
+              uploadDateString = timeDiffInDays + '일 전';
+          } else if (timeDiffInHours > 0) {
+              uploadDateString = timeDiffInHours + '시간 전';
+          } else if (timeDiffInMinutes > 0) {
+              uploadDateString = timeDiffInMinutes + '분 전';
+          } else {
+              uploadDateString = '방금 전';
+          }
+
+          var uploadedDate = $("<div>")
+              .addClass("uploaded_date")
+              .text(uploadDateString);
+
+          uploaded_date.append(uploadedDate);
+      
+          feedInfo.append(IdHashtag,feedScript ,uploaded_date);
+          
+          feedItem.append(feedTopContainer, imageContainer, feedFunctionContainer, feedInfo);
+          $(".feed_list").append(feedItem);
+          
+
+          // 함수들
+          // 이미지 슬라이드
+          function goToPrev() {
+              if (!sliding) {
+                  sliding = true;
+                  currentSlideIndex = (currentSlideIndex - 1 + images.length) % images.length;
+                  updateSlide();
+              } 
+          }
+  
+          function goToNext() {
+              if (!sliding) {
+                  sliding = true;
+                  currentSlideIndex = (currentSlideIndex + 1) % images.length;
+                  updateSlide();
+              }
+          }
+          // 점 클릭
+          function dotClick() {
+              if (!sliding) {
+                  var index = $(this).index();
+                  if (index !== currentSlideIndex) {
+                  sliding = true;
+                  currentSlideIndex = index;
+                  updateSlide();
+                  }
+              }
+          }
+          // 이미지 슬라이드 업뎃
+          function updateSlide() {
+              imageAlbum.empty(); 
+              imageAlbum.append(images[currentSlideIndex]);
+              
+              slideDotsList.forEach(function(dot, index) {
+                  if (index === currentSlideIndex){
+                  dot.addClass("active_dot");
+                  } else {
+                  dot.removeClass("active_dot");
+                  }
+              });
+          
+              sliding = false;
+      
+              // prevBtn과 nextBtn 처음과 끝일 때 버튼 사용 X
+              if (currentSlideIndex === 0) {
+              prevBtn.prop("disabled", true);
+              } else {
+              prevBtn.prop("disabled", false);
+              }
+      
+              if (currentSlideIndex === images.length - 1) {
+              nextBtn.prop("disabled", true);
+              } else {
+              nextBtn.prop("disabled", false);
+              }
+          }
+
+            
+          
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          if (jqXHR.status === 400) {
+              console.error('Bad Request:', jqXHR.responseText);
+              alert("잘못된 주소입니다.");
+          } else if (jqXHR.status === 404) {
+              console.error('Not Found:', jqXHR.responseText);
+              alert("피드가 존재하지 않습니다.");
+              window.history.back();
+          } else {
+              console.error('Error:', jqXHR.status, errorThrown);
+          }
+      }
   });
-  
-  $.getScript("../js/corporation_feed.js");
-  
-  
+});
+
+// 모달창 닫기 버튼 클릭 시 모달창을 닫도록 이벤트를 추가합니다.
+$(".close_modal").on("click", function () {
+  $(".modal").css("display", "none");
+
+  $(".feeds_container").empty();
+  $(".comments_container").empty();
+  $(".postComment").empty();
+  $("#comment_input").val(null);
+});
+
+// 세션에서 받아올 값
+function getTokenFromSessionStorage() {
+  return sessionStorage.getItem("jwtToken");
+}
+
+function getCurrentUserIdFromSessionStorage() {
+  return sessionStorage.getItem("currentUserId");
+}
+
+function getCurrentFeedIdFromSessionStorage() {
+  return sessionStorage.getItem("currentFeedId");
+}
+
+function getCurrentUserAccountTypeFromSessionStorage() {
+  return sessionStorage.getItem("currentUserAccountType");
+}
+
+function getCurrentUserThumbnailFromSessionStorage() {
+  return sessionStorage.getItem("thumbnail");
+}
