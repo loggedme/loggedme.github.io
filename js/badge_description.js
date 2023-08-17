@@ -47,9 +47,7 @@ function modifyBadgeHandler() {
   var badgeData = new FormData();
   badgeData.append("image", fileInput);
   badgeData.append("description", document);
-  console.log(fileInput);
-  console.log(document);
-  console.log(badgeData);
+
   $.ajax({
     url: `http://203.237.169.125:2002/badge/${badgeId}`,
     type: "PUT",
@@ -61,7 +59,7 @@ function modifyBadgeHandler() {
       Authorization: `Bearer ${jwtToken}`,
     },
     success: function (data) {
-      console.log("팔로우 취소: " + JSON.stringify(data));
+      // console.log("팔로우 취소: " + JSON.stringify(data));
     },
     error: function (jqXHR, textStatus, errorThrown) {
       if (jqXHR.status === 401) {
@@ -98,7 +96,7 @@ function checkUser() {
       Authorization: `Bearer ${jwtToken}`,
     },
     success: function (data) {
-      console.log(JSON.stringify(data));
+      // console.log(JSON.stringify(data));
       if (currentUserId == data.publisher.id) {
         $(".edit_button").show();
       }

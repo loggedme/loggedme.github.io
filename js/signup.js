@@ -67,7 +67,7 @@ function certificationHandler() {
   var postData = {
     email: emailInput.val().trim(),
   };
-  console.log(postData);
+  // console.log(postData);
   $.ajax({
     url: "http://203.237.169.125:2002/auth/validation",
     type: "POST",
@@ -115,7 +115,7 @@ function check_email_num() {
     email: JSON.parse(sessionStorage.getItem("email")),
     code: $("#signup_input_email_num").val().trim(),
   };
-  console.log(postData);
+  // console.log(postData);
   $.ajax({
     url: "http://203.237.169.125:2002/auth/validation/check",
     type: "POST",
@@ -226,10 +226,8 @@ $("input:radio[name=radiobutton1]").click(function () {
 
 // ok button click event
 $(".signup_signup_btn").click(function () {
-  console.log(2);
   if (!check_email()) {
   } else if (!getIsRequestEmail() || !getIsResponseEmail()) {
-    console.log(3);
     $("#signup_input_email_num").focus();
   } else if (!check_name()) {
     $("#signup_input_name").focus();
@@ -260,14 +258,14 @@ $(".signup_signup_btn").click(function () {
       // handle: "test2",
       // account_type: 2,
     };
-    console.log(postData);
+    // console.log(postData);
     $.ajax({
       url: "http://203.237.169.125:2002/user",
       type: "POST",
       data: JSON.stringify(postData),
       contentType: "application/json",
       success: function (data) {
-        console.log(data);
+        // console.log(data);
         alert("회원가입 성공");
         window.location.href = "./login.html";
       },

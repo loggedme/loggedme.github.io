@@ -84,7 +84,7 @@ $(".certification_check_btn").click(function () {
       email: getEmailValue(),
       code: getCertificationDOMValue(),
     };
-    console.log(postData);
+    // console.log(postData);
     $.ajax({
       url: "http://203.237.169.125:2002/auth/validation/check",
       type: "POST",
@@ -139,14 +139,14 @@ $(".reset_password_main_btn").click(function () {
       code: getCode(),
       password: getNewPwdDOMValue(),
     };
-    console.log(postData);
+    // console.log(postData);
     $.ajax({
       url: "http://203.237.169.125:2002/auth/reset-password",
       type: "POST",
       data: postData,
       success: function (data) {
         alert("변경에 성공했습니다.");
-        console.log(data);
+        // console.log(data);
         sessionStorage.removeItem("email");
         sessionStorage.removeItem("code");
         window.location.href = "./login.html";

@@ -39,7 +39,7 @@ $(".done_button").click(function () {
         Authorization: `Bearer ${jwtToken}`,
       },
       success: function (data) {
-        console.log("뱃지 등록 성공: " + JSON.stringify(data));
+        // console.log("뱃지 등록 성공: " + JSON.stringify(data));
         window.location.href = `./badge_grant.html?badgeId=${data.id}`;
       },
       error: function (jqXHR, textStatus, errorThrown) {
