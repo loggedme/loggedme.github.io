@@ -287,6 +287,9 @@ $('#Done').click(function () {
     contentType: 'application/json',
     success: function(response) {
       console.log('Response:', response);
+
+      // 수정 완료되면 싱글 페이지로 이동
+      window.location.href = `./single_feed.html?feedId=${data.id}`;
     },
     error: function(jqXHR, textStatus, errorThrown) {
       if (jqXHR.status === 400) {
