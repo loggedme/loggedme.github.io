@@ -43,7 +43,11 @@ function initNotification(jwtToken) {
           });
         } else if (item.type === "follow") {
           itemElement.click(function () {
-            window.location.href = `./profile_per.html?userId=${item.user.id}`;
+            if (item.user.account_type == 1) {
+              window.location.href = `./profile_per.html?userId=${item.user.id}`;
+            } else {
+              window.location.href = `./profile_ent.html?userId=${item.user.id}`;
+            }
           });
           var imgElement = $("<img>").attr({
             src: item.user.thumbnail,
