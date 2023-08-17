@@ -193,7 +193,7 @@ function openModal(feedId, userId, userProfileLink){
                     return `
                         <div class="comments_item">
                             <div class="comments_user_info">
-                                <a window.location.href=${userProfileLink}?userId=${comment.author.id};>
+                                <a onclick="window.location.href='${userProfileLink}?userId=${comment.author.id}';">
                                     <img src="${comment.author.thumbnail}">
                                 </a>
                                 <div class="comments_info">
@@ -307,7 +307,7 @@ function deleteComment(feedId, commentId) {
         url: `http://203.237.169.125:2002/feed/${feedId}/comment/${commentId}`,
         type: "DELETE",
         headers: {
-        Authorization: `Bearer ${jwtToken}`,
+            Authorization: `Bearer ${jwtToken}`,
         },
         success: function (data) {
             console.log("sueccess: " + JSON.stringify(data));
