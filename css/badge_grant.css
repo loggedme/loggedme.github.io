@@ -93,6 +93,7 @@ header {
   height: 3rem;
   border-radius: 100%;
   flex-shrink: 0; /* 크기 감소 방지 */
+  margin-left: 1rem;
 }
 .main_section_title {
   color: #000;
@@ -141,7 +142,7 @@ header {
 }
 
 .item_username_wrap {
-  flex: 3;
+  flex: 4;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -159,20 +160,10 @@ header {
   line-height: normal;
 }
 
-.item_checkbox_wrap {
-  flex: 1;
-  align-items: center;
-  display: flex;
-  justify-content: start;
+img.item_image:not([src]) {
+  content: url("https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png?20220226140232");
 }
 
-.item_checkbox_btn {
-  display: none;
-}
-
-.item_checkbox_btn_label {
-  display: block;
-  width: 1.2rem;
-  height: 1.2rem;
-  background-color: rgba(217, 217, 217, 0.7);
+img.checked_person_element:not([src]) {
+  content: url("https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png?20220226140232");
 }
