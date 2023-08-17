@@ -12,7 +12,7 @@ function likedFeed(feedId) {
       success: function (data) {
         console.log("좋아요 성공: " + JSON.stringify(data));
 
-
+        
       },
       error: function (jqXHR, textStatus, errorThrown) {
         if (jqXHR.status === 401) {
@@ -145,8 +145,8 @@ function openModal(feedId, userId, userProfileLink){
     // 댓글 모달창 댓글 작성
     var postingUserImg = $("<div>").addClass("postingUser_img");
     var postingImg = $("<img>").attr({
-        src: `${userThumbnail}`,
-        alt: "imgs",
+        src: userThumbnail === "null" ? "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png?20220226140232" : `${userThumbnail}`,
+        alt: "imgs"
     });
     postingUserImg.append(postingImg);
 
@@ -190,11 +190,16 @@ function openModal(feedId, userId, userProfileLink){
                     // 댓글 삭제 버튼, 작성자만 보이도록
                     var deleteCommentBtnClass = userId === comment.author.id ? "visible" : "hidden";
 
+                    // 댓글 작성자의 썸네일
+                    var authorThumbnail = userThumbnail === "null"
+                        ? "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png?20220226140232"
+                        : comment.author.thumbnail;
+
                     return `
                         <div class="comments_item">
                             <div class="comments_user_info">
-                                <a onclick="window.location.href='${userProfileLink}?userId=${comment.author.id}';">
-                                    <img src="${comment.author.thumbnail}">
+                                <a class="comment_author_img" onclick="window.location.href='${userProfileLink}?userId=${comment.author.id}';">
+                                    <img src="${authorThumbnail}">
                                 </a>
                                 <div class="comments_info">
                                     <div class="comments_idDate">
@@ -334,6 +339,44 @@ function deleteComment(feedId, commentId) {
     });
 
 }
+
+
+// 피드 삭제 버튼
+function deleteFeed(feedId) {
+    var jwtToken = getTokenFromSessionStorage();
+    $.ajax({
+        url: `http://203.237.169.125:2002/feed/${feedId}`,
+        type: "DELETE",
+        headers: {
+            Authorization: `Bearer ${jwtToken}`,
+        },
+        success: function (data) {
+            console.log("sueccess: " + JSON.stringify(data));
+            console.log(`피드 삭제 성공: ${feedId}`);
+            window.history.back();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+        if (jqXHR.status === 401) {
+            console.error("Unauthorized:", jqXHR.responseText);
+            alert("로그인이 필요합니다.");
+            window.location.href = "./login.html";
+        } else if (jqXHR.status === 403) {
+            console.error("Forbidden:", jqXHR.responseText);
+            alert("작성한 댓글이 아닙니다.");
+        } else if (jqXHR.status === 404) {
+            console.error("Not found:", jqXHR.responseText);
+            alert("피드가 존재하지 않습니다.");
+            
+        } else {
+                console.error("Error:", jqXHR.status, errorThrown);
+                alert("서버 에러");
+                
+        }
+        },
+    });
+
+}
+
 
 function copyLink(url) {
     navigator.clipboard.writeText(url)
