@@ -212,3 +212,10 @@ if (
   $("a").remove("#feed_plus_btn");
   $("div").remove("#add_badge");
 }
+
+
+$('.edit_btn').click(function () {
+  /* 프로필 수정 시 userId가 필요하지 않음(나중에 필요할 지도 모르니까 놔둬)
+    window.location.href = `./profile_edit.html?userId=${data.id}`; 
+    */
+})

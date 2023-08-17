@@ -500,7 +500,6 @@ $('#Share').click(function () {
       }
       */
       console.log(formData);
-      debugger;
       // url에 피드 아이디 값을 넣어서 보내는 부분
       window.location.href = `./single_feed.html?feedId=${data.id}`;
     },
