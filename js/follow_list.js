@@ -38,7 +38,7 @@ function getDataforPageInit(param) {
       $.each(data.items, function (index, item) {
         var itemElement = $("<a>").prop({
           class: "item_element",
-          id: "wrap" + item.id,
+          id: "wrap" + item.id + item.account_type,
         });
 
         var imgElement = $("<img>").attr({
@@ -105,9 +105,11 @@ function initUserHandle() {
 // button click event----------------------------------------------
 // profile click event
 $(document).on("click", ".item_element", function () {
-  let userId = $(this).attr("id").slice(4);
+  let userId = $(this).attr("id").slice(4, -1);
+  let userAccountType = $(this).attr("id").slice(-1);
   console.log(userId);
-  profileClickHandler(userId);
+  console.log(userAccountType);
+  profileClickHandler(userId, userAccountType);
 });
 // following button click event
 $(document).on("click", ".item_following_btn", function (e) {
@@ -202,9 +204,12 @@ function slideFollwer() {
 }
 
 //프로필 클릭 시 함수
-function profileClickHandler(userId) {
-  sessionStorage.setItem("userId", userId);
-  window.location.href = "./profile_per.html";
+function profileClickHandler(userId, userAccountType) {
+  if (userAccountType == 1) {
+    window.location.href = `./profile_per.html?userId=${userId}`;
+  } else {
+    window.location.href = `./profile_ent.html?userId=${userId}`;
+  }
 }
 
 // ajax for 팔로우 취소
