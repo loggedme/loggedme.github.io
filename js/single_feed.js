@@ -44,7 +44,7 @@ $(document).ready(function (jwtToken) {
         },
       success: function (data) {
           //console.log(feedId);
-          //console.log("sueccess: " + JSON.stringify(data));
+          console.log("sueccess: " + JSON.stringify(data));
           var currentFeedId = data.id;
                 
           // 전체 아이템 박스
@@ -64,7 +64,7 @@ $(document).ready(function (jwtToken) {
           })
           //유저 프로필 링크, 회원유형에 따라 구분
           var userProfileLink = "";
-          if (userAccountType === "personal") {
+          if (userAccountType === 1) {
               userProfileLink = "./profile_per.html";
           } else {
               userProfileLink = "./profile_ent.html";
@@ -77,9 +77,14 @@ $(document).ready(function (jwtToken) {
               window.location.href=`${userProfileLink}?userId=${data.author.id}`;
           });
           var profileImg = $("<img>").attr({
-              src: data.author.thumbnail,
-              alt: data.author.id,
-          });
+            src: data.author.thumbnail || "", 
+            alt: data.author.id,
+            });
+
+        if (!profileImg.attr("src")) {
+            profileImg.addClass("profile_img");
+        }
+
           var userId = $("<div>").prop({
               class: "user_id",
               textContent: `${data.author.handle}`,
@@ -336,18 +341,23 @@ $(document).ready(function (jwtToken) {
             .on("click", function () {
                 window.location.href = `${userProfileLink}?userId=${data.author.id}`
             })
-            var feedHashtag = $("<a>")
-            .prop({
-                class: "feed_hashtag",
-                textContent: `${data.tagged_user && data.tagged_user.name !== null ? data.tagged_user.name : "태그된 기업"}`,
-            })
-            .on("click", function() {
-                if (data.tagged_user && data.tagged_user.id) {
-                    window.location.href = `./profile_ent.html?userId=${data.tagged_user.id}`;
-                }
-            });
 
-          IdHashtag.append(bottomUserId, feedHashtag);
+            if (data.author.account_type === 1) {
+                var feedHashtag = $("<a>")
+                .prop({
+                    class: "feed_hashtag",
+                    textContent: `${data.tagged_user && data.tagged_user.name !== null ? data.tagged_user.name : "태그된 기업"}`,
+                })
+                .on("click", function() {
+                    if (data.tagged_user && data.tagged_user.id) {
+                        window.location.href = `./profile_ent.html?userId=${data.tagged_user.id}`;
+                    }
+                });
+                IdHashtag.append(bottomUserId, feedHashtag);
+
+            } else {
+                IdHashtag.append(bottomUserId);
+            };
 
           var feedScript = $("<div>").prop({
               class: "feed_script",
@@ -487,6 +497,7 @@ function deleteFeed(feedId) {
         success: function (data) {
             console.log("sueccess: " + JSON.stringify(data));
             console.log(`피드 삭제 성공: ${feedId}`);
+            window.history.back();
         },
         error: function (jqXHR, textStatus, errorThrown) {
         if (jqXHR.status === 401) {
