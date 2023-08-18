@@ -84,7 +84,7 @@
 
 > 간단한 입력을 통해 회원가입이 가능합니다.
 
-![회원가입](![image](https://github.com/kimyeonchul/Logged_me_Frontend/assets/87411576/2d2b8f90-b235-4f52-be7e-798162da3efd)
+![회원가입](![image](./image/readme/회원가입.png)
 )
 
 ### 2. 로그인
