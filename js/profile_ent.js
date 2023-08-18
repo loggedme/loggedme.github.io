@@ -24,6 +24,7 @@ let badgeImage = []; // 뱃지 이미지(썸네일) 리스트(bageList로 불러
 let FeedList = []; // 피드 아이디 들어있는 배열
 let FeedImage = []; // 피드 값 중에서 image_urls 부분에서 첫 이미지들(image_urls[0])만 따로 받아오기(프로필 페이지 썸네일용)
 var FeedListLength = FeedList.length; // 피드 개수
+var isFollow = false;
 
 /* ajax 부분 */
 // ajax url에 user.id에 들어갈 값을 받아오는 부분
@@ -38,7 +39,6 @@ let Ac = params.get("userAccountType");
 console.log(userId);
 console.log(Ac);
 */
-
 
 // 토큰 받아오는 함수
 function getTokenFromSessionStorage() {
@@ -56,7 +56,7 @@ $.ajax({
     Authorization: `Bearer ${jwtToken}`,
   },
   success: function (data) {
-
+    console.log(data);
     // 프사 받아오기
 
     /* 본인이 본인의 계정으로 들어온 것인지 확인하는 if문 (플러스 버튼의 유무를 위함) */
@@ -67,10 +67,10 @@ $.ajax({
       $("a").remove("#feed_plus_btn");
     }
 
-    if(sessionStorage.getItem("thumbnail") ){
-        $("#pro_img").attr("src", data.user.thumbnail);
-      }else {
-      } 
+    if (sessionStorage.getItem("thumbnail")) {
+      $("#pro_img").attr("src", data.user.thumbnail);
+    } else {
+    }
 
     /*
     if(sessionStorage.getItem("thumbnail") == null) {
@@ -97,8 +97,16 @@ $.ajax({
     /* 
     뱃지 받아오는 부분
   */
-
-    $.each(data.badge.items, function (item) {
+    isFollow = data.user.is_following;
+    if (isFollow) {
+      $(".follow_btn").css("background-color", "rgba(217, 217, 217, 0.5)");
+      $(".follow_btn").css("color", "black");
+    } else {
+      $(".follow_btn").css("background-color", "#6970f2");
+      $(".follow_btn").css("color", "white");
+    }
+    $.each(data.badge.items, function (index, item) {
+      console.log(item);
       // 각각의 뱃지 아이템을 배열에 하나씩 푸쉬
       badgeList.push(item.id); // ajax 밖에 있는 빈 배열 badgeList에 뱃지의 data 넣기
       badgeImage.push(item.thumbnail); // ajax 밖에 있는 빈 배열 badgeImage에 뱃지의 썸네일 넣기
@@ -108,11 +116,10 @@ $.ajax({
     //----------------------------------------------------
 
     // 피드 id 배열에 넣기
-    for(let i = 0; i < data.feed.items.length; i++) {
+    for (let i = 0; i < data.feed.items.length; i++) {
       console.log(data.feed.items[i].id);
       FeedList.push(data.feed.items[i].id);
     }
-
 
     FeedListLength = Posts;
 
@@ -160,6 +167,8 @@ function showBadge(num) {
   let template = ``;
 
   if (num != 0) {
+    console.log(badgeList);
+    console.log(badgeImage);
     for (let i = 0; i < num; i++) {
       template += `
       <div class="badge" id="badge${i + 1}" value="${badgeList[i]}">
@@ -205,7 +214,6 @@ function showFeed(FeedListLength) {
   let template = ``;
 
   if (FeedListLength != 0) {
-
     $("div").remove(".zero_feed"); // 피드가 1개라도 있으면 게시물 없다는 표시의 div를 html에서 삭제
     for (let i = 0; i < FeedListLength; i++) {
       template += `
@@ -221,7 +229,6 @@ function showFeed(FeedListLength) {
 function GoToFeed(num) {
   window.location.href = `./single_feed.html?feedId=${FeedList[num]}`; // 피드의 정보를 리턴
 }
-
 
 /*
 const edit_btn = document.getElementById("")
@@ -243,7 +250,44 @@ function followHandler(userId) {
       Authorization: `Bearer ${jwtToken}`,
     },
     success: function (data) {
-       console.log("팔로우 성공: " + JSON.stringify(data));
+      console.log("팔로우 성공: " + JSON.stringify(data));
+
+      $(".follow_btn").css("background-color", "rgba(217, 217, 217, 0.5)");
+      $(".follow_btn").css("color", "black");
+
+      isFollow = true;
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      if (jqXHR.status === 401) {
+        console.error("Unauthorized:", jqXHR.responseText);
+        alert("접근 권한이 없습니다.");
+        window.location.href = "./login.html";
+      } else if (jqXHR.status === 404) {
+        console.error("Not found:", jqXHR.responseText);
+        alert("사용자가 존재하지 않습니다.");
+      } else {
+        console.error("Error:", jqXHR.status, errorThrown);
+        alert("서버 에러");
+      }
+    },
+  });
+}
+
+// ajax for 팔로우 취소
+function unfollowHandler(userId) {
+  var jwtToken = getTokenFromSessionStorage();
+  var currentUserId = getCurrentUserIdFromSessionStorage();
+  $.ajax({
+    url: `http://43.202.152.189/user/${currentUserId}/following/${userId}`,
+    type: "DELETE",
+    headers: {
+      Authorization: `Bearer ${jwtToken}`,
+    },
+    success: function (data) {
+      console.log("팔로우 취소: " + JSON.stringify(data));
+      $(".follow_btn").css("background-color", "#6970f2");
+      $(".follow_btn").css("color", "white");
+      isFollow = false;
     },
     error: function (jqXHR, textStatus, errorThrown) {
       if (jqXHR.status === 401) {
@@ -262,9 +306,12 @@ function followHandler(userId) {
 }
 
 $(".follow_btn").click(function () {
-  followHandler(userId);
-})
-
+  if (isFollow) {
+    unfollowHandler(userId);
+  } else {
+    followHandler(userId);
+  }
+});
 function getCurrentUserIdFromSessionStorage() {
   return sessionStorage.getItem("currentUserId");
 }
@@ -274,19 +321,19 @@ function getUserHandleFromSessionStorage() {
 }
 
 function goToFollowers() {
-  urlUserId = params.get("userId")
-  window.location.href = `./follow_list.html?userId=${urlUserId}&&userHandle=${getUserHandleFromSessionStorage()}&&isFollowing=false`
+  urlUserId = params.get("userId");
+  window.location.href = `./follow_list.html?userId=${urlUserId}&&userHandle=${getUserHandleFromSessionStorage()}&&isFollowing=false`;
 }
 
 function goToFollowing() {
-  urlUserId = params.get("userId")
-  window.location.href = `./follow_list.html?userId=${urlUserId}&&userHandle=${getUserHandleFromSessionStorage()}&&isFollowing=true`
+  urlUserId = params.get("userId");
+  window.location.href = `./follow_list.html?userId=${urlUserId}&&userHandle=${getUserHandleFromSessionStorage()}&&isFollowing=true`;
 }
 
 $("#followers").click(function () {
   goToFollowers();
-})
+});
 
 $("#following").click(function () {
   goToFollowing();
-})
+});
