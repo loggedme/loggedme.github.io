@@ -1,4 +1,8 @@
 var jwtToken = getTokenFromSessionStorage();
+var currentUserId = getCurrentUserIdFromSessionStorage();
+var userAccountType = getCurrentUserAccountTypeFromSessionStorage();
+var userThumbnail = getCurrentUserThumbnailFromSessionStorage();
+var handle = sessionStorage.getItem("handle");
 
 //좋아요 버튼
 function likedFeed(feedId, likesNum) {
@@ -283,8 +287,41 @@ function postingComment(feedId) {
     data: JSON.stringify({ content: commentContent }),
     contentType: "application/json",
     success: function (data) {
-      console.log("댓글 작성 성공: " + JSON.stringify(data));
       $("#comment_input").val("");
+
+      console.log("댓글 작성 성공: " + JSON.stringify(data));
+      $(".comments_container").empty();
+      // 작성한 댓글 정보 가져오기
+      var uploadedComment = {
+        author: {
+          handle: handle, // 여기에 실제 handle 값을 넣어주세요
+          thumbnail: userThumbnail, // 여기에 실제 thumbnail URL을 넣어주세요
+        },
+        content: commentContent,
+        created_at: new Date().toISOString(), // 작성 시간 설정 (현재 시간으로 임시 설정)
+      };
+
+      // 새로운 댓글 요소 생성
+      var newComment = `
+        <div class="comments_item">
+            <div class="comments_user_info">
+                <a class="comment_author_img">
+                    <img src="${uploadedComment.author.thumbnail}">
+                </a>
+                <div class="comments_info">
+                    <div class="comments_idDate">
+                        <a style="margin-right: 0.5rem; font-weight: bold;">${uploadedComment.author.handle}</a>
+                        <div style="color:#888; font-size:small;">방금 전</div>
+                    </div>
+                    <div class="comments_content">${uploadedComment.content}</div>
+                </div>
+            </div>
+        </div>
+      `;
+
+      // 새로운 댓글 요소를 comments_container에 추가
+      $(".comments_container").append(newComment);
+
     },
     error: function (jqXHR, textStatus, errorThrown) {
       if (jqXHR.status === 400) {
@@ -405,4 +442,20 @@ function copyLink(url) {
 // 세션에서 받아올 값
 function getTokenFromSessionStorage() {
   return sessionStorage.getItem("jwtToken");
+}
+
+function getCurrentUserIdFromSessionStorage() {
+  return sessionStorage.getItem("currentUserId");
+}
+
+function getCurrentFeedIdFromSessionStorage() {
+  return sessionStorage.getItem("currentFeedId");
+}
+
+function getCurrentUserAccountTypeFromSessionStorage() {
+  return sessionStorage.getItem("currentUserAccountType");
+}
+
+function getCurrentUserThumbnailFromSessionStorage() {
+  return sessionStorage.getItem("thumbnail");
 }
