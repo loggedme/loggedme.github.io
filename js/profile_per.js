@@ -66,11 +66,20 @@ $.ajax({
     console.log("success:", JSON.stringify(data));
 
     // 프사 받아오기
+    console.log(data.user.thumbnail);
+
+    /* 본인이 본인의 계정으로 들어온 것인지 확인하는 if문 (플러스 버튼의 유무를 위함) */
+    // 세션에 본인꺼 currentAccountType(personal/business), currentUserId가 들어있다.
+    if (userId == sessionStorage.getItem("currentUserId")) {
+      $("#pro_img").attr("src", sessionStorage.getItem("thumbnail"));
+    } else {
+      $("a").remove("#feed_plus_btn");
+    }
+
     if(sessionStorage.getItem("thumbnail") ){
-      console.log("진짜 안돼?");
-        $("#pro_img").attr("src", sessionStorage.getItem("thumbnail"));
-      }else {
-      } 
+      $("#pro_img").attr("src", data.user.thumbnail);
+    }else {
+    } 
 
     // 아이디(handle) 받아오기
     document.querySelector(".per_id").innerText = data.user.handle;
@@ -100,10 +109,11 @@ $.ajax({
 
     //----------------------------------------------------
 
-    $.each(data.feed.items, function (item) {
-      // 피드 아이디 배열에 담기
-      FeedList.push(item.id);
-    });
+    // 피드 id 배열에 넣기
+    for(let i = 0; i < data.feed.items.length; i++) {
+      console.log(data.feed.items[i].id);
+      FeedList.push(data.feed.items[i].id);
+    }
 
     FeedListLength = Posts;
 
@@ -156,6 +166,11 @@ function showBadge(badgeListLength) {
       `;
     }
     $(".badge_inner").append(template);
+    if (userId != sessionStorage.getItem("currentUserId")) {
+      $("div").remove("#add_badge");
+      $("button").remove(".edit_btn");
+    } else {
+    }
   }
 }
 
@@ -183,7 +198,7 @@ function showFeed(FeedListLength) {
     $("div").remove(".zero_feed"); // 피드가 1개라도 있으면 게시물 없다는 표시의 div를 html에서 삭제
     for (let i = 0; i < FeedListLength; i++) {
       template += `
-      <button class="goto_feed" id="feed_btn${i}" onclick="GoToFeed(${i})"><img class="feed_img" src="${FeedImage[i]}"></button>
+      <div class="goto_feed" id="feed_btn${i}" onclick="GoToFeed(${i})"><img class="feed_img" src="${FeedImage[i]}"></div>
       `;
     }
     $(".my_feed").append(template);
