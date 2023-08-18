@@ -1,7 +1,7 @@
 var jwtToken = getTokenFromSessionStorage();
 
 //좋아요 버튼
-function likedFeed(feedId, itemIndex) {
+function likedFeed(feedId, likesNum) {
   $.ajax({
     url: `http://43.202.152.189/feed/${feedId}/like`,
     type: "POST",
@@ -11,7 +11,8 @@ function likedFeed(feedId, itemIndex) {
     success: function (data) {
       console.log("좋아요 성공: " + JSON.stringify(data));
 
-      updateLikesCount(itemIndex, 1);
+      likesNum++;
+      $(".likesNum_container").text(`${likesNum}명이 좋아합니다.`);
     },
     error: function (jqXHR, textStatus, errorThrown) {
       if (jqXHR.status === 401) {
@@ -39,7 +40,7 @@ function likedFeed(feedId, itemIndex) {
   });
 }
 // 좋아요 취소 버튼
-function unlikedFeed(feedId, itemIndex) {
+function unlikedFeed(feedId, likesNum) {
   $.ajax({
     url: `http://43.202.152.189/feed/${feedId}/like`,
     type: "DELETE",
@@ -48,8 +49,13 @@ function unlikedFeed(feedId, itemIndex) {
     },
     success: function (data) {
       console.log("좋아요 취소 성공: " + JSON.stringify(data));
-
-      updateLikesCount(itemIndex, -1);
+      if (likesNum === 0) {
+        $(".likesNum_container").text(`${likesNum}명이 좋아합니다.`);
+      } else {
+        likesNum--;
+        $(".likesNum_container").text(`${likesNum}명이 좋아합니다.`);
+      }
+      
     },
     error: function (jqXHR, textStatus, errorThrown) {
       if (jqXHR.status === 401) {
