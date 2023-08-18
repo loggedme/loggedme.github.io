@@ -1,3 +1,4 @@
+var isChangeImage = false;
 function getTokenFromSessionStorage() {
   return sessionStorage.getItem("jwtToken");
 }
@@ -39,7 +40,9 @@ function modifyBadgeHandler() {
   var fileInput = $("#making_badge_attach_image_input")[0].files[0];
   var document = $(".making_badge_attach_document").val().trim();
   var badgeData = new FormData();
-  badgeData.append("image", fileInput);
+  if (isChangeImage) {
+    badgeData.append("image", fileInput);
+  }
   badgeData.append("description", document);
 
   $.ajax({
@@ -121,6 +124,7 @@ function checkUser() {
 
 //이미지 업로드 버튼 눌렀을 때 호출되는 함수
 $(".making_badge_attach_image_label").on("change", function (event) {
+  isChangeImage = true;
   const file = event.target.files[0];
   const preview = $("#making_badge_attach_image");
 

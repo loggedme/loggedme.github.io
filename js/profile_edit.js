@@ -1,3 +1,4 @@
+var isChangeImage = false;
 // session에 대한 get function
 function getTokenFromSessionStorage() {
   return sessionStorage.getItem("jwtToken");
@@ -51,6 +52,7 @@ function getUserData() {
 }
 
 $("#image_input").on("change", function (event) {
+  isChangeImage = true;
   // variable management---------------------------
   const file = event.target.files[0];
   const preview = $("#preview");
@@ -112,7 +114,9 @@ function setUserData() {
 
   profileData.append("handle", $("#handle").val());
   profileData.append("name", name);
-  profileData.append("profile_image", fileInput);
+  if (isChangeImage) {
+    profileData.append("profile_image", fileInput);
+  }
 
   $.ajax({
     url: `http://43.202.152.189/user/${userId}`,
