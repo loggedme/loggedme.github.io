@@ -396,8 +396,6 @@ $("#Share").click(function () {
   //const formHtml = document.getElementById("new-post-form");
   //const putImagesToForm = imageList;
   const TextToFrom = $("#text").val();
-  console.log(imageList[0]);
-  console.log(imageLengthCount);
   for(let i = 0; i < imageLengthCount; i++) {
     formData.append("images", $('#input')[0].files[i]);
   }
@@ -406,7 +404,6 @@ $("#Share").click(function () {
 
   formData.append("content", TextToFrom);
   formData.append("tagged_user", TaggedCompanyToForm);
-  console.log($('#input')[0].files);
   $.ajax({
     url: "http://43.202.152.189/feed",
     type: "POST",
