@@ -39,12 +39,6 @@ console.log(userId);
 console.log(Ac);
 */
 
-/* 본인이 본인의 계정으로 들어온 것인지 확인하는 if문 (플러스 버튼의 유무를 위함) */
-// 세션에 본인꺼 currentAccountType(personal/business), currentUserId가 들어있다.
-if (userId === sessionStorage.getItem("currentUserId")) {
-} else {
-  $("a").remove("#feed_plus_btn");
-}
 
 // 토큰 받아오는 함수
 function getTokenFromSessionStorage() {
@@ -64,11 +58,27 @@ $.ajax({
   success: function (data) {
 
     // 프사 받아오기
+
+    /* 본인이 본인의 계정으로 들어온 것인지 확인하는 if문 (플러스 버튼의 유무를 위함) */
+    // 세션에 본인꺼 currentAccountType(personal/business), currentUserId가 들어있다.
+    if (userId == sessionStorage.getItem("currentUserId")) {
+      $("#pro_img").attr("src", sessionStorage.getItem("thumbnail"));
+    } else {
+      $("a").remove("#feed_plus_btn");
+    }
+
+    if(sessionStorage.getItem("thumbnail") ){
+        $("#pro_img").attr("src", data.user.thumbnail);
+      }else {
+      } 
+
+    /*
     if(sessionStorage.getItem("thumbnail") == null) {
       $("#pro_img").attr("src", "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png?20220226140232");
     }else {
       $("#pro_img").attr("src", sessionStorage.getItem("thumbnail"));
     } 
+    */
 
     // 아이디(handle) 받아오기
     document.querySelector(".per_id").innerText = data.user.handle;
@@ -162,6 +172,11 @@ function showBadge(num) {
     <div id="add_badge"><img src="../image/Plus Math.png" ></div>
   `;
   $(".badge_inner").append(template);
+  if (userId != sessionStorage.getItem("currentUserId")) {
+    $("div").remove("#add_badge");
+    $("button").remove(".edit_btn");
+  } else {
+  }
 }
 
 /*
@@ -204,15 +219,6 @@ function GoToFeed(num) {
   window.location.href = `./single_feed.html?feedId=${FeedList[num]}`; // 피드의 정보를 리턴
 }
 
-/* 본인이 본인의 계정으로 들어온 것인지 확인하는 if문 (플러스 버튼의 유무를 위함) */
-// 세션에 본인꺼 currentAccountType(personal/business), currentUserId가 들어있다.
-if (
-  userId === sessionStorage.getItem("currentUserId")
-) {
-} else {
-  $("a").remove("#feed_plus_btn");
-  $("div").remove("#add_badge");
-}
 
 /*
 const edit_btn = document.getElementById("")

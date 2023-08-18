@@ -86,7 +86,7 @@ $.ajax({
 
       for (let i = 0; i < imageLengthCount; i++) {
         template += `
-        <div class="slider" role="group"><img class="sliderImg" style="width:364px; height:374px;" src="${imageList[i]}"></div>\n
+        <div class="slider" role="group"><img class="sliderImg" style="width:330px; height:374px;" src="${imageList[i]}"></div>\n
         `;
       }
       sliderLengthCount += imageLengthCount;
@@ -261,7 +261,7 @@ function getCurrentFeedContentFromSessionStorage() {
 $("#Done").click(function () {
   var formData = new FormData();
 
-  const TextToFrom = $(".#text").val();
+  const TextToFrom = $("#text").val();
   const TaggedCompanyToForm = $("#tagged").val();
 
   
@@ -277,11 +277,11 @@ $("#Done").click(function () {
     headers: {
       Authorization: `Bearer ${jwtToken}`,
     },
-    success: function (response) {
-      console.log("Response:", response);
+    success: function (data) {
+      console.log("Response:", data);
 
       // 수정 완료되면 싱글 페이지로 이동
-      window.location.href = `./single_feed.html?feedId=${data.id}`;
+      //window.location.href = `./single_feed.html?feedId=${data.id}`;
     },
     error: function (jqXHR, textStatus, errorThrown) {
       if (jqXHR.status === 400) {
