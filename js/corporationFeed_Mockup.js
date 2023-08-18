@@ -191,6 +191,7 @@ $(document).ready(function (jwtToken) {
                 var heartLink = $("<button type=button>")
                 .addClass("heart_link")
                 .on("click", function() {
+                    var itemIndex = $(this).closest(".feed_item").index();
                     var currentSrc = heartImg.attr("src");
                     var newSrc;
 
@@ -199,13 +200,13 @@ $(document).ready(function (jwtToken) {
                         heartLink.removeClass("filled_heart_link");
                         heartLink.addClass("heart_link");
                         item.is_liked = false;
-                        unlikedFeed(currentFeedId);
+                        unlikedFeed(currentFeedId, itemIndex, item.likes);
                     } else {
                         newSrc = "../image/filled_heart.png";
                         heartLink.addClass("filled_heart_link");
                         heartLink.removeClass("heart_link");
                         item.is_liked = true;
-                        likedFeed(currentFeedId);
+                        likedFeed(currentFeedId, itemIndex, item.likes);
                     }
 
                     heartImg.attr("src", newSrc);
