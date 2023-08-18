@@ -69,7 +69,7 @@ function certificationHandler() {
   };
   // console.log(postData);
   $.ajax({
-    url: "http://203.237.169.125:2002/auth/validation",
+    url: "http://43.202.152.189/auth/validation",
     type: "POST",
     data: JSON.stringify(postData),
     contentType: "application/json",
@@ -117,7 +117,7 @@ function check_email_num() {
   };
   // console.log(postData);
   $.ajax({
-    url: "http://203.237.169.125:2002/auth/validation/check",
+    url: "http://43.202.152.189/auth/validation/check",
     type: "POST",
     data: JSON.stringify(postData),
     contentType: "application/json",
@@ -260,7 +260,7 @@ $(".signup_signup_btn").click(function () {
     };
     // console.log(postData);
     $.ajax({
-      url: "http://203.237.169.125:2002/user",
+      url: "http://43.202.152.189/user",
       type: "POST",
       data: JSON.stringify(postData),
       contentType: "application/json",

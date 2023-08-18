@@ -35,7 +35,7 @@ let feedId = params.get("feedId");
 var jwtToken = getTokenFromSessionStorage();
 
 $.ajax({
-  url: `http://203.237.169.125:2002/feed/${feedId}`, // ${feedId}에 백엔드의 feed.id가 들어갈거고
+  url: `http://43.202.152.189/feed/${feedId}`, // ${feedId}에 백엔드의 feed.id가 들어갈거고
   type: "GET",
   datatype: "json",
   contentType: "application/json",
@@ -174,7 +174,7 @@ $.ajax({
 // 모달 get 부분
 if (getCurrentAccountTypeFromSessionStorage() == 1) {
   $.ajax({
-    url: "http://203.237.169.125:2002/user?recommend=true&type=business",
+    url: "http://43.202.152.189/user?recommend=true&type=business",
     type: "GET",
     dataType: "json",
     contentType: "application/json",
@@ -275,7 +275,7 @@ $("#Done").click(function () {
     };
   }
   $.ajax({
-    url: `http://203.237.169.125:2002/feed/${feedId}`,
+    url: `http://43.202.152.189/feed/${feedId}`,
     type: "PUT",
     data: JSON.stringify(putData),
     contentType: "application/json",

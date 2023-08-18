@@ -26,7 +26,7 @@ function getDataforPageInit(param) {
   var currentUserId = getCurrentUserIdFromSessionStorage();
   var userId = getURLParam("userId");
   $.ajax({
-    url: `http://203.237.169.125:2002/user/${userId}/${param}`,
+    url: `http://43.202.152.189/user/${userId}/${param}`,
     type: "GET",
     dataType: "json",
     headers: {
@@ -214,7 +214,7 @@ function unfollowHandler(userId) {
   var jwtToken = getTokenFromSessionStorage();
   var currentUserId = getCurrentUserIdFromSessionStorage();
   $.ajax({
-    url: `http://203.237.169.125:2002/user/${currentUserId}/following/${userId}`,
+    url: `http://43.202.152.189/user/${currentUserId}/following/${userId}`,
     type: "DELETE",
     headers: {
       Authorization: `Bearer ${jwtToken}`,
@@ -243,7 +243,7 @@ function followHandler(userId) {
   var jwtToken = getTokenFromSessionStorage();
   var currentUserId = getCurrentUserIdFromSessionStorage();
   $.ajax({
-    url: `http://203.237.169.125:2002/user/${currentUserId}/following/${userId}`,
+    url: `http://43.202.152.189/user/${currentUserId}/following/${userId}`,
     type: "POST",
     headers: {
       Authorization: `Bearer ${jwtToken}`,
