@@ -15,7 +15,7 @@ function getUserData() {
   var jwtToken = getTokenFromSessionStorage();
   var userId = getCurrentUserIdFromSessionStorage();
   $.ajax({
-    url: `http://203.237.169.125:2002/user/${userId}`,
+    url: `http://43.202.152.189/user/${userId}`,
     type: "GET",
     dataType: "json",
     headers: {
@@ -69,7 +69,7 @@ $(".signout").click(function () {
   var jwtToken = getTokenFromSessionStorage();
   var userId = getCurrentUserIdFromSessionStorage();
   $.ajax({
-    url: `http://203.237.169.125:2002/user/${userId}`,
+    url: `http://43.202.152.189/user/${userId}`,
     type: "DELETE",
     // dataType: "json",
     headers: {
@@ -107,7 +107,7 @@ function setUserData() {
   profileData.append("profile_image", fileInput);
 
   $.ajax({
-    url: `http://203.237.169.125:2002/user/${userId}`,
+    url: `http://43.202.152.189/user/${userId}`,
     // type: "PATCH",
     type: "PUT",
     dataType: "json",

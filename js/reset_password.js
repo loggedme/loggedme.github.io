@@ -86,7 +86,7 @@ $(".certification_check_btn").click(function () {
     };
     // console.log(postData);
     $.ajax({
-      url: "http://203.237.169.125:2002/auth/validation/check",
+      url: "http://43.202.152.189/auth/validation/check",
       type: "POST",
       data: postData,
       // contentType: "application/json",
@@ -141,7 +141,7 @@ $(".reset_password_main_btn").click(function () {
     };
     // console.log(postData);
     $.ajax({
-      url: "http://203.237.169.125:2002/auth/reset-password",
+      url: "http://43.202.152.189/auth/reset-password",
       type: "POST",
       data: postData,
       success: function (data) {

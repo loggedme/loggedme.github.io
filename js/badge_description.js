@@ -49,7 +49,7 @@ function modifyBadgeHandler() {
   badgeData.append("description", document);
 
   $.ajax({
-    url: `http://203.237.169.125:2002/badge/${badgeId}`,
+    url: `http://43.202.152.189/badge/${badgeId}`,
     type: "PUT",
     data: badgeData,
     processData: false, // FormData 처리 방지
@@ -90,7 +90,7 @@ function checkUser() {
   var currentUserId = getCurrentUserIdFromSessionStorage();
   var document = $(".making_badge_attach_document");
   $.ajax({
-    url: `http://203.237.169.125:2002/badge/${badgeId}`,
+    url: `http://43.202.152.189/badge/${badgeId}`,
     type: "GET",
     headers: {
       Authorization: `Bearer ${jwtToken}`,

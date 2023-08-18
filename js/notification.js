@@ -13,7 +13,7 @@ function getCurrentUserIdFromSessionStorage() {
 
 function initNotification(jwtToken) {
   $.ajax({
-    url: "http://203.237.169.125:2002/notification",
+    url: "http://43.202.152.189/notification",
     type: "GET",
     dataType: "json",
     headers: {

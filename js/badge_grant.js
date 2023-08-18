@@ -138,7 +138,7 @@ function getSearchData(query) {
   var jwtToken = getTokenFromSessionStorage();
   if (query.replace(/\s+/g, "") === "") {
     $.ajax({
-      url: `http://203.237.169.125:2002/user?recommend=true&type=personal`,
+      url: `http://43.202.152.189/user?recommend=true&type=personal`,
       method: "GET",
       dataType: "json",
       headers: {
@@ -160,7 +160,7 @@ function getSearchData(query) {
     });
   } else {
     $.ajax({
-      url: `http://203.237.169.125:2002/user?type=personal&query=${query}`,
+      url: `http://43.202.152.189/user?type=personal&query=${query}`,
       method: "GET",
       dataType: "json",
       success: function (responseData) {
@@ -198,7 +198,7 @@ $(".done_button").click(function () {
   var badgeId = getURLBadge();
   // console.log(badgeId);
   $.ajax({
-    url: `http://203.237.169.125:2002/badge/${badgeId}/user`,
+    url: `http://43.202.152.189/badge/${badgeId}/user`,
     method: "POST",
     dataType: "json",
     contentType: "application/json",

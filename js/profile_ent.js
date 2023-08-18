@@ -21,12 +21,9 @@ $(".close_btn").click(function () {
 let badgeList = []; // 뱃지 배열을 badgeList에 저장
 var badgeListLength = badgeList.length; // 뱃지 개수
 let badgeImage = []; // 뱃지 이미지(썸네일) 리스트(bageList로 불러 올 수 있으면 굳이 필요 없을 수도있음)
-let FeedList = [];         // 피드 아이디 들어있는 배열
+let FeedList = []; // 피드 아이디 들어있는 배열
 let FeedImage = []; // 피드 값 중에서 image_urls 부분에서 첫 이미지들(image_urls[0])만 따로 받아오기(프로필 페이지 썸네일용)
 var FeedListLength = FeedList.length; // 피드 개수
-
-
-
 
 /* ajax 부분 */
 // ajax url에 user.id에 들어갈 값을 받아오는 부분
@@ -42,14 +39,12 @@ console.log(userId);
 console.log(Ac);
 */
 
-
 /* 본인이 본인의 계정으로 들어온 것인지 확인하는 if문 (플러스 버튼의 유무를 위함) */
 // 세션에 본인꺼 currentAccountType(personal/business), currentUserId가 들어있다.
 if (userId === sessionStorage.getItem("currentUserId")) {
 } else {
   $("a").remove("#feed_plus_btn");
 }
-
 
 // 토큰 받아오는 함수
 function getTokenFromSessionStorage() {
@@ -59,7 +54,7 @@ var jwtToken = getTokenFromSessionStorage();
 
 // get 부분 (handle, 프사, 팔로워, 팔로잉, 뱃지)
 $.ajax({
-  url: `http://203.237.169.125:2002/user/${userId}`, // ${userId}에 백엔드의 user.id가 들어갈거고
+  url: `http://43.202.152.189/user/${userId}`, // ${userId}에 백엔드의 user.id가 들어갈거고
   type: "GET",
   dataType: "json",
   contentType: "application/json",
@@ -68,7 +63,7 @@ $.ajax({
   },
   success: function (data) {
     console.log("success:", JSON.stringify(data));
-    
+
     // 프사 받아오기
     document.querySelector("#pro_img").src = data.user.thumbnail;
 
@@ -78,46 +73,47 @@ $.ajax({
     // 이름 받아오기
     document.querySelector(".name").innerText = data.user.name;
 
-    var Posts = data.feed.count;  // 피드 개수
+    var Posts = data.feed.count; // 피드 개수
     var Followers = data.follower; // "api 사용자 프로필 조회" 에서 받아오게
     var Following = data.following; // "api 사용자 프로필 조회" 에서 받아오게
-    
+
     FeedPosts(Posts);
     myFollowers(Followers); // 팔로워 숫자 부분 html로 보내기
     myFollowing(Following); // 팔로우 숫자 부분 html로 보내기
-    
 
-  /* 
+    /* 
     뱃지 받아오는 부분
   */
-  
-    $.each(data.badge.items, function (item) { // 각각의 뱃지 아이템을 배열에 하나씩 푸쉬
-      badgeList.push(item.id);                     // ajax 밖에 있는 빈 배열 badgeList에 뱃지의 data 넣기
-      badgeImage.push(item.thumbnail);          // ajax 밖에 있는 빈 배열 badgeImage에 뱃지의 썸네일 넣기
+
+    $.each(data.badge.items, function (item) {
+      // 각각의 뱃지 아이템을 배열에 하나씩 푸쉬
+      badgeList.push(item.id); // ajax 밖에 있는 빈 배열 badgeList에 뱃지의 data 넣기
+      badgeImage.push(item.thumbnail); // ajax 밖에 있는 빈 배열 badgeImage에 뱃지의 썸네일 넣기
     });
     badgeListLength = badgeList.length; // 뱃지 개수
 
-    
     //----------------------------------------------------
 
-    $.each(data.feed.items, function (item) { // 피드 아이디 배열에 담기
+    $.each(data.feed.items, function (item) {
+      // 피드 아이디 배열에 담기
       FeedList.push(item.id);
     });
 
     FeedListLength = Posts;
 
-    for(let i = 0; i < FeedListLength; i++) {  // 피드 썸네일 이미지 배열에 담기
+    for (let i = 0; i < FeedListLength; i++) {
+      // 피드 썸네일 이미지 배열에 담기
       FeedImage.push(data.feed.items[i].image_urls[0]);
     }
 
     showBadge(badgeListLength); // 뱃지 html로 보내서 보여주는 함수
-    showFeed(FeedListLength);   // 피드 html로 보내서 보여주는 함수
+    showFeed(FeedListLength); // 피드 html로 보내서 보여주는 함수
 
     // 뱃지 추가하는 부분
     $("#add_badge").click(function () {
       window.location.href = "./making_badge.html";
-    })
-    
+    });
+
     //----------------------------------------------------
   },
   error: function (jqXHR, textStatus, errorThrown) {
@@ -127,7 +123,6 @@ $.ajax({
     }
   },
 });
-
 
 /*
 posts, followers, following 숫자 변경 부분
@@ -146,7 +141,6 @@ function myFollowing(num) {
   document.getElementsByClassName("number")[2].innerText = num;
 }
 
-
 function showBadge(num) {
   let template = ``;
 
@@ -154,7 +148,9 @@ function showBadge(num) {
     for (let i = 0; i < num; i++) {
       template += `
       <div class="badge" id="badge${i + 1}" value="${badgeList[i]}">
-        <img class="open_modal" onclick="badgeClicked(${0})" src="${badgeImage[i]}">
+        <img class="open_modal" onclick="badgeClicked(${0})" src="${
+        badgeImage[i]
+      }">
       </div>
       `;
     }
@@ -165,7 +161,6 @@ function showBadge(num) {
   $(".badge_inner").append(template);
 }
 
-
 /*
   뱃지 클릭 시 설명 페이지(badge_description.html)로 넘어가며 뱃지의 id를 파라미터로 준다.
 */
@@ -174,7 +169,9 @@ function showBadge(num) {
 function badgeClicked(num) {
   // 뱃지 클릭 시 뱃지 설명 페이지(bagde_description.html로 넘어가)
   var badge = document.getElementById(`badge${num}`);
-  window.location.href = `./badge_description.html?badgeId=${badge.attr("value")}`;
+  window.location.href = `./badge_description.html?badgeId=${badge.attr(
+    "value"
+  )}`;
 }
 
 //---------------------------------------------------------------
@@ -198,9 +195,8 @@ function showFeed(FeedListLength) {
 }
 
 function GoToFeed(num) {
-  window.location.href = `./single_feed.html?feedId=${FeedList[num]}`// 피드의 정보를 리턴
+  window.location.href = `./single_feed.html?feedId=${FeedList[num]}`; // 피드의 정보를 리턴
 }
-
 
 /* 본인이 본인의 계정으로 들어온 것인지 확인하는 if문 (플러스 버튼의 유무를 위함) */
 // 세션에 본인꺼 currentAccountType(personal/business), currentUserId가 들어있다.
@@ -212,7 +208,6 @@ if (
   $("a").remove("#feed_plus_btn");
   $("div").remove("#add_badge");
 }
-
 
 /*
 const edit_btn = document.getElementById("")
