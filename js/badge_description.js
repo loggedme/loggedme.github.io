@@ -1,13 +1,4 @@
-// 뱃지 id, 뱃지 만든 사람id 을 받아와야 함 session
-// 뱃지가 자기가 만든 벳지인지 다른사람이 만든 벳지인지 체크해서
-// 내가 만든거면 edit 버튼을 보이고 아니라면 보이지 않게한다.
-
-// $(".edit_button").css("visibility", "visible");
-// $(".edit_button").css("visibility", "hidden");
-
-// 뱃지 정보 받아와서 이미지랑 도큐먼트 넣어놈.
-var isOwner = true;
-
+var isChangeImage = false;
 function getTokenFromSessionStorage() {
   return sessionStorage.getItem("jwtToken");
 }
@@ -32,11 +23,15 @@ $(".edit_button").click(function () {
   $(".making_badge_attach_document").prop("disabled", false);
   $(".making_badge_attach_document").focus();
   $(".edit_button").hide();
-  $(".save_button").show();
+  $(".button_wrap").fadeIn();
 });
 
 $(".save_button").click(function () {
   modifyBadgeHandler();
+});
+
+$(".delete_button").click(function () {
+  deleteBadgeHandler();
 });
 
 function modifyBadgeHandler() {
@@ -45,7 +40,9 @@ function modifyBadgeHandler() {
   var fileInput = $("#making_badge_attach_image_input")[0].files[0];
   var document = $(".making_badge_attach_document").val().trim();
   var badgeData = new FormData();
-  badgeData.append("image", fileInput);
+  if (isChangeImage) {
+    badgeData.append("image", fileInput);
+  }
   badgeData.append("description", document);
 
   $.ajax({
@@ -59,6 +56,9 @@ function modifyBadgeHandler() {
       Authorization: `Bearer ${jwtToken}`,
     },
     success: function (data) {
+      alert("뱃지 수정에 성공했습니다");
+      window.location.href = `./profile_ent.html?userId=${getCurrentUserIdFromSessionStorage()}`;
+
       // console.log("팔로우 취소: " + JSON.stringify(data));
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -124,6 +124,7 @@ function checkUser() {
 
 //이미지 업로드 버튼 눌렀을 때 호출되는 함수
 $(".making_badge_attach_image_label").on("change", function (event) {
+  isChangeImage = true;
   const file = event.target.files[0];
   const preview = $("#making_badge_attach_image");
 
@@ -133,3 +134,34 @@ $(".making_badge_attach_image_label").on("change", function (event) {
   };
   reader.readAsDataURL(file);
 });
+
+function deleteBadgeHandler() {
+  var jwtToken = getTokenFromSessionStorage();
+  var badgeId = getURLBadgeId();
+  $.ajax({
+    url: `http://43.202.152.189/badge/${badgeId}`,
+    type: "DELETE",
+    headers: {
+      Authorization: `Bearer ${jwtToken}`,
+    },
+    success: function (data) {
+      window.location.href = `./profile_ent.html?userId=${getCurrentUserIdFromSessionStorage()}`;
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      if (jqXHR.status === 401) {
+        console.error("Unauthorized:", jqXHR.responseText);
+        alert("접근 권한이 없습니다.");
+        window.location.href = "./login.html";
+      } else if (jqXHR.status === 400) {
+        console.error("Bad Request:", jqXHR.responseText);
+        alert("형식이 올바르지 않습니다.");
+      } else if (jqXHR.status === 403) {
+        console.error("Forbidden:", jqXHR.responseText);
+        alert("올바른 접근이 아닙니다.");
+      } else {
+        console.error("Error:", jqXHR.status, errorThrown);
+        alert("서버 에러");
+      }
+    },
+  });
+}
