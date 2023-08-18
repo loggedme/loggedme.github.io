@@ -84,8 +84,7 @@
 
 > 간단한 입력을 통해 회원가입이 가능합니다.
 
-![회원가입](![image](./image/readme/회원가입.png)
-)
+![image](./image/readme/회원가입.png)
 
 ### 2. 로그인
 
