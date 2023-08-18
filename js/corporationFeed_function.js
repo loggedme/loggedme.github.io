@@ -430,14 +430,19 @@ function deleteFeed(feedId) {
 }
 
 function copyLink(url) {
-  navigator.clipboard
-    .writeText(url)
-    .then(function () {
-      alert("URL이 복사되었습니다.");
-    })
-    .catch(function (error) {
-      console.error("복사 실패:", error);
-    });
+  if (navigator.clipboard) {
+    navigator.clipboard
+      .writeText(url)
+      .then(function () {
+        alert("URL이 복사되었습니다.");
+      })
+      .catch(function (error) {
+        console.error("복사 실패:", error);
+      });
+  } else {
+    // navigator.clipboard를 지원하지 않는 경우 대체 처리
+    console.warn("현재 브라우저에서는 클립보드 복사를 지원하지 않습니다.");
+  }
 }
 
 // 세션에서 받아올 값
