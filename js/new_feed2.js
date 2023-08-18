@@ -337,10 +337,6 @@ $.ajax({
     Authorization: `Bearer ${jwtToken}`,
   },
   success: function (data) {
-    console.log("success: ");
-    console.log(data);
-    console.log(data[0].handle);
-    console.log(data.length);
     var DoneCount = 0;
 
     var company_template = ``;
@@ -356,22 +352,8 @@ $.ajax({
       </div>
       `;
     }
-    /*
-    $.each(data, function (item) {
-      company_template += `
-      <div class="company_item">
-        <div class="company">
-            <img class="company_image" src="${data.thumbnail}">
-            <p class="company_name">${data.handle}</p>
-        </div>
-        <input type="radio" name="tagged" value="${data.handle}">
-      </div>
-      `;
-    });
-    */
 
     $(".company_list").append(company_template);
-    console.log($(".company_list").val());
 
     $(".Done").click(function () {
       var radioVal = $('input[name="tagged"]:checked').val();
@@ -419,6 +401,7 @@ $("#Share").click(function () {
   }
 
   /* 여기서 부터  */
+  /*
   var tagged_user_template = ``;
   var Tag = document.querySelector(".tagged_company");
   var valueofTag = Tag.innerText;
@@ -430,17 +413,18 @@ $("#Share").click(function () {
 
   console.log(valueofTag);
   formDom.append(tagged_user_template);
+  */
   /* 여기까지가 작성했는데 안된 곳...*/
 
-  /*
-  const inputTaggedUser = document.createElement('input');
+  ///////////////////////////////////// 이거 하고 있었다
+  var inputTaggedUser = document.createElement('input');
   inputTaggedUser.setAttribute('type', 'hidden');
   inputTaggedUser.setAttribute('name', 'tagged_user');
   if (getCurrentAccountTypeFromSessionStorage() == 1) {
     inputTaggedUser.setAttribute('value', $(".tagged_company").val());
   }
   formDom.appendChild(inputTaggedUser);
-  */
+  
 
   formData = new FormData(formDom);
 
@@ -500,5 +484,9 @@ function getCurrentAccountTypeFromSessionStorage() {
 // 프사 가져오는 함수
 function getProfileImageFromSessionStorage() {
   // 사용자 프사 세션에서 받아오는 코드
+  if(sessionStorage.getItem("thumbnail") == null) {
+    return $("#profile").attr("src", "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png?20220226140232");
+  }
   return $("#profile").attr("src", sessionStorage.getItem("thumbnail"));
 }
+

@@ -105,6 +105,11 @@ $.ajax({
       // 피드 썸네일 이미지 배열에 담기
       FeedImage.push(data.feed.items[i].image_urls[0]);
     }
+    console.log("피드 이미지 받아오는 과정");
+    console.log(data.feed.items);
+    console.log(data.feed.items[0]);
+    console.log(data.feed.items[0].image_urls[0]);
+    console.log(FeedImage); 
 
     showBadge(badgeListLength); // 뱃지 html로 보내서 보여주는 함수
     showFeed(FeedListLength); // 피드 html로 보내서 보여주는 함수
@@ -184,13 +189,19 @@ function showFeed(FeedListLength) {
   let template = ``;
 
   if (FeedListLength != 0) {
+    console.log("자 여기야");
+    console.log(FeedImage);
+
     $("div").remove(".zero_feed"); // 피드가 1개라도 있으면 게시물 없다는 표시의 div를 html에서 삭제
     for (let i = 0; i < FeedListLength; i++) {
       template += `
-      <button class="goto_feed" id="feed_btn${i}" onclick="GoToFeed(${i})"><img class=feed_img src="${FeedImage[i]}"></button>
+      <div class="goto_feed" id="feed_btn${i}" onclick="GoToFeed(${i})">
+        <img class="feed_img" src="${FeedImage[i]}">
+      </div>
       `;
     }
-    $("my_feed").append(template);
+    console.log(template);
+    $(".my_feed").append(template);
   }
 }
 
