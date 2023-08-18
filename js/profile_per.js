@@ -203,3 +203,61 @@ $(".edit_btn").click(function () {
 function getProfileImageFromSessionStorage() {
   return sessionStorage.getItem("thumbnail");
 }
+
+
+// ajax for 팔로우 요청
+function followHandler(userId) {
+  var jwtToken = getTokenFromSessionStorage();
+  var currentUserId = getCurrentUserIdFromSessionStorage();
+  $.ajax({
+    url: `http://43.202.152.189/user/${currentUserId}/following/${userId}`,
+    type: "POST",
+    headers: {
+      Authorization: `Bearer ${jwtToken}`,
+    },
+    success: function (data) {
+       console.log("팔로우 성공: " + JSON.stringify(data));
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      if (jqXHR.status === 401) {
+        console.error("Unauthorized:", jqXHR.responseText);
+        alert("접근 권한이 없습니다.");
+        window.location.href = "./login.html";
+      } else if (jqXHR.status === 404) {
+        console.error("Not found:", jqXHR.responseText);
+        alert("사용자가 존재하지 않습니다.");
+      } else {
+        console.error("Error:", jqXHR.status, errorThrown);
+        alert("서버 에러");
+      }
+    },
+  });
+}
+
+$(".follow_btn").click(function () {
+  followHandler(userId);
+})
+
+function getCurrentUserIdFromSessionStorage() {
+  return sessionStorage.getItem("currentUserId");
+}
+
+function getUserHandleFromSessionStorage() {
+  return sessionStorage.getItem("handle");
+}
+
+function goToFollowers() {
+  window.location.href = `./follow_list.html?userId=${getCurrentUserIdFromSessionStorage()}&&userHandle=${getUserHandleFromSessionStorage()}&&isFollowing=false`
+}
+
+function goToFollowing() {
+  window.location.href = `./follow_list.html?userId=${getCurrentUserIdFromSessionStorage()}&&userHandle=${getUserHandleFromSessionStorage()}&&isFollowing=true`
+}
+
+$("#followers").click(function () {
+  goToFollowers();
+})
+
+$("#following").click(function () {
+  goToFollowing();
+})
