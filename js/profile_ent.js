@@ -65,7 +65,11 @@ $.ajax({
     console.log("success:", JSON.stringify(data));
 
     // 프사 받아오기
-    document.querySelector("#pro_img").src = data.user.thumbnail;
+    if(sessionStorage.getItem("thumbnail") == null) {
+      $("#pro_img").attr("src", "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png?20220226140232");
+    }else {
+      $("#pro_img").attr("src", sessionStorage.getItem("thumbnail"));
+    } 
 
     // 아이디(handle) 받아오기
     document.querySelector(".per_id").innerText = data.user.handle;
@@ -212,7 +216,6 @@ function GoToFeed(num) {
 /* 본인이 본인의 계정으로 들어온 것인지 확인하는 if문 (플러스 버튼의 유무를 위함) */
 // 세션에 본인꺼 currentAccountType(personal/business), currentUserId가 들어있다.
 if (
-  userAccountType === sessionStorage.getItem("currentUserAccountType") &&
   userId === sessionStorage.getItem("currentUserId")
 ) {
 } else {

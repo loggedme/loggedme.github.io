@@ -66,7 +66,11 @@ $.ajax({
     console.log("success:", JSON.stringify(data));
 
     // 프사 받아오기
-    document.querySelector("#pro_img").src = data.user.thumbnail;
+    if(sessionStorage.getItem("thumbnail") == null) {
+      $("#pro_img").attr("src", "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png?20220226140232");
+    }else {
+      $("#pro_img").attr("src", sessionStorage.getItem("thumbnail"));
+    } 
 
     // 아이디(handle) 받아오기
     document.querySelector(".per_id").innerText = data.user.handle;
