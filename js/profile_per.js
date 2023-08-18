@@ -179,10 +179,10 @@ function showFeed(FeedListLength) {
     $("div").remove(".zero_feed"); // 피드가 1개라도 있으면 게시물 없다는 표시의 div를 html에서 삭제
     for (let i = 0; i < FeedListLength; i++) {
       template += `
-      <button class="goto_feed" id="feed_btn${i}" onclick="GoToFeed(${i})"><img class=feed_img src="${FeedImage[i]}"></button>
+      <button class="goto_feed" id="feed_btn${i}" onclick="GoToFeed(${i})"><img class="feed_img" src="${FeedImage[i]}"></button>
       `;
     }
-    $("my_feed").append(template);
+    $(".my_feed").append(template);
   }
 }
 
