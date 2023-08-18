@@ -11,7 +11,7 @@ function likedFeed(feedId, itemIndex) {
     success: function (data) {
       console.log("좋아요 성공: " + JSON.stringify(data));
 
-      data[itemIndex].likes++;
+      updateLikesCount(itemIndex, 1);
     },
     error: function (jqXHR, textStatus, errorThrown) {
       if (jqXHR.status === 401) {
@@ -48,6 +48,8 @@ function unlikedFeed(feedId, itemIndex) {
     },
     success: function (data) {
       console.log("좋아요 취소 성공: " + JSON.stringify(data));
+
+      updateLikesCount(itemIndex, -1);
     },
     error: function (jqXHR, textStatus, errorThrown) {
       if (jqXHR.status === 401) {
@@ -73,6 +75,17 @@ function unlikedFeed(feedId, itemIndex) {
       //console.log(item.is_liked);
     },
   });
+}
+
+function updateLikesCount(itemIndex, delta) {
+    // itemIndex에 해당하는 아이템의 좋아요 수 업데이트
+    var likesNumContainer = $(".likesNum_container")[itemIndex];
+    if (likesNumContainer) {
+        // 현재 좋아요 수를 가져온 후 delta만큼 증가시킴
+        var currentLikes = parseInt(likesNumContainer.textContent);
+        var newLikes = currentLikes + delta;
+        likesNumContainer.textContent = newLikes + '명이 좋아합니다.';
+    }
 }
 
 //피드 스크랩 버튼
