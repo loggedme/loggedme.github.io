@@ -168,7 +168,6 @@ document.getElementById("Next").addEventListener("click", () => {
   localStorage.setItem("imageList", JSON.stringify(imageList));
 });
 
-
 /*********************** 
 const sliderWrap = document.querySelector(".slider__wrap");
 const sliderImg = document.querySelector(".slider__img");       // 보여지는 영역
@@ -262,11 +261,11 @@ BtnNext.addEventListener("click", () => {
   }
 
   // tag company가 보여질지 아닐지의 부분
-  if(getCurrentAccountTypeFromSessionStorage() == 2) {
-    $('#open_modal').remove();
+  if (getCurrentAccountTypeFromSessionStorage() == 2) {
+    $("#open_modal").remove();
   }
 
-  $('.slider__inner').append(template);
+  $(".slider__inner").append(template);
 
   pageInner.style.transition = "all 400ms";
   pageInner.style.transform = "translateX(" + -pageWidth + "px)";
@@ -274,7 +273,6 @@ BtnNext.addEventListener("click", () => {
 
   init();
 });
-
 
 // Back 버튼을 클릭했을 때
 BtnBack.addEventListener("click", () => {
@@ -286,8 +284,8 @@ BtnBack.addEventListener("click", () => {
   dotIndex = "";
 });
 
- // 슬라이드 초기값 설정 함수 init()
- function init(){
+// 슬라이드 초기값 설정 함수 init()
+function init() {
   // <a href="#" class="dot active">이미지1</a>
   const slider = document.querySelectorAll(".slider");
   const sliderDot = document.querySelector(".slider__dot");
@@ -308,7 +306,6 @@ document.querySelectorAll(".slider__dot .dot").forEach((dot, index) => {
     gotoSlider(index);
   });
 });
-
 
 /* tag company 모달창 기능 */
 $(".modal_overlay").hide();
@@ -332,7 +329,7 @@ getProfileImageFromSessionStorage();
 var jwtToken = getTokenFromSessionStorage();
 // 모달 get 부분
 $.ajax({
-  url: "http://203.237.169.125:2002/user?recommend=true&type=business",
+  url: "http://43.202.152.189/user?recommend=true&type=business",
   type: "GET",
   dataType: "json",
   contentType: "application/json",
@@ -348,7 +345,7 @@ $.ajax({
 
     var company_template = ``;
 
-    for(let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       company_template += `
       <div class="company_item">
         <div class="company">
@@ -372,7 +369,7 @@ $.ajax({
       `;
     });
     */
-   
+
     $(".company_list").append(company_template);
     console.log($(".company_list").val());
 
@@ -411,16 +408,15 @@ function giveText() {
 
 var formData = new FormData();
 
-$('#Share').click(function () {
+$("#Share").click(function () {
   /*
     폼 데이터에 올릴 사진 배열을 전부 append하기
   */
-  const formDom = document.getElementById('new-post-form');
+  const formDom = document.getElementById("new-post-form");
 
-  for(let i = 0; i < imageLengthCount; i++) {
+  for (let i = 0; i < imageLengthCount; i++) {
     formDom.append(imageList[i]);
   }
-
 
   /* 여기서 부터  */
   var tagged_user_template = ``;
@@ -445,27 +441,26 @@ $('#Share').click(function () {
   }
   formDom.appendChild(inputTaggedUser);
   */
-  
 
   formData = new FormData(formDom);
 
   $.ajax({
-    url: 'http://203.237.169.125:2002/feed',
-    type: 'POST',
+    url: "http://43.202.152.189/feed",
+    type: "POST",
     data: formData,
     processData: false, // FormData 처리 방지
     contentType: false, // 컨텐츠 타입 설정 방지
     headers: {
       Authorization: `Bearer ${jwtToken}`,
     },
-    success: function(data) {
+    success: function (data) {
       console.log(data);
       console.log(formData);
-      
+
       // url에 피드 아이디 값을 넣어서 보내는 부분
       window.location.href = `./single_feed.html?feedId=${data.id}`;
     },
-    error: function(jqXHR, textStatus, errorThrown) {
+    error: function (jqXHR, textStatus, errorThrown) {
       if (jqXHR.status === 400) {
         console.error("Bad Request:", jqXHR.responseText);
         alert("올바르지 않은 형식의 입력.");
@@ -502,7 +497,7 @@ function getCurrentAccountTypeFromSessionStorage() {
   return sessionStorage.getItem("currentUserAccountType");
 }
 
-// 프사 가져오는 함수 
+// 프사 가져오는 함수
 function getProfileImageFromSessionStorage() {
   // 사용자 프사 세션에서 받아오는 코드
   return $("#profile").attr("src", sessionStorage.getItem("thumbnail"));

@@ -1,11 +1,10 @@
-
 // mockup api
 $(document).ready(function (jwtToken) {
   var jwtToken = getTokenFromSessionStorage();
 
   // foryou 이미지 그리드
   $.ajax({
-    url: "http://203.237.169.125:2002/feed?trending=true",
+    url: "http://43.202.152.189/feed?trending=true",
     type: "GET",
     dataType: "json",
     success: function (data) {
@@ -13,10 +12,10 @@ $(document).ready(function (jwtToken) {
 
       $.each(data.items, function (index, item) {
         var foryouImgItem = $("<a>")
-        .addClass("img_item")
-        .on("click", function(){
-          window.location.href=`./single_feed.html?feedId=${item.id}`;
-        });
+          .addClass("img_item")
+          .on("click", function () {
+            window.location.href = `./single_feed.html?feedId=${item.id}`;
+          });
         var foryouImgElement = $("<img>").attr({
           src: item.image_urls[0],
           //alt: item.image_urls,
@@ -35,7 +34,7 @@ $(document).ready(function (jwtToken) {
       } else if (jqXHR.status === 401) {
         console.error("Unauthorized:", jqXHR.responseText);
         alert("로그인되지 않은 사용자입니다.");
-        window.location.href="./login.html";
+        window.location.href = "./login.html";
       } else {
         console.error("Error:", jqXHR.status, errorThrown);
       }
@@ -44,7 +43,7 @@ $(document).ready(function (jwtToken) {
 
   // person 이미지 그리드
   $.ajax({
-    url: "http://203.237.169.125:2002/feed?type=personal",
+    url: "http://43.202.152.189/feed?type=personal",
     type: "GET",
     dataType: "json",
     headers: {
@@ -55,10 +54,10 @@ $(document).ready(function (jwtToken) {
 
       $.each(data.items, function (index, item) {
         var personImgItem = $("<a>")
-        .addClass("img_item")
-        .on("click", function(){
-          window.location.href=`./single_feed.html?feedId=${item.id}`;
-        });
+          .addClass("img_item")
+          .on("click", function () {
+            window.location.href = `./single_feed.html?feedId=${item.id}`;
+          });
         var personImgElement = $("<img>").attr({
           src: item.image_urls,
           // alt: item.image_urls,
@@ -77,7 +76,7 @@ $(document).ready(function (jwtToken) {
       } else if (jqXHR.status === 401) {
         console.error("Unauthorized:", jqXHR.responseText);
         alert("로그인되지 않은 사용자입니다.");
-        window.location.href="./login.html";
+        window.location.href = "./login.html";
       } else {
         console.error("Error:", jqXHR.status, errorThrown);
       }
@@ -86,7 +85,7 @@ $(document).ready(function (jwtToken) {
 
   // company 이미지 그리드
   $.ajax({
-    url: "http://203.237.169.125:2002/feed?type=business",
+    url: "http://43.202.152.189/feed?type=business",
     type: "GET",
     dataType: "json",
     headers: {
@@ -98,9 +97,9 @@ $(document).ready(function (jwtToken) {
       $.each(data.items, function (index, item) {
         var companyImgItem = $("<a>")
           .addClass("img_item")
-          .on("click", function(){
-            window.location.href=`./single_feed.html?feedId=${item.id}`;
-        });
+          .on("click", function () {
+            window.location.href = `./single_feed.html?feedId=${item.id}`;
+          });
         var companyImgElement = $("<img>").attr({
           src: item.image_urls,
           // alt: item.image_urls,
@@ -119,15 +118,13 @@ $(document).ready(function (jwtToken) {
       } else if (jqXHR.status === 401) {
         console.error("Unauthorized:", jqXHR.responseText);
         alert("로그인되지 않은 사용자입니다.");
-        window.location.href="./login.html";
+        window.location.href = "./login.html";
       } else {
         console.error("Error:", jqXHR.status, errorThrown);
       }
     },
   });
 
-
-    
   var foryou = $("#foryou");
   var person = $("#person");
   var company = $("#company");
