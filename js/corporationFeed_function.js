@@ -1,7 +1,7 @@
 var jwtToken = getTokenFromSessionStorage();
 
 //좋아요 버튼
-function likedFeed(feedId) {
+function likedFeed(feedId, itemIndex) {
     
     $.ajax({
       url: `http://203.237.169.125:2002/feed/${feedId}/like`,
@@ -12,7 +12,7 @@ function likedFeed(feedId) {
       success: function (data) {
         console.log("좋아요 성공: " + JSON.stringify(data));
 
-        
+        data[itemIndex].likes++;
       },
       error: function (jqXHR, textStatus, errorThrown) {
         if (jqXHR.status === 401) {
@@ -41,7 +41,7 @@ function likedFeed(feedId) {
 
   }
 // 좋아요 취소 버튼
-function unlikedFeed(feedId) {
+function unlikedFeed(feedId, itemIndex) {
     $.ajax({
         url: `http://203.237.169.125:2002/feed/${feedId}/like`,
         type: "DELETE",
