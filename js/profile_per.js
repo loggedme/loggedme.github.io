@@ -166,11 +166,12 @@ function showBadge(badgeListLength) {
       `;
     }
     $(".badge_inner").append(template);
-    if (userId != sessionStorage.getItem("currentUserId")) {
-      $("div").remove("#add_badge");
-      $("button").remove(".edit_btn");
-    } else {
-    }
+  }
+  if (userId != sessionStorage.getItem("currentUserId")) {
+    $("div").remove("#add_badge");
+    $("button").remove(".edit_btn");
+  } else {
+    $("button").remove(".follow_btn");
   }
 }
 
@@ -179,7 +180,7 @@ function showBadge(badgeListLength) {
 */
 // 이 부분은 badgeImage 배열 변수와, badgeList와 같이 있어야 됨.
 function modal_On(num) {
-  // showBadge(num) 함수가 실행되어야 실행되는 함수
+  showBadge(num) //함수가 실행되어야 실행되는 함수
   document.querySelector(".modal_image").src = badgeImage[num]; // badgeList를 통해서 받아올 수 있으면 그걸로 간다.(하지만.. 지금처럼 이미지들만 따로 배열에 넣은게 편할 수도 있다...)
   document.getElementsByClassName("modal_document")[0].innerText =
     badgeDescription[num]; // 스택에서 보면 classname으로 받아오면 배열로 받아옴. 그래서 첫번째 요소로 받아와야 원하는대로 된다.
@@ -262,11 +263,13 @@ function getUserHandleFromSessionStorage() {
 }
 
 function goToFollowers() {
-  window.location.href = `./follow_list.html?userId=${getCurrentUserIdFromSessionStorage()}&&userHandle=${getUserHandleFromSessionStorage()}&&isFollowing=false`
+  urlUserId = params.get("userId")
+  window.location.href = `./follow_list.html?userId=${urlUserId}&&userHandle=${getUserHandleFromSessionStorage()}&&isFollowing=false`
 }
 
 function goToFollowing() {
-  window.location.href = `./follow_list.html?userId=${getCurrentUserIdFromSessionStorage()}&&userHandle=${getUserHandleFromSessionStorage()}&&isFollowing=true`
+  urlUserId = params.get("userId")
+  window.location.href = `./follow_list.html?userId=${urlUserId}&&userHandle=${getUserHandleFromSessionStorage()}&&isFollowing=true`
 }
 
 $("#followers").click(function () {

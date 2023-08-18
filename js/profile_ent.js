@@ -178,6 +178,7 @@ function showBadge(num) {
     $("div").remove("#add_badge");
     $("button").remove(".edit_btn");
   } else {
+    $("button").remove(".follow_btn");
   }
 }
 
@@ -273,11 +274,13 @@ function getUserHandleFromSessionStorage() {
 }
 
 function goToFollowers() {
-  window.location.href = `./follow_list.html?userId=${getCurrentUserIdFromSessionStorage()}&&userHandle=${getUserHandleFromSessionStorage()}&&isFollowing=false`
+  urlUserId = params.get("userId")
+  window.location.href = `./follow_list.html?userId=${urlUserId}&&userHandle=${getUserHandleFromSessionStorage()}&&isFollowing=false`
 }
 
 function goToFollowing() {
-  window.location.href = `./follow_list.html?userId=${getCurrentUserIdFromSessionStorage()}&&userHandle=${getUserHandleFromSessionStorage()}&&isFollowing=true`
+  urlUserId = params.get("userId")
+  window.location.href = `./follow_list.html?userId=${urlUserId}&&userHandle=${getUserHandleFromSessionStorage()}&&isFollowing=true`
 }
 
 $("#followers").click(function () {
