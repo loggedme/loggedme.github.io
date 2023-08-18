@@ -25,7 +25,7 @@ var badgeDescription = []; // 뱃지 설명이 들어있는 배열
 let FeedList = []; // 피드 아이디 들어있는 배열
 let FeedImage = []; // 피드 값 중에서 image_urls 부분에서 첫 이미지들(image_urls[0])만 따로 받아오기(프로필 페이지 썸네일용)
 var FeedListLength = FeedList.length; // 피드 개수
-
+var isFollow = false;
 /* ajax 부분 */
 // ajax url에 user.id에 들어갈 값을 받아오는 부분
 
@@ -71,7 +71,7 @@ $.ajax({
     /* 본인이 본인의 계정으로 들어온 것인지 확인하는 if문 (플러스 버튼의 유무를 위함) */
     // 세션에 본인꺼 currentAccountType(personal/business), currentUserId가 들어있다.
     if (userId == sessionStorage.getItem("currentUserId")) {
-      if(sessionStorage.getItem("thumbnail") == "null"){
+      if (sessionStorage.getItem("thumbnail") == "null") {
         console.log("기본 이미지가 적용 안된다는거");
         $("#pro_img").attr("src", sessionStorage.getItem("thumbnail"));
       } else {
@@ -82,10 +82,10 @@ $.ajax({
       $("a").remove("#feed_plus_btn");
     }
 
-    if(sessionStorage.getItem("thumbnail") ){
+    if (sessionStorage.getItem("thumbnail")) {
       $("#pro_img").attr("src", data.user.thumbnail);
-    }else {
-    } 
+    } else {
+    }
 
     // 아이디(handle) 받아오기
     document.querySelector(".per_id").innerText = data.user.handle;
@@ -104,8 +104,15 @@ $.ajax({
     /* 
       뱃지 받아오는 부분
     */
-
-    $.each(data.badge.items, function (item) {
+    isFollow = data.user.is_following;
+    if (isFollow) {
+      $(".follow_btn").css("background-color", "rgba(217, 217, 217, 0.5)");
+      $(".follow_btn").css("color", "black");
+    } else {
+      $(".follow_btn").css("background-color", "#6970f2");
+      $(".follow_btn").css("color", "white");
+    }
+    $.each(data.badge.items, function (index, item) {
       // 각각의 뱃지 아이템을 배열에 하나씩 푸쉬
       badgeList.push(item); // ajax 밖에 있는 빈 배열 badgeList에 뱃지의 data 넣기
       badgeImage.push(item.thumbnail); // ajax 밖에 있는 빈 배열 badgeImage에 뱃지의 썸네일 넣기
@@ -116,7 +123,7 @@ $.ajax({
     //----------------------------------------------------
 
     // 피드 id 배열에 넣기
-    for(let i = 0; i < data.feed.items.length; i++) {
+    for (let i = 0; i < data.feed.items.length; i++) {
       FeedList.push(data.feed.items[i].id);
     }
 
@@ -165,7 +172,7 @@ function showBadge(badgeListLength) {
       template += `
       <div class="badge" id="badge${
         i + 1
-      }"><img class="open_modal" onclick="modal_On(${0})" src="${
+      }"><img class="open_modal" onclick="modal_On(${i})" src="${
         badgeImage[i]
       }"></div>
       `;
@@ -185,7 +192,7 @@ function showBadge(badgeListLength) {
 */
 // 이 부분은 badgeImage 배열 변수와, badgeList와 같이 있어야 됨.
 function modal_On(num) {
-  showBadge(num) //함수가 실행되어야 실행되는 함수
+  // showBadge(num); //함수가 실행되어야 실행되는 함수
   document.querySelector(".modal_image").src = badgeImage[num]; // badgeList를 통해서 받아올 수 있으면 그걸로 간다.(하지만.. 지금처럼 이미지들만 따로 배열에 넣은게 편할 수도 있다...)
   document.getElementsByClassName("modal_document")[0].innerText =
     badgeDescription[num]; // 스택에서 보면 classname으로 받아오면 배열로 받아옴. 그래서 첫번째 요소로 받아와야 원하는대로 된다.
@@ -225,7 +232,6 @@ function getProfileImageFromSessionStorage() {
   return sessionStorage.getItem("thumbnail");
 }
 
-
 // ajax for 팔로우 요청
 function followHandler(userId) {
   var jwtToken = getTokenFromSessionStorage();
@@ -237,7 +243,44 @@ function followHandler(userId) {
       Authorization: `Bearer ${jwtToken}`,
     },
     success: function (data) {
-       console.log("팔로우 성공: " + JSON.stringify(data));
+      console.log("팔로우 성공: " + JSON.stringify(data));
+
+      $(".follow_btn").css("background-color", "rgba(217, 217, 217, 0.5)");
+      $(".follow_btn").css("color", "black");
+
+      isFollow = true;
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      if (jqXHR.status === 401) {
+        console.error("Unauthorized:", jqXHR.responseText);
+        alert("접근 권한이 없습니다.");
+        window.location.href = "./login.html";
+      } else if (jqXHR.status === 404) {
+        console.error("Not found:", jqXHR.responseText);
+        alert("사용자가 존재하지 않습니다.");
+      } else {
+        console.error("Error:", jqXHR.status, errorThrown);
+        alert("서버 에러");
+      }
+    },
+  });
+}
+
+// ajax for 팔로우 취소
+function unfollowHandler(userId) {
+  var jwtToken = getTokenFromSessionStorage();
+  var currentUserId = getCurrentUserIdFromSessionStorage();
+  $.ajax({
+    url: `http://43.202.152.189/user/${currentUserId}/following/${userId}`,
+    type: "DELETE",
+    headers: {
+      Authorization: `Bearer ${jwtToken}`,
+    },
+    success: function (data) {
+      console.log("팔로우 취소: " + JSON.stringify(data));
+      $(".follow_btn").css("background-color", "#6970f2");
+      $(".follow_btn").css("color", "white");
+      isFollow = false;
     },
     error: function (jqXHR, textStatus, errorThrown) {
       if (jqXHR.status === 401) {
@@ -256,8 +299,12 @@ function followHandler(userId) {
 }
 
 $(".follow_btn").click(function () {
-  followHandler(userId);
-})
+  if (isFollow) {
+    unfollowHandler(userId);
+  } else {
+    followHandler(userId);
+  }
+});
 
 function getCurrentUserIdFromSessionStorage() {
   return sessionStorage.getItem("currentUserId");
@@ -268,19 +315,19 @@ function getUserHandleFromSessionStorage() {
 }
 
 function goToFollowers() {
-  urlUserId = params.get("userId")
-  window.location.href = `./follow_list.html?userId=${urlUserId}&&userHandle=${getUserHandleFromSessionStorage()}&&isFollowing=false`
+  urlUserId = params.get("userId");
+  window.location.href = `./follow_list.html?userId=${urlUserId}&&userHandle=${getUserHandleFromSessionStorage()}&&isFollowing=false`;
 }
 
 function goToFollowing() {
-  urlUserId = params.get("userId")
-  window.location.href = `./follow_list.html?userId=${urlUserId}&&userHandle=${getUserHandleFromSessionStorage()}&&isFollowing=true`
+  urlUserId = params.get("userId");
+  window.location.href = `./follow_list.html?userId=${urlUserId}&&userHandle=${getUserHandleFromSessionStorage()}&&isFollowing=true`;
 }
 
 $("#followers").click(function () {
   goToFollowers();
-})
+});
 
 $("#following").click(function () {
   goToFollowing();
-})
+});
