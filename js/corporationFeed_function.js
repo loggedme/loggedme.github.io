@@ -290,7 +290,7 @@ function postingComment(feedId) {
       $("#comment_input").val("");
 
       console.log("댓글 작성 성공: " + JSON.stringify(data));
-      $(".comments_container").empty();
+      
       // 작성한 댓글 정보 가져오기
       var uploadedComment = {
         author: {
@@ -321,6 +321,7 @@ function postingComment(feedId) {
 
       // 새로운 댓글 요소를 comments_container에 추가
       $(".comments_container").append(newComment);
+      $(".comments_container #empty1, .comments_container #empty2").remove();
 
     },
     error: function (jqXHR, textStatus, errorThrown) {
