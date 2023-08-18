@@ -216,13 +216,13 @@ $(document).ready(function (jwtToken) {
             heartLink.removeClass("filled_heart_link");
             heartLink.addClass("heart_link");
             data.is_liked = false;
-            unlikedFeed(currentFeedId);
+            unlikedFeed(currentFeedId, likesNum);
           } else {
             newSrc = "../image/filled_heart.png";
             heartLink.addClass("filled_heart_link");
             heartLink.removeClass("heart_link");
             data.is_liked = true;
-            likedFeed(currentFeedId);
+            likedFeed(currentFeedId, likesNum);
           }
 
           heartImg.attr("src", newSrc);
