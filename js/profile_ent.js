@@ -107,10 +107,12 @@ $.ajax({
 
     //----------------------------------------------------
 
-    $.each(data.feed.items, function (item) {
-      // 피드 아이디 배열에 담기
-      FeedList.push(item.id);
-    });
+    // 피드 id 배열에 넣기
+    for(let i = 0; i < data.feed.items.length; i++) {
+      console.log(data.feed.items[i].id);
+      FeedList.push(data.feed.items[i].id);
+    }
+
 
     FeedListLength = Posts;
 
