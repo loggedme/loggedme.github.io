@@ -95,7 +95,7 @@ $(document).ready(function () {
             var gotoUserInfo = $("<a>")
               .addClass("goTo_userInfo")
               .on("click", function () {
-                window.location.href = `${userProfileLink}?userId=${item.author.id}`;
+                window.location.href = `./profile_per.html?userId=${item.author.id}`;
               })
               .text("이 계정 정보");
             var saveBtnOption = $("<button>")
