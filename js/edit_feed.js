@@ -188,17 +188,17 @@ if (getCurrentAccountTypeFromSessionStorage() == 1) {
     success: function (data) {
       var company_template = ``;
 
-    for (let i = 0; i < data.length; i++) {
-      company_template += `
-      <div class="company_item">
-        <div class="company">
-            <img class="company_image" src="${data[i].thumbnail}">
-            <p class="company_name">${data[i].handle}</p>
+      for (let i = 0; i < data.length; i++) {
+        company_template += `
+        <div class="company_item">
+          <div class="company">
+              <img class="company_image" src="${data[i].thumbnail}">
+              <p class="company_name">${data[i].handle}</p>
+          </div>
+          <input id="tagged" type="radio" name="tagged" value="${data[i].handle}">
         </div>
-        <input type="radio" name="tagged" value="${data[i].handle}">
-      </div>
-      `;
-    }
+        `;
+      }
       $(".company_list").append(company_template);
 
       $(".tag_Done").click(function () {
@@ -281,7 +281,7 @@ $("#Done").click(function () {
       console.log("Response:", data);
 
       // 수정 완료되면 싱글 페이지로 이동
-      //window.location.href = `./single_feed.html?feedId=${data.id}`;
+      window.location.href = `./single_feed.html?feedId=${data.id}`;
     },
     error: function (jqXHR, textStatus, errorThrown) {
       if (jqXHR.status === 400) {
