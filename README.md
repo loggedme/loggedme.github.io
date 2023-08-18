@@ -151,7 +151,7 @@
 > debounce를 사용하여 traffic을 제어합니다.
 
 ![탐색](image/readme/탐색.png)
-![탐색후](image/readme/탐색후해시태그검색페이지.png)
+![탐색후](image/readme/탐색후_해시태그검색페이지.png)
 ![탐색후](image/readme/탐색후해시태그검색페이지_1.png)
 ![탐색후](image/readme/탐색후해시태그검색페이지_2.png)
 
@@ -194,181 +194,32 @@
 ![탐색](image/readme/게시물수정중기업태그페이지.png)
 
 
-
-### 6. Profile
-
-> 친구 메뉴, 채팅방 등에서 사진을 클릭 시 프로필 창이 등장합니다. 해당 창에서 사용자 정보를 변경할 수 있습니다.
-
-1. **나의 프로필**
-  
-![나의 프로필 창](https://user-images.githubusercontent.com/41350459/95090872-bdf2e880-0760-11eb-8d70-40171d1b5820.png)
-
--------------
-
-2. **친구 프로필**
-
-> 친구의 경우, 이름 변경만 가능합니다.
-
-![친구 프로필 창](https://user-images.githubusercontent.com/41350459/95090878-c0554280-0760-11eb-9fe9-ec60c33b29ab.png)
-
 ## Ⅴ) 프로젝트 구현 기술
 
-### 1. webpack
+### 1. debounce
 
-> CRA(create-react-app)를 통해 프로젝트를 진행하지 않고, Webpack을 이용하여 직접 개발환경을 설정하였습니다. 이를 통해 Customize하게 개발 환경을 구성할 수 있습니다.
+> ajax network traffic management를 위해 debounce로 search 시 debounce 사용
 
 ```
-  mode: process.env.NODE_ENV,
-
-  entry: "./src/index.tsx",
-
-  resolve: {
-    extensions: [".ts", ".tsx", '.js'],
-    plugins: [new TsconfigPathsPlugin({ configFile: "./tsconfig.json" })]
-  },
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        loader: "babel-loader",
-        exclude: /node_modules/
-      },
-      {
-          test: /\.tsx?$/,
-          loader: 'ts-loader'
+ var timer;
+$(".follow_list_main_search_input").on("input", function () {
+  if (timer) {
+    clearTimeout(timer);
+  }
+  timer = setTimeout(function () {
+    const query = $(".follow_list_main_search_input").val();
+    // console.log(query);
+    $(".item_userName").each(function () {
+      var personName = $(this).text().toLowerCase();
+      // console.log(personName);
+      if (personName.includes(query)) {
+        $(this).parent().show();
+      } else {
+        $(this).parent().hide();
       }
-    ]
-  },
+    });
+  }, 300);
+});
 
                     ......
-```
-
-
-### 2. Styled-Components
-
-> **Styled-Components**를 사용하여 **CSS-in-JS**를 구현하였습니다. 이를 통해 CSS 모델을 문서 레벨이 아니라 컴포넌트 레벨로 추상화하여, 스타일 시트를 더 이상 유지 보수할 필요가 없도록 하였습니다.
-
-글로벌적으로 설정해야 하는 스타일(ex) body, div, input 등)이나, 재사용할 수 있는 스타일은 **styles** 폴더에 따로 분리하였습니다. 그 후 다른 컴포넌트에서 import하여 사용하였습니다.
-
-```
-const GlobalStyle = createGlobalStyle`
-     * {
-       box-sizing: border-box;
-     }
-     body {
-      width: 100%;
-      height: 100%;
-    }
-     body, div, ul, li, dl, dd, dt, ol, h1, h2, h3, h4, h5, h6, input, fieldset, legend, p, select, table, th, td, tr, textarea, button, form, figure, figcaption {
-      padding: 0;
-      margin: 0;
-    }
-                      ......
-```
-
-### 3. 스크롤 페이징
-
-> 채팅방에 스크롤 페이징 기술을 접목하였습니다. 이를 통해 처음부터 모든 채팅 내용을 서버에서 가져오는 것이 아니라, 사용자가 원할 때만 이전 채팅 내용을 가져오기 때문에 리소스 낭비를 막을 수 있습니다.
-
-#### 이전 채팅 불러오기
-
-![스크롤페이징](https://user-images.githubusercontent.com/41350459/95644681-39eb8880-0af3-11eb-9aa6-e850fb33d526.gif)
-
-
-### 4. Socket.io
-
-> - 채팅의 실시간 양방향 통신을 위하여 Socket.io를 사용하였습니다.
-> - 채팅의 전반적인 기능(메시지 송수신, 알림 등)에 사용하여 실시간으로 채팅이 이루어지도록 구현하였습니다.
-
-#### test01과 test02의 채팅
-
-![채팅](https://user-images.githubusercontent.com/41350459/95676907-c3d34880-0bfc-11eb-9c3b-1832713d234b.gif)
-
-#### 채팅 알림
-
-![채팅알림](https://user-images.githubusercontent.com/41350459/95676908-c46bdf00-0bfc-11eb-9560-1cb02ce78a94.gif)
-
-
-### 5. Sequelize(ORM)
-
-> ORM(Object Relational Mapping)인 Sequelize를 이용하여 객체와 관계형 데이터베이스의 데이터를 매핑하였습니다. 이를 통해 SQL Query가 아닌 직관적인 코드로 데이터를 조작할 수 있기 때문에, 더 수월하게 개발이 가능합니다.
-
-**Object(객체)**
-```
-class Friend extends Model {
-    public id!: number;
-    public my_id!: number;
-    public friend_id!: number;
-    public friend_name!: string;
-    
-    public readonly User?: User;
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
-}
-```
-
-**Object와 RDB를 Mapping**
-```
-Friend.init({
-        id: {
-            type: DataTypes.INTEGER.UNSIGNED,
-            autoIncrement: true,
-            primaryKey: true,
-            allowNull: false,
-        },
-        my_id: {
-            type: DataTypes.INTEGER.UNSIGNED,
-            allowNull: false,
-        },
-        friend_id: {
-            type: DataTypes.INTEGER.UNSIGNED,
-            allowNull: false,
-        },
-        friend_name: {
-            type: new DataTypes.STRING(20),
-            allowNull: false,
-        },
-        createdAt: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
-        updatedAt: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
-    }, {
-        sequelize,
-        tableName: 'friend',
-        engine: 'InnoDB',
-        charset: 'utf8',
-        freezeTableName: true,
-        indexes: [
-            {
-                unique: true,
-                fields: ['my_id', 'friend_id']
-            }
-        ]
-    });
-```
-
-**객체를 이용한 CRUD**
-
-```
-
-Friend.findAll({
-    attributes: ["friend_id", "friend_name"],
-    where: {my_id: 1},
-});
-
-Friend.create({
-  my_id: 1, 
-  friend_id: 2, 
-  friend_name: "김갑수"
-});
-
-Friend.update({
-  friend_name: "홍길동"
-}, {
-  where: {my_id, friend_id}
-});
 ```
