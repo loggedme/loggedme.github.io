@@ -31,42 +31,35 @@ $(document).ready(function () {
     debounce(function () {
       var searchTerm = searchInput.val().toLowerCase();
 
-      if (searchTerm.startsWith("#")) {
-        searchHashtag.trigger("click");
-        $(".person_search_list .person_item").hide();
-        $(".company_search_list .company_item").hide();
-
-        $(".hashtag_search_list .hashtag_item ").each(function () {
-          var hashtagName = $(this).find(".hashtag_name").text().toLowerCase();
-          if (hashtagName.includes(searchTerm)) {
-            $(this).show();
-            $(this).find(".posting_num").show();
-          } else {
-            $(this).hide();
-            $(this).find(".posting_num").hide();
-          }
-        });
-      } else {
-        $(".hashtag_search_list .hashtag_item").hide();
-
-        $(".person_search_list .person_item").each(function () {
-          var personName = $(this).text().toLowerCase();
-          if (personName.includes(searchTerm) && !searchTerm.startsWith("#")) {
-            $(this).show();
-          } else {
-            $(this).hide();
-          }
-        });
-
-        $(".company_search_list .company_item").each(function () {
-          var companyName = $(this).text().toLowerCase();
-          if (companyName.includes(searchTerm)) {
-            $(this).show();
-          } else {
-            $(this).hide();
-          }
-        });
-      }
+      $(".person_search_list .person_item").each(function () {
+        var personName = $(this).text().toLowerCase();
+        if(personName.includes(searchTerm)){
+          $(this).show();
+        } else {
+          $(this).hide();
+        }
+      });
+  
+      $(".company_search_list .company_item").each(function () {
+        var companyName = $(this).text().toLowerCase();
+        if (companyName.includes(searchTerm)){
+          $(this).show();
+        } else {
+          $(this).hide();
+        }
+      });
+  
+      $(".hashtag_search_list .hashtag_item ").each(function () {
+        var hashtagName = $(this).find(".hashtag_name").text().toLowerCase();
+        if (hashtagName.includes(searchTerm)) {
+          $(this).show();
+          $(this).find(".posting_num").show();
+        } else {
+          $(this).hide();
+          $(this).find(".posting_num").hide();
+        }
+      })
+      
 
       currentSearchTerm = searchTerm;
       console.log(currentSearchTerm);
