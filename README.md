@@ -94,230 +94,132 @@
 ![로그인](image/readme/로그인.png)
 
 
-### 3. 비밀번호 초기화
+### 3. 비밀번호 찾기
 
 > 등록한 이메일을 사용해 인증 코드로 비밀번호 초기화가 가능합니다
 
-![비밀번호 초기화](image/readme/"비밀번호 찾기.png")
+![비밀번호찾기](image/readme/비밀번호찾기.png)
 
 
-#### 3.1 친구 추가
+#### 4. 비밀번호 재설정
 
 > 친구 ID를 입력하여 친구를 추가할 수 있습니다. 만약 이미 친구라면 1:1 채팅 버튼이 나옵니다.
 
-![친구추가](https://user-images.githubusercontent.com/41350459/95090876-bf241580-0760-11eb-81b0-dafb74bb38b3.png)
+![비밀번호재설](image/readme/비밀번호재설정.png)
 
-#### 3.2 친구 검색
+#### 5. 기업 피드
 
-> 검색 창에 입력한 단어가 이름에 있는 친구들을 찾습니다.
+> 사용자가 팔로우한 기업 계정의 피드를 볼 수 있습니다.
 
-![친구검색](https://user-images.githubusercontent.com/41350459/95090885-c1866f80-0760-11eb-8caa-eb9cebbeb373.png)
+> 좋아요, 댓글, 링크 공유, 스크랩 기능의 사용이 가능합니다.
 
-### 4. 채팅 메뉴
+![기업피드](image/readme/피드_기업.png)
 
-> - 해당 메뉴에서는 채팅방 목록 확인 및 검색 등이 가능합니다.
-> - 채팅방은 최근 수신한 채팅 날짜 순으로 정렬되어 있으며, 읽지 않은 채팅 수가 표시됩니다.
-> - 채팅방을 더블 클릭 시 채팅방에 입장하게 됩니다.
+### 6. 개인 피드
 
-![채팅메뉴](https://user-images.githubusercontent.com/41350459/95163480-ea4f4900-07e2-11eb-8ff1-49377be284e5.png)
+> 사용자가 팔로우한 개인 계정의 피드를 볼 수 있습니다.
 
-#### 4.1 새로운 채팅
+> 좋아요, 댓글, 링크 공유, 스크랩 기능의 사용이 가능합니다.
 
-> - 친구 목록에서 채팅 할 대상을 선택하여 대화할 수 있습니다.
-> - 검색을 통해 대화할 친구를 찾을 수도 있습니다.
-
-![새로운채팅](https://user-images.githubusercontent.com/41350459/95184281-1d550500-0802-11eb-8622-420b1c799a54.png)
+![개인피드](image/readme/피드_개인.png)
 
 
-#### 4.2 채팅방 검색
+#### 7. 댓글 모달
 
-> 검색 단어가 방 참가자 또는 방 이름에 있는 채팅방들을 나타냅니다.
+> 사용자가 피드에 댓글을 남길 수 있습니다.
 
-![방검색](https://user-images.githubusercontent.com/41350459/95185750-129b6f80-0804-11eb-9f04-847ba3cebb5b.png)
+> 본인의 댓글이라면 삭제가 가능합니다.
 
-### 5. 채팅방
+![댓글모달](image/readme/피드_개인_댓글삭제여부.png)
 
-> - 채팅방에서 다른 사용자와 대화를 할 수 있습니다.
-> - 친구가 아닐 경우, 경고창이 뜨고 원하면 친구 추가를 할 수 있습니다.
-> - 스크롤이 위로 올라가 있을 때, 상대방이
-메시지를 보내면 알려줍니다.
+#### 7. 프로필
 
-![채팅방](https://user-images.githubusercontent.com/41350459/95193059-28159700-080e-11eb-9d8e-54ea6ba409cf.png)
+> 사용자가 자신 또는 다른 사용자의 프로필을 방문할 수 있습니다.
 
-### 6. Profile
+> 부여(기업)하거나 부여받은(개인) 뱃지를 확인할 수 있습니다.
 
-> 친구 메뉴, 채팅방 등에서 사진을 클릭 시 프로필 창이 등장합니다. 해당 창에서 사용자 정보를 변경할 수 있습니다.
+> 팔로우, 팔로워 목록 및 피드, name, handle을 확인할 수 있습니다.
 
-1. **나의 프로필**
-  
-![나의 프로필 창](https://user-images.githubusercontent.com/41350459/95090872-bdf2e880-0760-11eb-8d70-40171d1b5820.png)
+![개인프로필](image/readme/개인프로필_게시물여러개_1.png)
+![기업프로](image/readme/기업프로필.png)
 
--------------
 
-2. **친구 프로필**
+#### 8. 탐색
 
-> 친구의 경우, 이름 변경만 가능합니다.
+> 사용자, 피드, 해쉬태그를 검색할 수 있습니다.
 
-![친구 프로필 창](https://user-images.githubusercontent.com/41350459/95090878-c0554280-0760-11eb-9fe9-ec60c33b29ab.png)
+> debounce를 사용하여 traffic을 제어합니다.
+
+![탐색](image/readme/탐색.png)
+![탐색후](image/readme/탐색후_해시태그검색페이지.png)
+![탐색후](image/readme/탐색후해시태그검색페이지_1.png)
+![탐색후](image/readme/탐색후해시태그검색페이지_2.png)
+
+
+#### 9. 뱃지
+
+> 기업사용자는 개인사용자에게 뱃지를 부여할 수 있습니다.
+
+> 시나리오에 따라 부여합니다.
+
+![탐색](image/readme/뱃지만들기.png)
+![탐색후](image/readme/뱃지부여페이지.png)
+![탐색후](image/readme/뱃지설명페이지_기업.png)
+
+
+#### 10. 팔로우리스트
+
+> 팔로우, 팔로워 리스트를 확인할 수 있습니다.
+
+> 팔로우 요청과 취소가 가능합니다.
+
+![탐색](image/readme/팔로워목록페이지.png)
+
+
+#### 11. 알림페이지
+
+> 사용자에게 일어난 이슈를 확인할 수 있습니다.
+
+![탐색](image/readme/알림페이지.png)
+
+
+#### 8. 게시물 작성 및 수정
+
+> 게시물 작성 및 수정이 가능합니다.
+
+![탐색](image/readme/게시물작성페이지_1.png)
+![탐색](image/readme/게시물작성페이지_2.png)
+![탐색](image/readme/게시물작성중기업태그페이지.png)
+![탐색](image/readme/게시물수정페이지.png)
+![탐색](image/readme/게시물수정중기업태그페이지.png)
+
 
 ## Ⅴ) 프로젝트 구현 기술
 
-### 1. webpack
+### 1. debounce
 
-> CRA(create-react-app)를 통해 프로젝트를 진행하지 않고, Webpack을 이용하여 직접 개발환경을 설정하였습니다. 이를 통해 Customize하게 개발 환경을 구성할 수 있습니다.
+> ajax network traffic management를 위해 debounce로 search 시 debounce 사용
 
 ```
-  mode: process.env.NODE_ENV,
-
-  entry: "./src/index.tsx",
-
-  resolve: {
-    extensions: [".ts", ".tsx", '.js'],
-    plugins: [new TsconfigPathsPlugin({ configFile: "./tsconfig.json" })]
-  },
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        loader: "babel-loader",
-        exclude: /node_modules/
-      },
-      {
-          test: /\.tsx?$/,
-          loader: 'ts-loader'
+ var timer;
+$(".follow_list_main_search_input").on("input", function () {
+  if (timer) {
+    clearTimeout(timer);
+  }
+  timer = setTimeout(function () {
+    const query = $(".follow_list_main_search_input").val();
+    // console.log(query);
+    $(".item_userName").each(function () {
+      var personName = $(this).text().toLowerCase();
+      // console.log(personName);
+      if (personName.includes(query)) {
+        $(this).parent().show();
+      } else {
+        $(this).parent().hide();
       }
-    ]
-  },
+    });
+  }, 300);
+});
 
                     ......
-```
-
-
-### 2. Styled-Components
-
-> **Styled-Components**를 사용하여 **CSS-in-JS**를 구현하였습니다. 이를 통해 CSS 모델을 문서 레벨이 아니라 컴포넌트 레벨로 추상화하여, 스타일 시트를 더 이상 유지 보수할 필요가 없도록 하였습니다.
-
-글로벌적으로 설정해야 하는 스타일(ex) body, div, input 등)이나, 재사용할 수 있는 스타일은 **styles** 폴더에 따로 분리하였습니다. 그 후 다른 컴포넌트에서 import하여 사용하였습니다.
-
-```
-const GlobalStyle = createGlobalStyle`
-     * {
-       box-sizing: border-box;
-     }
-     body {
-      width: 100%;
-      height: 100%;
-    }
-     body, div, ul, li, dl, dd, dt, ol, h1, h2, h3, h4, h5, h6, input, fieldset, legend, p, select, table, th, td, tr, textarea, button, form, figure, figcaption {
-      padding: 0;
-      margin: 0;
-    }
-                      ......
-```
-
-### 3. 스크롤 페이징
-
-> 채팅방에 스크롤 페이징 기술을 접목하였습니다. 이를 통해 처음부터 모든 채팅 내용을 서버에서 가져오는 것이 아니라, 사용자가 원할 때만 이전 채팅 내용을 가져오기 때문에 리소스 낭비를 막을 수 있습니다.
-
-#### 이전 채팅 불러오기
-
-![스크롤페이징](https://user-images.githubusercontent.com/41350459/95644681-39eb8880-0af3-11eb-9aa6-e850fb33d526.gif)
-
-
-### 4. Socket.io
-
-> - 채팅의 실시간 양방향 통신을 위하여 Socket.io를 사용하였습니다.
-> - 채팅의 전반적인 기능(메시지 송수신, 알림 등)에 사용하여 실시간으로 채팅이 이루어지도록 구현하였습니다.
-
-#### test01과 test02의 채팅
-
-![채팅](https://user-images.githubusercontent.com/41350459/95676907-c3d34880-0bfc-11eb-9c3b-1832713d234b.gif)
-
-#### 채팅 알림
-
-![채팅알림](https://user-images.githubusercontent.com/41350459/95676908-c46bdf00-0bfc-11eb-9560-1cb02ce78a94.gif)
-
-
-### 5. Sequelize(ORM)
-
-> ORM(Object Relational Mapping)인 Sequelize를 이용하여 객체와 관계형 데이터베이스의 데이터를 매핑하였습니다. 이를 통해 SQL Query가 아닌 직관적인 코드로 데이터를 조작할 수 있기 때문에, 더 수월하게 개발이 가능합니다.
-
-**Object(객체)**
-```
-class Friend extends Model {
-    public id!: number;
-    public my_id!: number;
-    public friend_id!: number;
-    public friend_name!: string;
-    
-    public readonly User?: User;
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
-}
-```
-
-**Object와 RDB를 Mapping**
-```
-Friend.init({
-        id: {
-            type: DataTypes.INTEGER.UNSIGNED,
-            autoIncrement: true,
-            primaryKey: true,
-            allowNull: false,
-        },
-        my_id: {
-            type: DataTypes.INTEGER.UNSIGNED,
-            allowNull: false,
-        },
-        friend_id: {
-            type: DataTypes.INTEGER.UNSIGNED,
-            allowNull: false,
-        },
-        friend_name: {
-            type: new DataTypes.STRING(20),
-            allowNull: false,
-        },
-        createdAt: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
-        updatedAt: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
-    }, {
-        sequelize,
-        tableName: 'friend',
-        engine: 'InnoDB',
-        charset: 'utf8',
-        freezeTableName: true,
-        indexes: [
-            {
-                unique: true,
-                fields: ['my_id', 'friend_id']
-            }
-        ]
-    });
-```
-
-**객체를 이용한 CRUD**
-
-```
-
-Friend.findAll({
-    attributes: ["friend_id", "friend_name"],
-    where: {my_id: 1},
-});
-
-Friend.create({
-  my_id: 1, 
-  friend_id: 2, 
-  friend_name: "김갑수"
-});
-
-Friend.update({
-  friend_name: "홍길동"
-}, {
-  where: {my_id, friend_id}
-});
 ```
