@@ -109,10 +109,11 @@ $.ajax({
 
     //----------------------------------------------------
 
-    $.each(data.feed.items, function (item) {
-      // 피드 아이디 배열에 담기
-      FeedList.push(item.id);
-    });
+    // 피드 id 배열에 넣기
+    for(let i = 0; i < data.feed.items.length; i++) {
+      console.log(data.feed.items[i].id);
+      FeedList.push(data.feed.items[i].id);
+    }
 
     FeedListLength = Posts;
 
@@ -197,7 +198,7 @@ function showFeed(FeedListLength) {
     $("div").remove(".zero_feed"); // 피드가 1개라도 있으면 게시물 없다는 표시의 div를 html에서 삭제
     for (let i = 0; i < FeedListLength; i++) {
       template += `
-      <button class="goto_feed" id="feed_btn${i}" onclick="GoToFeed(${i})"><img class="feed_img" src="${FeedImage[i]}"></button>
+      <div class="goto_feed" id="feed_btn${i}" onclick="GoToFeed(${i})"><img class="feed_img" src="${FeedImage[i]}"></div>
       `;
     }
     $(".my_feed").append(template);
