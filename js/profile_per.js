@@ -71,8 +71,14 @@ $.ajax({
     /* 본인이 본인의 계정으로 들어온 것인지 확인하는 if문 (플러스 버튼의 유무를 위함) */
     // 세션에 본인꺼 currentAccountType(personal/business), currentUserId가 들어있다.
     if (userId == sessionStorage.getItem("currentUserId")) {
-      $("#pro_img").attr("src", sessionStorage.getItem("thumbnail"));
+      if(sessionStorage.getItem("thumbnail") == "null"){
+        console.log("기본 이미지가 적용 안된다는거");
+        $("#pro_img").attr("src", sessionStorage.getItem("thumbnail"));
+      } else {
+        // 위의 조건이 null이라는 건 아무것도 변경되지 않고 기본 이미지가 적용되어야 함.
+      }
     } else {
+      console.log("뭐가 안되는 걸까");
       $("a").remove("#feed_plus_btn");
     }
 
@@ -111,7 +117,6 @@ $.ajax({
 
     // 피드 id 배열에 넣기
     for(let i = 0; i < data.feed.items.length; i++) {
-      console.log(data.feed.items[i].id);
       FeedList.push(data.feed.items[i].id);
     }
 
