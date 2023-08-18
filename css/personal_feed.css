@@ -420,6 +420,9 @@ a:active {
     flex-direction: column;
 }
 
+.hashtag {
+    color: #3E93E1;
+}
 /* 댓글 작성 css */
 .postComment {
     width: 80%;
