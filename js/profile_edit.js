@@ -7,6 +7,14 @@ function getCurrentUserIdFromSessionStorage() {
   return sessionStorage.getItem("currentUserId");
 }
 
+function setThumbnailFromSessionStorage(thumbnail) {
+  return sessionStorage.setItem("thumbnail", thumbnail);
+}
+
+function setHandleFromSessionStorage(handle) {
+  return sessionStorage.setItem("handle", handle);
+}
+
 $(function () {
   getUserData();
 });
@@ -118,6 +126,8 @@ function setUserData() {
       Authorization: `Bearer ${jwtToken}`,
     },
     success: function (data) {
+      setHandleFromSessionStorage(data.handle);
+      setThumbnailFromSessionStorage(data.thumbnail);
       window.history.back();
     },
     error: function (jqXHR, textStatus, errorThrown) {
