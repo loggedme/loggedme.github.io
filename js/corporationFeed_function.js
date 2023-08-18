@@ -232,7 +232,7 @@ function openModal(feedId, userId, userProfileLink) {
                                 </div>
                             </div>
                             <div class="deleteCommentBtn ${deleteCommentBtnClass}">
-                                <button type="button" onclick="deleteComment('${feedId}', '${comment.id}')">삭제</button>
+                                <button type="button" onclick="deleteComment('${feedId}', '${comment.id}', this)">삭제</button>
                             </div>
                         </div>
                     `;
@@ -365,8 +365,9 @@ function calculateUploadDate(created_at) {
 }
 
 // 댓글 삭제 버튼
-function deleteComment(feedId, commentId) {
+function deleteComment(feedId, commentId, deleteButton) {
   var jwtToken = getTokenFromSessionStorage();
+  var $commentItem = $(deleteButton).closest(".comments_item");
   $.ajax({
     url: `http://43.202.152.189/feed/${feedId}/comment/${commentId}`,
     type: "DELETE",
@@ -376,6 +377,8 @@ function deleteComment(feedId, commentId) {
     success: function (data) {
       console.log("sueccess: " + JSON.stringify(data));
       console.log(`댓글 삭제 성공: ${feedId}, ${commentId}`);
+      
+      $commentItem.empty();
     },
     error: function (jqXHR, textStatus, errorThrown) {
       if (jqXHR.status === 401) {
