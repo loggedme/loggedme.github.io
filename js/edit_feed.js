@@ -52,9 +52,13 @@ $.ajax({
     <img id="profile_image" src="${data.author.thumbnail}">
     <div class="my_id">${data.author.handle}</div>
     `;
-    $("#profile").append(profile_template);
-    // 검사 console.log($('#profile').attr('src'));
 
+    $("#profile").append(profile_template);
+    if(sessionStorage.getItem("thumbnail") == null) {
+      $("#profile_image").attr("src", "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png?20220226140232");
+    }else {
+      $("#profile_image").attr("src", sessionStorage.getItem("thumbnail"));
+    } 
     // 이미지 배열 변수에 따로 저장
     const imageList = data.image_urls;
     var imageLengthCount = imageList.length; //data.image_urls.length;
@@ -183,17 +187,18 @@ if (getCurrentAccountTypeFromSessionStorage() == 1) {
     },
     success: function (data) {
       var company_template = ``;
-      $.each(data.items, function (item) {
-        company_template += `
-        <div class="company_item">
-          <div class="company">
-              <img class="company_image" src="${item.tumbnail}">
-              <p class="company_name">${item.handle}</p>
-          </div>
-          <input type="radio" name="tagged" value="${item.handle}">
+
+    for (let i = 0; i < data.length; i++) {
+      company_template += `
+      <div class="company_item">
+        <div class="company">
+            <img class="company_image" src="${data[i].thumbnail}">
+            <p class="company_name">${data[i].handle}</p>
         </div>
-        `;
-      });
+        <input type="radio" name="tagged" value="${data[i].handle}">
+      </div>
+      `;
+    }
       $(".company_list").append(company_template);
 
       $(".tag_Done").click(function () {
