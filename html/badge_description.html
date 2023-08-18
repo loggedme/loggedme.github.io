@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/base.css">
-
+  <script src="https://kit.fontawesome.com/2383a20539.js" crossorigin="anonymous"></script>
   <title>Document</title>
   <style>
     main {
@@ -32,7 +32,7 @@
 
     .cancel_button,
     .edit_button,
-    .save_button {
+    .button_wrap {
       position: absolute;
       flex-shrink: 0;
       color: #000;
@@ -48,8 +48,12 @@
       left: 0;
     }
 
+    .delete_button {
+      margin-right: 0.5rem;
+    }
+
     .edit_button,
-    .save_button {
+    .button_wrap {
       right: 0;
       display: none;
     }
@@ -103,7 +107,13 @@
       <a href="javascript:history.back();" class="cancel_button">Cancel</a>
       <div class="making_badge_main_header_title">Badge info</div>
       <a class="edit_button">EDIT</a>
-      <a class="save_button">SAVE</a>
+      <div class="button_wrap">
+        <a class="delete_button">
+          <i class="fa-solid fa-trash"></i>
+        </a>
+        <a class="save_button">SAVE</a>
+      </div>
+
 
     </div>
     <label class="making_badge_attach_image_label" for="making_badge_attach_image_input"> <img
