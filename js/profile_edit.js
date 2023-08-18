@@ -1,13 +1,19 @@
-function getURLParam(param) {
-  const urlParams = new URLSearchParams(window.location.search);
-  if (param == "userId") {
-    return urlParams.get("userId");
-  }
-}
-
+var isChangeImage = false;
 // session에 대한 get function
 function getTokenFromSessionStorage() {
   return sessionStorage.getItem("jwtToken");
+}
+
+function getCurrentUserIdFromSessionStorage() {
+  return sessionStorage.getItem("currentUserId");
+}
+
+function setThumbnailFromSessionStorage(thumbnail) {
+  return sessionStorage.setItem("thumbnail", thumbnail);
+}
+
+function setHandleFromSessionStorage(handle) {
+  return sessionStorage.setItem("handle", handle);
 }
 
 $(function () {
@@ -16,16 +22,16 @@ $(function () {
 
 function getUserData() {
   var jwtToken = getTokenFromSessionStorage();
-  var userId = getURLParam("userId");
+  var userId = getCurrentUserIdFromSessionStorage();
   $.ajax({
-    url: `http://203.237.169.125:2002/user/${userId}`,
+    url: `http://43.202.152.189/user/${userId}`,
     type: "GET",
     dataType: "json",
     headers: {
       Authorization: `Bearer ${jwtToken}`,
     },
     success: function (data) {
-      console.log(data.user);
+      // console.log(data.user);
       $("#handle").attr("value", data.user.handle);
       $("#name").attr("value", data.user.name);
       $("#preview").attr("src", data.user.thumbnail);
@@ -46,6 +52,7 @@ function getUserData() {
 }
 
 $("#image_input").on("change", function (event) {
+  isChangeImage = true;
   // variable management---------------------------
   const file = event.target.files[0];
   const preview = $("#preview");
@@ -70,9 +77,9 @@ $(".logout").click(function () {
 
 $(".signout").click(function () {
   var jwtToken = getTokenFromSessionStorage();
-  var userId = getURLParam("userId");
+  var userId = getCurrentUserIdFromSessionStorage();
   $.ajax({
-    url: `http://203.237.169.125:2002/user/${userId}`,
+    url: `http://43.202.152.189/user/${userId}`,
     type: "DELETE",
     // dataType: "json",
     headers: {
@@ -94,27 +101,38 @@ $(".signout").click(function () {
   });
 });
 
+$(".edit_button").click(function () {
+  setUserData();
+});
 function setUserData() {
-  var jwtToken = getTokenFromSessionStorage();
-  var userId = getURLParam("userId");
+  const jwtToken = getTokenFromSessionStorage();
+  const userId = getCurrentUserIdFromSessionStorage();
+  const handle = $("#handle").val().trim();
+  const name = $("#name").val().trim();
+  const fileInput = $("#image_input")[0].files[0];
   var profileData = new FormData();
-  var handle = $("#handle").val();
-  var name = $("#name").val();
-  var fileInput = $("#image_input")[0].files[0];
-  profileData.append("handle", handle);
+
+  profileData.append("handle", $("#handle").val());
   profileData.append("name", name);
-  profileData.append("profile_image", fileInput);
+  if (isChangeImage) {
+    profileData.append("profile_image", fileInput);
+  }
 
   $.ajax({
-    url: `http://203.237.169.125:2002/user/${userId}`,
-    type: "PATCH",
+    url: `http://43.202.152.189/user/${userId}`,
+    // type: "PATCH",
+    type: "PUT",
     dataType: "json",
     data: profileData,
+    processData: false, // FormData 처리 방지
+    contentType: false, // 컨텐츠 타입 설정 방지
     headers: {
       Authorization: `Bearer ${jwtToken}`,
     },
     success: function (data) {
-      console.log(data);
+      setHandleFromSessionStorage(data.handle);
+      setThumbnailFromSessionStorage(data.thumbnail);
+      window.history.back();
     },
     error: function (jqXHR, textStatus, errorThrown) {
       if (jqXHR.status === 401) {

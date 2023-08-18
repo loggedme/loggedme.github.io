@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/base.css">
-
+  <script src="https://kit.fontawesome.com/2383a20539.js" crossorigin="anonymous"></script>
   <title>Document</title>
   <style>
     main {
@@ -31,7 +31,8 @@
     }
 
     .cancel_button,
-    .edit_button {
+    .edit_button,
+    .button_wrap {
       position: absolute;
       flex-shrink: 0;
       color: #000;
@@ -47,8 +48,14 @@
       left: 0;
     }
 
-    .edit_button {
+    .delete_button {
+      margin-right: 0.5rem;
+    }
+
+    .edit_button,
+    .button_wrap {
       right: 0;
+      display: none;
     }
 
     .making_badge_main_header_title {
@@ -99,13 +106,21 @@
     <div class="making_badge_main_header">
       <a href="javascript:history.back();" class="cancel_button">Cancel</a>
       <div class="making_badge_main_header_title">Badge info</div>
-      <a class="edit_button">Edit</a>
+      <a class="edit_button">EDIT</a>
+      <div class="button_wrap">
+        <a class="delete_button">
+          <i class="fa-solid fa-trash"></i>
+        </a>
+        <a class="save_button">SAVE</a>
+      </div>
+
+
     </div>
     <label class="making_badge_attach_image_label" for="making_badge_attach_image_input"> <img
-        id="making_badge_attach_image" src="../image/upload.png" alt="" width="40px" height="44px">
-      <input id="making_badge_attach_image_input" type="file" hidden>
+        id="making_badge_attach_image" src="" alt="" width="100%" height="100%">
+      <input id="making_badge_attach_image_input" type="file" disabled hidden>
     </label>
-    <textarea placeholder=" Write a caption" class="making_badge_attach_document"></textarea>
+    <textarea placeholder=" Write a caption" class="making_badge_attach_document" disabled></textarea>
   </main>
   <section class="base_bottom_nav">
     <a href="./corporation_feed.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_enterprise.png"
@@ -117,11 +132,12 @@
     <a href="./new_feed2.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_plus.png" alt="addPost"
         class="base_bottom_nav_plus_image">
     </a>
-    <a href="./profile_per.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_profile.png" alt="profile"
-        id="bottom_nav_profile_image" class="base_bottom_nav_item_image"></a>
+    <div class="base_bottom_nav_item"><img src="../image/bottom_nav_profile.png" alt="profile"
+        id="bottom_nav_profile_image" class="base_bottom_nav_item_image"></div>
   </section>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="../js/badge_description.js"></script>
+<script src="../js/base.js"></script>
 
 </html>

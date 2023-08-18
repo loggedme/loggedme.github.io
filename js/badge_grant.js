@@ -25,7 +25,7 @@ function personDataHandler(userId, thumbnail) {
     });
     $(".checked_person_section").append(checkedPersonElement);
   });
-  console.log(getPersonData());
+  // console.log(getPersonData());
 }
 
 function getPersonData() {
@@ -37,8 +37,17 @@ function getTokenFromSessionStorage() {
   return sessionStorage.getItem("jwtToken");
 }
 
-function getBadgeIdFromSessionStorage() {
-  return sessionStorage.getItem("badgeId");
+function getURLBadge() {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get("badgeId");
+}
+
+function getCurrentUserIdFromSessionStorage() {
+  return sessionStorage.getItem("currentUserId");
+}
+
+function getCurrentUserAccountTypeFromSessionStorage() {
+  return sessionStorage.getItem("currentUserAccountType");
 }
 
 //document.ready()
@@ -70,7 +79,7 @@ $(document).on("click", ".item_element", function (e) {
 
 // 가져온 데이터로 화면을 채워주는 함수
 function setPersonData(data) {
-  console.log(data);
+  // console.log(data);
   $.each(data, function (index, item) {
     var itemElement = $("<a>").prop({
       class: "item_element",
@@ -84,7 +93,7 @@ function setPersonData(data) {
     });
 
     var imgElement = $("<img>").attr({
-      src: item.image,
+      src: item.thumbnail,
       alt: item.name,
       class: "item_image",
     });
@@ -104,30 +113,8 @@ function setPersonData(data) {
     userNameElement.append(userName).append(userHandle);
 
     imageWrap.append(imgElement);
-
-    var checkBoxWrap = $("<div>").prop({
-      class: "item_checkbox_wrap",
-    });
-
-    var checkBox = $("<input>").prop({
-      class: "item_checkbox_btn",
-      name: "grant_checkbox",
-      type: "checkbox",
-      id: `item_checkbox${item.id}`,
-    });
-
-    var checkBoxLabel = $("<label>").prop({
-      for: `item_checkbox${item.id}`,
-      class: "item_checkbox_btn_label",
-      id: `item_checkbox_btn_label${item.id}`,
-    });
-
-    checkBoxWrap.append(checkBox);
-    checkBoxWrap.append(checkBoxLabel);
-
     itemElement.append(imageWrap);
     itemElement.append(userNameElement);
-    itemElement.append(checkBoxWrap);
 
     $(".main_section").append(itemElement);
   });
@@ -151,14 +138,14 @@ function getSearchData(query) {
   var jwtToken = getTokenFromSessionStorage();
   if (query.replace(/\s+/g, "") === "") {
     $.ajax({
-      url: `http://203.237.169.125:2002/user?recommend=true&type=personal`,
+      url: `http://43.202.152.189/user?recommend=true&type=personal`,
       method: "GET",
       dataType: "json",
       headers: {
         Authorization: `Bearer ${jwtToken}`,
       },
       success: function (responseData) {
-        console.log(responseData);
+        // console.log(responseData);
         setPersonData(responseData);
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -172,13 +159,12 @@ function getSearchData(query) {
       },
     });
   } else {
-    console.log(2);
     $.ajax({
-      url: `http://203.237.169.125:2002/user?type=personal&query=${query}`,
+      url: `http://43.202.152.189/user?type=personal&query=${query}`,
       method: "GET",
       dataType: "json",
       success: function (responseData) {
-        console.log(responseData);
+        // console.log(responseData);
         setPersonData(responseData);
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -209,10 +195,10 @@ $(".done_button").click(function () {
     bodyData.users.push(item.userId);
   });
   // console.log(JSON.stringify(bodyData));
-  var badgeId = getBadgeIdFromSessionStorage();
+  var badgeId = getURLBadge();
   // console.log(badgeId);
   $.ajax({
-    url: `http://203.237.169.125:2002/badge/${badgeId}/user`,
+    url: `http://43.202.152.189/badge/${badgeId}/user`,
     method: "POST",
     dataType: "json",
     contentType: "application/json",
@@ -221,9 +207,11 @@ $(".done_button").click(function () {
       Authorization: `Bearer ${jwtToken}`,
     },
     success: function (responseData) {
-      console.log(JSON.stringify(responseData));
+      // console.log(JSON.stringify(responseData));
       alert("뱃지 부여 성공!");
-      window.location.replace("./profile_ent.html");
+      window.location.replace(
+        `./profile_ent.html?userId=${getCurrentUserIdFromSessionStorage()}`
+      );
     },
     error: function (jqXHR, textStatus, errorThrown) {
       if (jqXHR.status === 400) {

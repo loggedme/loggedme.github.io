@@ -19,7 +19,7 @@ function goBack() {
 
 var input = document.getElementById("input");
 var initLabel = document.getElementById("label");
-const imageList = [];
+const imageList = []; // 이미지 백에서 받아서 담을 배열
 var imageLengthCount = 0;
 var imgFirstInput = 0;
 
@@ -168,10 +168,6 @@ document.getElementById("Next").addEventListener("click", () => {
   localStorage.setItem("imageList", JSON.stringify(imageList));
 });
 
-/*
-    게시물 작성 페이지-2
- */
-
 /*********************** 
 const sliderWrap = document.querySelector(".slider__wrap");
 const sliderImg = document.querySelector(".slider__img");       // 보여지는 영역
@@ -263,38 +259,13 @@ BtnNext.addEventListener("click", () => {
     }
     sliderLengthCount = imageLengthCount;
   }
-  console.log(template);
-  $(".slider__inner").append(template);
 
-  //const sliderInner = document.querySelector(".slider__inner");
-
-  //document.slider__inner.innerHTML = template;
-
-  // 검사 -> document.querySelector('.sliderImg').src = imageList[0];
-
-  /* 
-    버튼이 클릭되면 이미지 개수에 따라서 div요소가 생성되어야 한다.
-    <div class = "slider" role="group"><img src="..이미지 주소"></div>
-    위의 형식으로 해야 됨. createElement, setAttribute 등의 메소드들이 있지만
-    Next버튼과 Back버튼이 여러번 눌리게 되는 것을 가정하면
-    이미지를 다시 추가하여 Next버튼을 여러번 누를 수 있기에 그에 따른 변동 사항
-    적용을 위해서 innerHTML을 통해(템픞릿으로 따로 만들자 해당 공간 값을 바꾸기)
-  */
-
-  /* 템플핏과 innerHTML을 작성하자!!!! 8월 8월 */
-  /* imageList안에 있는 파일들을 64로 인코딩해서 새 변수에 저장 후 template에 추가*/
-  /*잠시 보류!!!! 
-  let template = '';
-
-  for(let i = 0; i < imageLengthCount; i++) {
-    console.log(imageList[i]);
-    console.log(getDataUrl(imageList[i]));
-    template += `
-      <div class="slider" role="group"><img src=${imageList[i]}></div>
-    `
+  // tag company가 보여질지 아닐지의 부분
+  if (getCurrentAccountTypeFromSessionStorage() == 2) {
+    $("#open_modal").remove();
   }
-  document.querySelector(".slider__inner").innerHTML = template;
- */
+
+  $(".slider__inner").append(template);
 
   pageInner.style.transition = "all 400ms";
   pageInner.style.transform = "translateX(" + -pageWidth + "px)";
@@ -302,26 +273,6 @@ BtnNext.addEventListener("click", () => {
 
   init();
 });
-
-/*
-// 이미지 인코딩 함수
-function getDataUrl(imgFileList) {
-  
-  const file = imgFileList.files;  //첨부된 파일을 가져옴
-  console.log(file);
-  const reader = new FileReader();
-
-  reader.readAsDataURL(file); // 파일을 base64로 변환
-  reader.onload = function() {
-    console.log(reader.result); // 읽은 파일 소스단에 출력
-    document.querySelector('.sliderImg').src = reader.result;
-  };
-
-  reader.onerror = function() {
-    console.log(reader.error);
-  };
-}
-*/
 
 // Back 버튼을 클릭했을 때
 BtnBack.addEventListener("click", () => {
@@ -333,7 +284,7 @@ BtnBack.addEventListener("click", () => {
   dotIndex = "";
 });
 
-// 초기값 설정 함수 init()
+// 슬라이드 초기값 설정 함수 init()
 function init() {
   // <a href="#" class="dot active">이미지1</a>
   const slider = document.querySelectorAll(".slider");
@@ -356,38 +307,13 @@ document.querySelectorAll(".slider__dot .dot").forEach((dot, index) => {
   });
 });
 
-/*
-  html요소 추가 test!!!!!!!!
-*/
-
-/*
-let childElement = null;
-
-for (let i=0; i < imageLengthCount; i++) {
-  childElement = document.createElement("div");
-  childElement.className = "slider slide" + (i+1);
-  childElement.role = "group";
-  sliderInner.append(childElement);
-  var slide = document.querySelector("")
-}
-*/
-
-/* Object.assing() 메서드를 이용한 html요소 추가 (보류)
-document.querySelector(".slider__inner").appendChild(
-  Object.assign(
-    document.createElement('div'),
-    { class : 'slider' },
-    { role: 'group'}
-  )  
-)
-*/
-
 /* tag company 모달창 기능 */
 $(".modal_overlay").hide();
 $(".close_btn").click(function () {
   $(".modal_overlay").hide();
 });
-$(".open_modal").click(function () {
+$("#open_modal").click(function (e) {
+  e.preventDefault();
   $(".modal_overlay").show();
 });
 
@@ -403,7 +329,7 @@ getProfileImageFromSessionStorage();
 var jwtToken = getTokenFromSessionStorage();
 // 모달 get 부분
 $.ajax({
-  url: "http://203.237.169.125:2002/user?recommend=true&type=business",
+  url: "http://43.202.152.189/user?recommend=true&type=business",
   type: "GET",
   dataType: "json",
   contentType: "application/json",
@@ -411,21 +337,22 @@ $.ajax({
     Authorization: `Bearer ${jwtToken}`,
   },
   success: function (data) {
-    console.log("success: " + JSON.stringify(data.items));
     var DoneCount = 0;
 
     var company_template = ``;
-    $.each(data.items, function (item) {
+
+    for (let i = 0; i < data.length; i++) {
       company_template += `
       <div class="company_item">
         <div class="company">
-            <img class="company_image" src="${item.tumbnail}">
-            <p class="company_name">${item.handle}</p>
+            <img class="company_image" src="${data[i].thumbnail}">
+            <p class="company_name">${data[i].handle}</p>
         </div>
-        <input type="radio" name="tagged" value="${item.handle}">
+        <input type="radio" name="tagged" value="${data[i].handle}">
       </div>
       `;
-    });
+    }
+
     $(".company_list").append(company_template);
 
     $(".Done").click(function () {
@@ -461,28 +388,59 @@ function giveText() {
   return document.getElementById("text").value;
 }
 
-$("#Share").click(function () {
-  /* share 눌렀을 때, 내가 작성한 게시물로 이동해버리자. */
+var formData = new FormData();
 
-  console.log(giveText());
-  var postData = {
-    content: giveText(),
-    images: imageList,
-    //tagged_user: $(".tagged_company").val("person"),  // 잠시 보류(아직 모달에서 태그 데이터를 가져오지 못했음)
-  };
+$("#Share").click(function () {
+  /*
+    폼 데이터에 올릴 사진 배열을 전부 append하기
+  */
+  const formDom = document.getElementById("new-post-form");
+
+  for (let i = 0; i < imageLengthCount; i++) {
+    formDom.append(imageList[i]);
+  }
+
+  /* 여기서 부터  */
+  /*
+  var tagged_user_template = ``;
+  var Tag = document.querySelector(".tagged_company");
+  var valueofTag = Tag.innerText;
+
+  tagged_user_template += `
+
+  <input type="hiddin" name="tagged_user" value="${valueofTag}">
+  `;
+
+  console.log(valueofTag);
+  formDom.append(tagged_user_template);
+  */
+  /* 여기까지가 작성했는데 안된 곳...*/
+
+  ///////////////////////////////////// 이거 하고 있었다
+  var inputTaggedUser = document.createElement('input');
+  inputTaggedUser.setAttribute('type', 'hidden');
+  inputTaggedUser.setAttribute('name', 'tagged_user');
+  if (getCurrentAccountTypeFromSessionStorage() == 1) {
+    inputTaggedUser.setAttribute('value', $(".tagged_company").val());
+  }
+  formDom.appendChild(inputTaggedUser);
+  
+
+  formData = new FormData(formDom);
+
   $.ajax({
-    url: "http://203.237.169.125:2002/feed",
+    url: "http://43.202.152.189/feed",
     type: "POST",
-    data: JSON.stringify(postData),
-    contentType: "application/json",
+    data: formData,
+    processData: false, // FormData 처리 방지
+    contentType: false, // 컨텐츠 타입 설정 방지
     headers: {
       Authorization: `Bearer ${jwtToken}`,
     },
     success: function (data) {
       console.log(data);
-      setContentFromSessionStorage(data.content);
-      setImagesFromSessionStorage(data.images);
-      //setTaggedUserFromSessionStorage(data.tagged_user);
+      console.log(formData);
+
       // url에 피드 아이디 값을 넣어서 보내는 부분
       window.location.href = `./single_feed.html?feedId=${data.id}`;
     },
@@ -518,8 +476,17 @@ function setTaggedUserFromSessionStorage(tagged_user) {
   return sessionStorage.setItem("tagged_user", tagged_user);
 }
 
+// 사용자의 AccountType을 세션에서 가져오는 함수
+function getCurrentAccountTypeFromSessionStorage() {
+  return sessionStorage.getItem("currentUserAccountType");
+}
+
 // 프사 가져오는 함수
 function getProfileImageFromSessionStorage() {
-  // 사용자 프사 세션에서 받아오는 코드(로그인 후 풀 받아서 사용)
+  // 사용자 프사 세션에서 받아오는 코드
+  if(sessionStorage.getItem("thumbnail") == null) {
+    return $("#profile").attr("src", "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png?20220226140232");
+  }
   return $("#profile").attr("src", sessionStorage.getItem("thumbnail"));
 }
+

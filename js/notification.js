@@ -13,14 +13,14 @@ function getCurrentUserIdFromSessionStorage() {
 
 function initNotification(jwtToken) {
   $.ajax({
-    url: "http://203.237.169.125:2002/notification",
+    url: "http://43.202.152.189/notification",
     type: "GET",
     dataType: "json",
     headers: {
       Authorization: `Bearer ${jwtToken}`,
     },
     success: function (data) {
-      console.log("sueccess: " + JSON.stringify(data.items));
+      // console.log("sueccess: " + JSON.stringify(data.items));
       $.each(data.items, function (index, item) {
         var itemElement = $("<a>").prop({
           class: "item_element",
@@ -43,7 +43,11 @@ function initNotification(jwtToken) {
           });
         } else if (item.type === "follow") {
           itemElement.click(function () {
-            window.location.href = `./profile_per.html?userId=${item.user.id}`;
+            if (item.user.account_type == 1) {
+              window.location.href = `./profile_per.html?userId=${item.user.id}`;
+            } else {
+              window.location.href = `./profile_ent.html?userId=${item.user.id}`;
+            }
           });
           var imgElement = $("<img>").attr({
             src: item.user.thumbnail,
@@ -104,7 +108,23 @@ function initNotification(jwtToken) {
         elementWrap.append(contentElement);
         itemElement.append(imgElement);
         itemElement.append(elementWrap);
-        $(".notification_main_section").append(itemElement);
+        // $(".notification_main_section").append(itemElement);
+        if (addDateClass(item.created_at) == "today") {
+          if ($(".today_section_wrap").css("display") == "none") {
+            $(".today_section_wrap").css("display", "block");
+          }
+          $(".today_section").append(itemElement);
+        } else if (addDateClass(item.created_at) == "thisWeek") {
+          if ($(".this_week_section_wrap").css("display") == "none") {
+            $(".this_week_section_wrap").css("display", "block");
+          }
+          $(".this_week_section").append(itemElement);
+        } else {
+          if ($(".another_section_wrap").css("display") == "none") {
+            $(".another_section_wrap").css("display", "block");
+          }
+          $(".another_section").append(itemElement);
+        }
       });
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -120,21 +140,21 @@ function initNotification(jwtToken) {
   });
 }
 
-// // 추가: 오늘 날짜인지, 일주일 내의 날짜인지 판별하여 클래스 추가
-// function addDateClass(date) {
-//   var currentDate = new Date();
-//   var formattedDate = date.replace("T", " ").replace(/\.\d+$/, ""); // ISO 형식의 날짜를 "T"를 공백으로, 밀리초를 삭제하여 변환합니다.
-//   var dataDate = new Date(formattedDate); // 변환된 문자열을 날짜 객체로 변환합니다.
-//   var oneWeekAgo = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+// 추가: 오늘 날짜인지, 일주일 내의 날짜인지
+function addDateClass(date) {
+  var currentDate = new Date();
+  var formattedDate = date.replace("T", " ").replace(/\.\d+$/, ""); // ISO 형식의 날짜를 "T"를 공백으로, 밀리초를 삭제하여 변환합니다.
+  var dataDate = new Date(formattedDate); // 변환된 문자열을 날짜 객체로 변환합니다.
+  var oneWeekAgo = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
 
-//   if (isSameDate(currentDate, dataDate)) {
-//     return "today";
-//   } else if (dataDate >= oneWeekAgo) {
-//     return "thisWeek";
-//   } else {
-//     return "beyondWeek";
-//   }
-// }
+  if (isSameDate(currentDate, dataDate)) {
+    return "today";
+  } else if (dataDate >= oneWeekAgo) {
+    return "thisWeek";
+  } else {
+    return "beyondWeek";
+  }
+}
 
 function getTimeAgo(date) {
   var currentDate = new Date();

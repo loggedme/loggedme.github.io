@@ -6,11 +6,6 @@ $(document).ready(function () {
   );
 });
 
-// 원래 검정색인거 회색으로
-$(document).ready(function () {
-  $("#bottom_nav_person_image").attr("src", "../image/bottom_nav_person.png");
-});
-
 /* tag company 모달창 기능 */
 $(".modal_overlay").hide();
 $(".close_btn").click(function () {
@@ -20,15 +15,33 @@ $(".open_modal").click(function () {
   $(".modal_overlay").show();
 });
 
+// tag company가 보여질지 아닐지의 부분
+if (getCurrentAccountTypeFromSessionStorage() == 2) {
+  $("#open_modal").remove();
+}
+
+// Cancle 버튼 클릭 시 뒤로가기
+function goBack() {
+  window.history.back();
+}
+
 /* ajax 부분 */
 
 /* 세션에서 get (프사, 태그된 기업, content, image_urls) */
 
+let params = new URLSearchParams(window.location.search); // 현재 페이지의 실제 주소(프론트에서의)
+let feedId = params.get("feedId");
+
+var jwtToken = getTokenFromSessionStorage();
+
 $.ajax({
-  url: "http://203.237.169.125:2002/feed/{feed.id}",
+  url: `http://43.202.152.189/feed/${feedId}`, // ${feedId}에 백엔드의 feed.id가 들어갈거고
   type: "GET",
   datatype: "json",
   contentType: "application/json",
+  headers: {
+    Authorization: `Bearer ${jwtToken}`,
+  },
   success: function (data) {
     console.log(data);
 
@@ -39,18 +52,29 @@ $.ajax({
     <img id="profile_image" src="${data.author.thumbnail}">
     <div class="my_id">${data.author.handle}</div>
     `;
-    $("#profile").append(profile_template);
-    // 검사 console.log($('#profile').attr('src'));
 
+    $("#profile").append(profile_template);
+    if(sessionStorage.getItem("thumbnail") == null) {
+      $("#profile_image").attr("src", "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png?20220226140232");
+    }else {
+      $("#profile_image").attr("src", sessionStorage.getItem("thumbnail"));
+    } 
     // 이미지 배열 변수에 따로 저장
     const imageList = data.image_urls;
     var imageLengthCount = imageList.length; //data.image_urls.length;
 
     // 태그된 기업은 따로 append
-    taggedCompany_template += `
-    <div class="tagged_company">${data.tagged_user.handle}</div>
-    `;
-    $(".Tag_text").append(taggedCompany_template);
+    if (getCurrentAccountTypeFromSessionStorage() == 1) {
+      taggedCompany_template += `
+      <div class="tagged_company">${data.tagged_user.handle}</div>
+      `;
+      $(".Tag_text").append(taggedCompany_template);
+    }
+
+    // tag company가 보여질지 아닐지의 부분
+    if (getCurrentAccountTypeFromSessionStorage() == 2) {
+      $("#open_modal").remove();
+    }
 
     $("#text").val(data.content);
 
@@ -69,11 +93,6 @@ $.ajax({
 
       console.log(template);
       $(".slider__inner").append(template);
-    }
-
-    // Cancle 버튼 클릭 시 뒤로가기
-    function goBack() {
-      window.history.back();
     }
 
     const sliderWrap = document.querySelector(".slider__wrap");
@@ -156,53 +175,53 @@ $.ajax({
 });
 
 /* 기업 태그 모달 get */
-
-var jwtToken = getTokenFromSessionStorage();
 // 모달 get 부분
+if (getCurrentAccountTypeFromSessionStorage() == 1) {
+  $.ajax({
+    url: "http://43.202.152.189/user?recommend=true&type=business",
+    type: "GET",
+    dataType: "json",
+    contentType: "application/json",
+    headers: {
+      Authorization: `Bearer ${jwtToken}`,
+    },
+    success: function (data) {
+      var company_template = ``;
 
-$.ajax({
-  url: "http://203.237.169.125:2002/user?recommend=true&type=business",
-  type: "GET",
-  dataType: "json",
-  contentType: "application/json",
-  headers: {
-    Authorization: `Bearer ${jwtToken}`,
-  },
-  success: function (data) {
-    var company_template = ``;
-    $.each(data.items, function (item) {
+    for (let i = 0; i < data.length; i++) {
       company_template += `
       <div class="company_item">
         <div class="company">
-            <img class="company_image" src="${item.tumbnail}">
-            <p class="company_name">${item.handle}</p>
+            <img class="company_image" src="${data[i].thumbnail}">
+            <p class="company_name">${data[i].handle}</p>
         </div>
-        <input type="radio" name="tagged" value="${item.handle}">
+        <input type="radio" name="tagged" value="${data[i].handle}">
       </div>
       `;
-    });
-    $(".company_list").append(company_template);
-
-    $(".tag_Done").click(function () {
-      var radioVal = $('input[name="tagged"]:checked').val();
-      var template = `
-      <div class=tagged_company>${radioVal}</div>
-      `;
-      //$('.open_modal').insertBefore(template, $('.Tag_text').nextSibling);
-
-      $("div").remove(".tagged_company");
-      $(".Tag_text").append(template);
-
-      $(".modal_overlay").hide();
-    });
-  },
-  error: function (jqXHR, textStatus, errorThrown) {
-    if (jqXHR.status === 400) {
-      console.error("Bad Request:", jqXHR.responseText);
-      alert("존재하지 않는 계정 종류거나, reccomend가 true가 아닐 때");
     }
-  },
-});
+      $(".company_list").append(company_template);
+
+      $(".tag_Done").click(function () {
+        var radioVal = $('input[name="tagged"]:checked').val();
+        var template = `
+        <div class=tagged_company>${radioVal}</div>
+        `;
+        //$('.open_modal').insertBefore(template, $('.Tag_text').nextSibling);
+
+        $("div").remove(".tagged_company");
+        $(".Tag_text").append(template);
+
+        $(".modal_overlay").hide();
+      });
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      if (jqXHR.status === 400) {
+        console.error("Bad Request:", jqXHR.responseText);
+        alert("존재하지 않는 계정 종류거나, reccomend가 true가 아닐 때");
+      }
+    },
+  });
+}
 
 // 토큰 받아오는 함수
 
@@ -237,30 +256,60 @@ function getCurrentFeedContentFromSessionStorage() {
 };
 */
 
-/* ajax put 으로 수정하기 */
+/* ajax Done 눌렀을 때, put 전송 */
 
-var putData = {
-  content: $("#text").val(),
-  image_urls: ["http://...~bar.??", "http://...~foo.??", "http://...~faz.??"],
-  tagged_user: $(".tagged_company").val(),
-};
-$.ajax({
-  url: `http://203.237.169.125:2002/feed/${feed.id}`,
-  type: "PUT",
-  data: JSON.stringify(putData),
-  contentType: "application/json",
-  success: function (response) {
-    console.log("Response:", response);
-  },
-  error: function (jqXHR, textStatus, errorThrown) {
-    if (jqXHR.status === 400) {
-      console.error("Bad Request:", jqXHR.responseText);
-    } else if (jqXHR.status === 401) {
-      console.error("Unauthorized:", jqXHR.responseText);
-    } else if (jqXHR.status === 404) {
-      console.error("Not Found:", jqXHR.responseText);
-    } else {
-      console.error("Error:", jqXHR.status, errorThrown);
-    }
-  },
+$("#Done").click(function () {
+  if (getCurrentAccountTypeFromSessionStorage() == 1) {
+    var putData = {
+      content: giveText(),
+      image_urls: [
+        "http://...~bar.??",
+        "http://...~foo.??",
+        "http://...~faz.??",
+      ],
+      tagged_user: $(".tagged_company").val(),
+    };
+  } else if (getCurrentAccountTypeFromSessionStorage() == 2) {
+    var putData = {
+      content: giveText(),
+      image_urls: [
+        "http://...~bar.??",
+        "http://...~foo.??",
+        "http://...~faz.??",
+      ],
+    };
+  }
+  $.ajax({
+    url: `http://43.202.152.189/feed/${feedId}`,
+    type: "PUT",
+    data: JSON.stringify(putData),
+    contentType: "application/json",
+    success: function (response) {
+      console.log("Response:", response);
+
+      // 수정 완료되면 싱글 페이지로 이동
+      window.location.href = `./single_feed.html?feedId=${data.id}`;
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      if (jqXHR.status === 400) {
+        console.error("Bad Request:", jqXHR.responseText);
+      } else if (jqXHR.status === 401) {
+        console.error("Unauthorized:", jqXHR.responseText);
+      } else if (jqXHR.status === 404) {
+        console.error("Not Found:", jqXHR.responseText);
+      } else {
+        console.error("Error:", jqXHR.status, errorThrown);
+      }
+    },
+  });
 });
+
+// 사용자의 AccountType을 세션에서 가져오는 함수
+function getCurrentAccountTypeFromSessionStorage() {
+  return sessionStorage.getItem("currentUserAccountType");
+}
+
+function giveText() {
+  /* content 입력할 때, value가 적용되는지 확인 */
+  return document.getElementById("text").value;
+}
