@@ -266,7 +266,7 @@ $(document).ready(function (jwtToken) {
         commentLink.append(commentImg);
 
         // 공유 버튼
-        var CopyUrl = `http://127.0.0.1:5500/html/single_feed.html?feedId=${currentFeedId}`;
+        var CopyUrl = `http://13.125.224.114/html/single_feed.html?feedId=${currentFeedId}`;
         var shareLink = $("<button type=button>")
           .addClass("share_link")
           .on("click", function () {
