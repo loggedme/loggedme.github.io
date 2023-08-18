@@ -268,7 +268,7 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-top: 1.84rem;
-    width: 26.87506rem;
+    width: 360px;
     height: 4.31rem;
     padding-top: 1.37rem;
     padding-bottom: 1.81rem;
@@ -319,8 +319,8 @@ body {
   }
 
   .modal_content {
-    width: 20.9375rem;
-    min-height: 41.6875rem;
+    width: 280px;
+    min-height: 600px;
     height: fit-content;
     flex-shrink: 0;
     padding: 1rem;
@@ -418,6 +418,7 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    padding: 10px 0;
  }
 
  .company {
@@ -427,4 +428,10 @@ body {
 
  .company_name {
     margin-left: 0.63rem;
+ }
+
+ .company_image {
+    width: 50px;
+    height: 50px;
+    border-radius: 70%;
  }
