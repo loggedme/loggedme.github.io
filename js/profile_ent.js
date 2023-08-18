@@ -62,7 +62,6 @@ $.ajax({
     Authorization: `Bearer ${jwtToken}`,
   },
   success: function (data) {
-    console.log("success:", JSON.stringify(data));
 
     // 프사 받아오기
     if(sessionStorage.getItem("thumbnail") == null) {
@@ -109,11 +108,6 @@ $.ajax({
       // 피드 썸네일 이미지 배열에 담기
       FeedImage.push(data.feed.items[i].image_urls[0]);
     }
-    console.log("피드 이미지 받아오는 과정");
-    console.log(data.feed.items);
-    console.log(data.feed.items[0]);
-    console.log(data.feed.items[0].image_urls[0]);
-    console.log(FeedImage); 
 
     showBadge(badgeListLength); // 뱃지 html로 보내서 보여주는 함수
     showFeed(FeedListLength); // 피드 html로 보내서 보여주는 함수
@@ -193,8 +187,6 @@ function showFeed(FeedListLength) {
   let template = ``;
 
   if (FeedListLength != 0) {
-    console.log("자 여기야");
-    console.log(FeedImage);
 
     $("div").remove(".zero_feed"); // 피드가 1개라도 있으면 게시물 없다는 표시의 div를 html에서 삭제
     for (let i = 0; i < FeedListLength; i++) {
@@ -204,7 +196,6 @@ function showFeed(FeedListLength) {
       </div>
       `;
     }
-    console.log(template);
     $(".my_feed").append(template);
   }
 }
@@ -231,3 +222,60 @@ edit_btn.addEventListener("click", () => {
   window.location.href = "./profile_edit.html"; 
 })  
 */
+
+// ajax for 팔로우 요청
+function followHandler(userId) {
+  var jwtToken = getTokenFromSessionStorage();
+  var currentUserId = getCurrentUserIdFromSessionStorage();
+  $.ajax({
+    url: `http://43.202.152.189/user/${currentUserId}/following/${userId}`,
+    type: "POST",
+    headers: {
+      Authorization: `Bearer ${jwtToken}`,
+    },
+    success: function (data) {
+       console.log("팔로우 성공: " + JSON.stringify(data));
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      if (jqXHR.status === 401) {
+        console.error("Unauthorized:", jqXHR.responseText);
+        alert("접근 권한이 없습니다.");
+        window.location.href = "./login.html";
+      } else if (jqXHR.status === 404) {
+        console.error("Not found:", jqXHR.responseText);
+        alert("사용자가 존재하지 않습니다.");
+      } else {
+        console.error("Error:", jqXHR.status, errorThrown);
+        alert("서버 에러");
+      }
+    },
+  });
+}
+
+$(".follow_btn").click(function () {
+  followHandler(userId);
+})
+
+function getCurrentUserIdFromSessionStorage() {
+  return sessionStorage.getItem("currentUserId");
+}
+
+function getUserHandleFromSessionStorage() {
+  return sessionStorage.getItem("handle");
+}
+
+function goToFollowers() {
+  window.location.href = `./follow_list.html?userId=${getCurrentUserIdFromSessionStorage()}&&userHandle=${getUserHandleFromSessionStorage()}&&isFollowing=false`
+}
+
+function goToFollowing() {
+  window.location.href = `./follow_list.html?userId=${getCurrentUserIdFromSessionStorage()}&&userHandle=${getUserHandleFromSessionStorage()}&&isFollowing=true`
+}
+
+$("#followers").click(function () {
+  goToFollowers();
+})
+
+$("#following").click(function () {
+  goToFollowing();
+})
