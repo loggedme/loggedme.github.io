@@ -149,7 +149,7 @@ $(document).ready(function () {
               class: "hashtag_item",
             })
             .on("click", function () {
-              hashtagSearchDetail(searchTerm);
+              hashtagSearchDetail(item.name);
             });
             var imgElement = $("<img>").attr({
               src: "../image/hashtag.png",
@@ -254,17 +254,17 @@ function debounce(func, wait) {
   };
 }
 
-function hashtagSearchDetail(searchTerm) {
+function hashtagSearchDetail(hashtagName) {
   var jwtToken = getTokenFromSessionStorage();
   $.ajax({
-    url: `http://43.202.152.189/feed?hashtag=${searchTerm}`,
+    url: `http://43.202.152.189/feed?hashtag=${hashtagName}`,  //입력한 값이 아니라 그 입력한 값의 전체
     type: "GET",
     dataType: "json",
     headers: {
       Authorization: `Bearer ${jwtToken}`,
     },
     success: function (data) {
-      console.log("sueccess: " + JSON.stringify(data.items));
+      console.log("sueccess: " + JSON.stringify(data));
 
       $.each(data.items, function (index, item) {
         var hashtagImgItem = $("<a>")
