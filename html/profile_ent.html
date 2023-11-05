@@ -1,5 +1,5 @@
 <!--
-    기업 프로필(게시물 여러개) 
+    기업 프로필(게시물 여러개)
     기업 프로필(게시물 없음)
 -->
 <!DOCTYPE html>
@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/profile_ent.css">
   <title>Logged.me</title>
+  <script src="../js/api.js"></script>
 </head>
 
 <body>
@@ -27,7 +28,7 @@
         </div>
     </div>
     <div class="information">   <!-- 프사 , post, 팔로워, 팔로잉, 이름(이건 프사 밑으로)-->
-        <div class="information_inner">   
+        <div class="information_inner">
             <div class="profile_img"><img src="../image/new_feed1_rectangle.png" id="pro_img"></div>
             <div class="pff">
                 <div id="post" class="pff_product">
@@ -43,12 +44,12 @@
                     <p class="text">Following</p>
                 </div>
             </div>
-        </div> 
+        </div>
         <div class="name"></div>
     </div>
   </header>
   <main id="main">
-    <div class="edit_profile_btn">        
+    <div class="edit_profile_btn">
         <button class="follow_btn">follow</button>
         <button class="edit_btn"><a href="../html/profile_edit.html">edit profile</a></button>
     </div>
@@ -108,7 +109,7 @@
 
 
   <!-- 여기서부터 -->
-    
+
   <section class="base_bottom_nav">
     <a href="./corporation_feed.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_enterprise.png"
         alt="enterprise" id="bottom_nav_enterprise_image" class="base_bottom_nav_item_image"></a>

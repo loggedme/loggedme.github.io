@@ -1,5 +1,5 @@
 <!--
-    개인 프로필(게시물 여러개) 
+    개인 프로필(게시물 여러개)
     개인 프로필(게시물 없음)
 -->
 <!DOCTYPE html>
@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/profile_per.css">
   <title>Logged.me</title>
+  <script src="../js/api.js"></script>
 </head>
 
 <body>
@@ -27,7 +28,7 @@
         </div>
     </div>
     <div class="information">   <!-- 프사 , post, 팔로워, 팔로잉, 이름(이건 프사 밑으로)-->
-        <div class="information_inner">   
+        <div class="information_inner">
             <div class="profile_img">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png?20220226140232" id="pro_img">
             </div>
@@ -45,7 +46,7 @@
                     <p class="text">Following</p>
                 </div>
             </div>
-        </div> 
+        </div>
         <div class="name"></div>
     </div>
   </header>
@@ -104,7 +105,7 @@
 
 
   <!-- 여기서부터 -->
-    
+
   <section class="base_bottom_nav">
     <a href="./corporation_feed.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_enterprise.png"
         alt="enterprise" id="bottom_nav_enterprise_image" class="base_bottom_nav_item_image"></a>
