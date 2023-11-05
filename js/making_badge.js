@@ -30,7 +30,7 @@ $(".done_button").click(function () {
     badgeData.append("description", document);
 
     $.ajax({
-      url: `http://43.202.152.189/badge`,
+      url: `${SERVER_BASEURL}/badge`,
       type: "POST",
       data: badgeData,
       processData: false, // FormData 처리 방지

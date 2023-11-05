@@ -24,7 +24,7 @@ function getUserData() {
   var jwtToken = getTokenFromSessionStorage();
   var userId = getCurrentUserIdFromSessionStorage();
   $.ajax({
-    url: `http://43.202.152.189/user/${userId}`,
+    url: `${SERVER_BASEURL}/user/${userId}`,
     type: "GET",
     dataType: "json",
     headers: {
@@ -79,7 +79,7 @@ $(".signout").click(function () {
   var jwtToken = getTokenFromSessionStorage();
   var userId = getCurrentUserIdFromSessionStorage();
   $.ajax({
-    url: `http://43.202.152.189/user/${userId}`,
+    url: `${SERVER_BASEURL}/user/${userId}`,
     type: "DELETE",
     // dataType: "json",
     headers: {
@@ -119,7 +119,7 @@ function setUserData() {
   }
 
   $.ajax({
-    url: `http://43.202.152.189/user/${userId}`,
+    url: `${SERVER_BASEURL}/user/${userId}`,
     // type: "PATCH",
     type: "PUT",
     dataType: "json",

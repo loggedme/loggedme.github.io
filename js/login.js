@@ -18,7 +18,7 @@ $(".login_login_btn").click(function () {
     };
     // console.log(postData);
     $.ajax({
-      url: "http://43.202.152.189/auth/token",
+      url: `${SERVER_BASEURL}/auth/token`,
       type: "POST",
       data: JSON.stringify(postData),
       contentType: "application/json",

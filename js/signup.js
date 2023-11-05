@@ -69,7 +69,7 @@ function certificationHandler() {
   };
   // console.log(postData);
   $.ajax({
-    url: "http://43.202.152.189/auth/validation",
+    url: `${SERVER_BASEURL}/auth/validation`,
     type: "POST",
     data: JSON.stringify(postData),
     contentType: "application/json",
@@ -117,7 +117,7 @@ function check_email_num() {
   };
   // console.log(postData);
   $.ajax({
-    url: "http://43.202.152.189/auth/validation/check",
+    url: `${SERVER_BASEURL}/auth/validation/check`,
     type: "POST",
     data: JSON.stringify(postData),
     contentType: "application/json",
@@ -260,7 +260,7 @@ $(".signup_signup_btn").click(function () {
     };
     // console.log(postData);
     $.ajax({
-      url: "http://43.202.152.189/user",
+      url: `${SERVER_BASEURL}/user`,
       type: "POST",
       data: JSON.stringify(postData),
       contentType: "application/json",

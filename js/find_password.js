@@ -22,7 +22,7 @@ $(".find_password_main_btn").click(function () {
     };
     // console.log(postData);
     $.ajax({
-      url: "http://43.202.152.189/auth/validation",
+      url: `${SERVER_BASEURL}/auth/validation`,
       type: "POST",
       data: JSON.stringify(postData),
       contentType: "application/json",

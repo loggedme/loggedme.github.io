@@ -15,7 +15,7 @@ $(document).ready(function (jwtToken) {
   //console.log(userThumbnail);
 
   $.ajax({
-    url: "http://43.202.152.189/feed?following=true&type=business",
+    url: `${SERVER_BASEURL}/feed?following=true&type=business`,
     type: "GET",
     dataType: "json",
     headers: {
@@ -361,7 +361,7 @@ $(document).ready(function (jwtToken) {
         var content = item.content;
         var splitContent = content.split(hashtagRegex); // 해시태그 기준으로 문자열 분할
         var hashtags = content.match(hashtagRegex); // 해시태그 추출
-        
+
         // 분할된 문자열과 해시태그를 순서대로 삽입
         for (var i = 0; i < splitContent.length; i++) {
             feedScript.append(splitContent[i]);
@@ -370,7 +370,7 @@ $(document).ready(function (jwtToken) {
                 feedScript.append(hashtag);
             }
         }
-        
+
 
         // 업로드 날짜 (현재로부터 얼마 전인지)
         var uploaded_date = $("<div>").addClass("uploaded_date");

@@ -33,7 +33,7 @@ var currentUserId = getCurrentUserIdFromSessionStorage();
 $(document).ready(function (jwtToken) {
   var jwtToken = getTokenFromSessionStorage();
   $.ajax({
-    url: `http://43.202.152.189/feed/${feedId}`,
+    url: `${SERVER_BASEURL}/feed/${feedId}`,
     type: "GET",
     dataType: "json",
     headers: {
@@ -381,7 +381,7 @@ $(document).ready(function (jwtToken) {
         var content = data.content;
         var splitContent = content.split(hashtagRegex); // 해시태그 기준으로 문자열 분할
         var hashtags = content.match(hashtagRegex); // 해시태그 추출
-        
+
         // 분할된 문자열과 해시태그를 순서대로 삽입
         for (var i = 0; i < splitContent.length; i++) {
             feedScript.append(splitContent[i]);
@@ -517,7 +517,7 @@ $(".close_modal").on("click", function () {
 function deleteFeed(feedId) {
   var jwtToken = getTokenFromSessionStorage();
   $.ajax({
-    url: `http://43.202.152.189/feed/${feedId}`,
+    url: `${SERVER_BASEURL}/feed/${feedId}`,
     type: "DELETE",
     headers: {
       Authorization: `Bearer ${jwtToken}`,

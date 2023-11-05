@@ -7,7 +7,7 @@ var handle = sessionStorage.getItem("handle");
 //좋아요 버튼
 function likedFeed(feedId, likesNum) {
   $.ajax({
-    url: `http://43.202.152.189/feed/${feedId}/like`,
+    url: `${SERVER_BASEURL}/feed/${feedId}/like`,
     type: "POST",
     headers: {
       Authorization: `Bearer ${jwtToken}`,
@@ -46,7 +46,7 @@ function likedFeed(feedId, likesNum) {
 // 좋아요 취소 버튼
 function unlikedFeed(feedId, likesNum) {
   $.ajax({
-    url: `http://43.202.152.189/feed/${feedId}/like`,
+    url: `${SERVER_BASEURL}/feed/${feedId}/like`,
     type: "DELETE",
     headers: {
       Authorization: `Bearer ${jwtToken}`,
@@ -59,7 +59,7 @@ function unlikedFeed(feedId, likesNum) {
         likesNum--;
         $(".likesNum_container").text(`${likesNum}명이 좋아합니다.`);
       }
-      
+
     },
     error: function (jqXHR, textStatus, errorThrown) {
       if (jqXHR.status === 401) {
@@ -101,7 +101,7 @@ function updateLikesCount(itemIndex, delta) {
 //피드 스크랩 버튼
 function savedFeed(userId, feedId) {
   $.ajax({
-    url: `http://43.202.152.189/user/${userId}/saved/${feedId}`,
+    url: `${SERVER_BASEURL}/user/${userId}/saved/${feedId}`,
     type: "POST",
     headers: {
       Authorization: `Bearer ${jwtToken}`,
@@ -127,7 +127,7 @@ function savedFeed(userId, feedId) {
 // 피드 스크랩 취소 버튼
 function unsavedFeed(userId, feedId) {
   $.ajax({
-    url: `http://43.202.152.189/user/${userId}/saved/${feedId}`,
+    url: `${SERVER_BASEURL}/user/${userId}/saved/${feedId}`,
     type: "DELETE",
     headers: {
       Authorization: `Bearer ${jwtToken}`,
@@ -171,7 +171,7 @@ function openModal(feedId, userId, userProfileLink) {
   commentInputContainer.append(commentInput);
 
   $.ajax({
-    url: `http://43.202.152.189/feed/${feedId}/comment`,
+    url: `${SERVER_BASEURL}/feed/${feedId}/comment`,
     type: "GET",
     dataType: "json",
     headers: {
@@ -279,7 +279,7 @@ function postingComment(feedId) {
 
   // 댓글 작성 ajax
   $.ajax({
-    url: `http://43.202.152.189/feed/${feedId}/comment`,
+    url: `${SERVER_BASEURL}/feed/${feedId}/comment`,
     type: "POST",
     headers: {
       Authorization: `Bearer ${jwtToken}`,
@@ -290,7 +290,7 @@ function postingComment(feedId) {
       $("#comment_input").val("");
 
       console.log("댓글 작성 성공: " + JSON.stringify(data));
-      
+
       // 작성한 댓글 정보 가져오기
       var uploadedComment = {
         author: {
@@ -369,7 +369,7 @@ function deleteComment(feedId, commentId, deleteButton) {
   var jwtToken = getTokenFromSessionStorage();
   var $commentItem = $(deleteButton).closest(".comments_item");
   $.ajax({
-    url: `http://43.202.152.189/feed/${feedId}/comment/${commentId}`,
+    url: `${SERVER_BASEURL}/feed/${feedId}/comment/${commentId}`,
     type: "DELETE",
     headers: {
       Authorization: `Bearer ${jwtToken}`,
@@ -377,7 +377,7 @@ function deleteComment(feedId, commentId, deleteButton) {
     success: function (data) {
       console.log("sueccess: " + JSON.stringify(data));
       console.log(`댓글 삭제 성공: ${feedId}, ${commentId}`);
-      
+
       $commentItem.empty();
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -403,7 +403,7 @@ function deleteComment(feedId, commentId, deleteButton) {
 function deleteFeed(feedId) {
   var jwtToken = getTokenFromSessionStorage();
   $.ajax({
-    url: `http://43.202.152.189/feed/${feedId}`,
+    url: `${SERVER_BASEURL}/feed/${feedId}`,
     type: "DELETE",
     headers: {
       Authorization: `Bearer ${jwtToken}`,

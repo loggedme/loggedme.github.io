@@ -35,7 +35,7 @@ let feedId = params.get("feedId");
 var jwtToken = getTokenFromSessionStorage();
 
 $.ajax({
-  url: `http://43.202.152.189/feed/${feedId}`, // ${feedId}에 백엔드의 feed.id가 들어갈거고
+  url: `${SERVER_BASEURL}/feed/${feedId}`, // ${feedId}에 백엔드의 feed.id가 들어갈거고
   type: "GET",
   datatype: "json",
   contentType: "application/json",
@@ -58,7 +58,7 @@ $.ajax({
       $("#profile_image").attr("src", "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png?20220226140232");
     }else {
       $("#profile_image").attr("src", sessionStorage.getItem("thumbnail"));
-    } 
+    }
     // 이미지 배열 변수에 따로 저장
     const imageList = data.image_urls;
     var imageLengthCount = imageList.length; //data.image_urls.length;
@@ -178,7 +178,7 @@ $.ajax({
 // 모달 get 부분
 if (getCurrentAccountTypeFromSessionStorage() == 1) {
   $.ajax({
-    url: "http://43.202.152.189/user?recommend=true&type=business",
+    url: `${SERVER_BASEURL}/user?recommend=true&type=business`,
     type: "GET",
     dataType: "json",
     contentType: "application/json",
@@ -246,13 +246,13 @@ function getProfileHandleFromSessionStorage() {
 function getCurrentFeedImagesFromSessionStorage() {
   return sessionStorage.getItem("image_urls");
 };
-    
+
 function getCurrentFeedTaggedCompanyFromSessionStorage() {
-  
+
 };
 
 function getCurrentFeedContentFromSessionStorage() {
-  
+
 };
 */
 
@@ -264,12 +264,12 @@ $("#Done").click(function () {
   const TextToFrom = $("#text").val();
   const TaggedCompanyToForm = $("#tagged").val();
 
-  
+
   formData.append("content", TextToFrom);
   formData.append("tagged_user", TaggedCompanyToForm);
 
   $.ajax({
-    url: `http://43.202.152.189/feed/${feedId}`,
+    url: `${SERVER_BASEURL}/feed/${feedId}`,
     type: "PUT",
     data: formData,
     processData: false, // FormData 처리 방지

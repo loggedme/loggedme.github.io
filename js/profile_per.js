@@ -1,5 +1,5 @@
 /*
-  개인 프로필(게시물 여러개) 
+  개인 프로필(게시물 여러개)
   개인 프로필(게시물 없음)
 */
 //페이지 로딩 시 각 카테고리에 맡게 하단바의 이미지를 변경
@@ -55,7 +55,7 @@ var jwtToken = getTokenFromSessionStorage();
 
 // get 부분 (handle, 프사, 팔로워, 팔로잉, 뱃지)
 $.ajax({
-  url: `http://43.202.152.189/user/${userId}`, // ${userId}에 백엔드의 user.id가 들어갈거고
+  url: `${SERVER_BASEURL}/user/${userId}`, // ${userId}에 백엔드의 user.id가 들어갈거고
   type: "GET",
   dataType: "json",
   contentType: "application/json",
@@ -101,7 +101,7 @@ $.ajax({
     myFollowers(Followers); // 팔로워 숫자 부분 html로 보내기
     myFollowing(Following); // 팔로우 숫자 부분 html로 보내기
 
-    /* 
+    /*
       뱃지 받아오는 부분
     */
     isFollow = data.user.is_following;
@@ -200,7 +200,7 @@ function modal_On(num) {
 }
 //---------------------------------------------------------------
 
-/* 
+/*
   피드가 있을 경우 피드 없는 상태일 때의 div 삭제
  */
 
@@ -224,7 +224,7 @@ function GoToFeed(num) {
 
 $(".edit_btn").click(function () {
   /* 프로필 수정 시 userId가 필요하지 않음(나중에 필요할 지도 모르니까 놔둬)
-    window.location.href = `./profile_edit.html?userId=${data.id}`; 
+    window.location.href = `./profile_edit.html?userId=${data.id}`;
     */
 });
 
@@ -237,7 +237,7 @@ function followHandler(userId) {
   var jwtToken = getTokenFromSessionStorage();
   var currentUserId = getCurrentUserIdFromSessionStorage();
   $.ajax({
-    url: `http://43.202.152.189/user/${currentUserId}/following/${userId}`,
+    url: `${SERVER_BASEURL}/user/${currentUserId}/following/${userId}`,
     type: "POST",
     headers: {
       Authorization: `Bearer ${jwtToken}`,
@@ -271,7 +271,7 @@ function unfollowHandler(userId) {
   var jwtToken = getTokenFromSessionStorage();
   var currentUserId = getCurrentUserIdFromSessionStorage();
   $.ajax({
-    url: `http://43.202.152.189/user/${currentUserId}/following/${userId}`,
+    url: `${SERVER_BASEURL}/user/${currentUserId}/following/${userId}`,
     type: "DELETE",
     headers: {
       Authorization: `Bearer ${jwtToken}`,

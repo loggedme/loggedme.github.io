@@ -4,18 +4,18 @@ $(document).ready(function () {
       "../image/bottom_nav_person_black.png"
     );
   });
-  
+
   // 세션에서 유저 정보 받아오기
   var currentUserId = getCurrentUserIdFromSessionStorage();
   var userAccountType = getCurrentUserAccountTypeFromSessionStorage();
   var userThumbnail = getCurrentUserThumbnailFromSessionStorage();
-  
+
   $(document).ready(function (jwtToken) {
     var jwtToken = getTokenFromSessionStorage();
     //console.log(userThumbnail);
-  
+
     $.ajax({
-      url: "http://43.202.152.189/feed?following=true&type=personal",
+      url: `${SERVER_BASEURL}/feed?following=true&type=personal`,
       type: "GET",
       dataType: "json",
       headers: {
@@ -23,11 +23,11 @@ $(document).ready(function () {
       },
       success: function (data) {
         console.log("sueccess: " + JSON.stringify(data.items));
-  
+
         $.each(data.items, function (index, item) {
           var currentFeedId = item.id;
           //console.log(currentFeedId);
-  
+
           // 전체 아이템 박스
           var feedItem = $("<div>").prop({
             class: "feed_item" + currentFeedId,
@@ -50,30 +50,30 @@ $(document).ready(function () {
           } else {
             userProfileLink = "./profile_ent.html";
           }
-  
+
           // 사용자 프로필 정보 컨테이너
           var profileInfo = $("<a>")
             .addClass("profile_info")
             .on("click", function () {
               window.location.href = `${userProfileLink}?userId=${item.author.id}`;
             });
-  
+
           var profileImg = $("<img>").attr({
             src: item.author.thumbnail || "",
             alt: item.author.id,
           });
-  
+
           if (!profileImg.attr("src")) {
             profileImg.addClass("profile_img");
           }
-  
+
           var userId = $("<div>").prop({
             class: "user_id",
             textContent: item.author.handle,
           });
-  
+
           profileInfo.append(profileImg, userId);
-  
+
           // 옵션 토글 버튼 (점 세 개)
           var optionContent = $("<div>").addClass("option_content").hide();
           if (currentUserId === item.author.id) {
@@ -101,10 +101,10 @@ $(document).ready(function () {
             var saveBtnOption = $("<button>")
               .addClass("save_btn")
               .html("저장하기");
-  
+
             optionContent.append(gotoUserInfo, saveBtnOption);
           }
-  
+
           var optionBtn = $("<button>")
             .addClass("optionBtn")
             .on("click", function () {
@@ -115,36 +115,36 @@ $(document).ready(function () {
             alt: "optionButton",
           });
           optionBtn.append(optionImg);
-  
+
           feedTop.append(profileInfo, optionBtn);
           feedTopContainer.append(feedTop, optionContent);
-  
+
           // feed 이미지
-  
+
           var imgUrls = item.image_urls;
           var imageContainer = $("<div>").addClass("image_container");
           var imageAlbum = $("<div>").addClass("image_album");
           var images = [];
-  
+
           var btnContainer = $("<div>").addClass("btn_container");
-  
+
           var prevBtn = $("<button>").addClass("previous");
           var prevImg = $("<img>").attr({
             src: "../image/new_feed2_leftarrow.png",
             alt: "prevButton",
           });
           prevBtn.append(prevImg);
-  
+
           var nextBtn = $("<button>").addClass("next");
           var nextImg = $("<img>").attr({
             src: "../image/new_feed2_rightarrow.png",
             alt: "nextButton",
           });
           nextBtn.append(nextImg);
-  
+
           var currentSlideIndex = 0; // 현재 이미지 인덱스
           var sliding = false;
-  
+
           // 이미지들 images 배열에 넣기
           $.each(imgUrls, function (imgIndex, imgUrl) {
             var feedImg = $("<img>").attr({
@@ -152,7 +152,7 @@ $(document).ready(function () {
               alt: "Image " + (imgIndex + 1),
               class: "feed_image",
             });
-  
+
             images.push(feedImg);
           });
           // 첫 번째 이미지 추가
@@ -176,7 +176,7 @@ $(document).ready(function () {
           $(".dot").on("click", dotClick);
           btnContainer.append(prevBtn, nextBtn);
           imageContainer.append(imageAlbum, btnContainer, slideDots);
-  
+
           // 기능 버튼 아이콘 (좋아요, 댓글, 공유, 저장)
           var feedFunctionContainer = $("<div>").addClass(
             "feedFunction_container"
@@ -185,7 +185,7 @@ $(document).ready(function () {
             "functionIcon_container"
           );
           var functionIconItem = $("<div>").addClass("functionIcon_item");
-  
+
           var heartImg = $("<img>").attr({
             id: "heart",
             src: "../image/heart.png",
@@ -199,7 +199,7 @@ $(document).ready(function () {
               var itemIndex = $(this).closest(".feed_item").index();
               var currentSrc = heartImg.attr("src");
               var newSrc;
-  
+
               if (
                 heartLink.hasClass("filled_heart_link") &&
                 currentSrc === "../image/filled_heart.png" &&
@@ -217,7 +217,7 @@ $(document).ready(function () {
                 item.is_liked = true;
                 likedFeed(currentFeedId, likesNum);
               }
-  
+
               heartImg.attr("src", newSrc);
             });
           // 현재 src가 is_liked의 참/거짓 여부에 따라 바뀌게
@@ -225,7 +225,7 @@ $(document).ready(function () {
             ? "../image/filled_heart.png"
             : "../image/heart.png";
           heartImg.attr("src", currentSrc);
-  
+
           // 현재 src에 따라 heartLink의 클래스 이름을 고치기
           if (currentSrc === "../image/filled_heart.png") {
             heartLink.removeClass("heart_link");
@@ -234,12 +234,12 @@ $(document).ready(function () {
             heartLink.removeClass("filled_heart_link");
             heartLink.addClass("heart_link");
           }
-  
+
           heartLink.prop({
             id: "heart_link" + item.id,
           });
           heartLink.append(heartImg);
-  
+
           // 좋아요 수
           var likesContainer = $("<div>").addClass("likesNum_container");
           var likesNum = item.likes;
@@ -247,7 +247,7 @@ $(document).ready(function () {
           var likesNumContainer = $("<div>")
             .addClass("likesNum_container")
             .text(likesContainer);
-  
+
           // 댓글 버튼
           var commentLink = $("<button type=button id=comment_btn>")
             .addClass("comment_link")
@@ -264,7 +264,7 @@ $(document).ready(function () {
             id: item.id,
           });
           commentLink.append(commentImg);
-  
+
           // 공유 버튼
           var CopyUrl = `http://127.0.0.1:5500/html/single_feed.html?feedId=${currentFeedId}`;
           var shareLink = $("<button type=button>")
@@ -283,7 +283,7 @@ $(document).ready(function () {
           });
           shareLink.append(shareImg);
           functionIconItem.append(heartLink, commentLink, shareLink);
-  
+
           // 저장 버튼
           var saveImg = $("<img>").attr({
             src: "../image/save.png",
@@ -295,7 +295,7 @@ $(document).ready(function () {
             .on("click", function () {
               var currentSaveSrc = saveImg.attr("src");
               var newSaveSrc;
-  
+
               if (
                 saveLink.hasClass("filled_save_link") &&
                 currentSaveSrc === "../image/filled_save.png" &&
@@ -313,7 +313,7 @@ $(document).ready(function () {
                 item.is_saved = true;
                 savedFeed(currentUserId, currentFeedId);
               }
-  
+
               saveImg.attr("src", newSaveSrc);
             });
           saveLink.prop({
@@ -323,7 +323,7 @@ $(document).ready(function () {
             ? "../image/filled_save.png"
             : "../image/save.png";
           saveImg.attr("src", currentSaveSrc);
-  
+
           if (currentSaveSrc === "../image/filled_save.png") {
             saveLink.removeClass("save_link");
             saveLink.addClass("filled_save_link");
@@ -331,13 +331,13 @@ $(document).ready(function () {
             saveLink.removeClass("filled_save_link");
             saveLink.addClass("save_link");
           }
-  
+
           saveLink.append(saveImg);
           functionIconContainer.append(functionIconItem, saveLink);
-  
+
           // 기능목록 flex 합치기
           feedFunctionContainer.append(functionIconContainer, likesNumContainer);
-  
+
           // feed 하단부분 전체 (아이디, 해쉬태그, 내용)
           // IdHashtag div (아이디, 해쉬태그)
           var IdHashtag = $("<div>").prop({
@@ -351,7 +351,7 @@ $(document).ready(function () {
             .on("click", function () {
               window.location.href = `${userProfileLink}?userId=${item.author.id}`;
             });
-  
+
             var feedHashtag = $("<a>")
             .prop({
               class: "feed_hashtag",
@@ -366,17 +366,17 @@ $(document).ready(function () {
                 window.location.href = `./profile_ent.html?userId=${item.tagged_user.id}`;
               }
             });
-  
+
           IdHashtag.append(bottomUserId, feedHashtag);
-  
+
           var feedScript = $("<div>").addClass("feed_script");
-  
+
           // 해시태그 정규식
           var hashtagRegex = /#[a-zA-Z0-9ㄱ-힣_]+/g; // _도 포함하여 해시태그 매칭
           var content = item.content;
           var splitContent = content.split(hashtagRegex); // 해시태그 기준으로 문자열 분할
           var hashtags = content.match(hashtagRegex); // 해시태그 추출
-          
+
           // 분할된 문자열과 해시태그를 순서대로 삽입
           for (var i = 0; i < splitContent.length; i++) {
               feedScript.append(splitContent[i]);
@@ -385,23 +385,23 @@ $(document).ready(function () {
                   feedScript.append(hashtag);
               }
           }
-          
-  
+
+
           // 업로드 날짜 (현재로부터 얼마 전인지)
           var uploaded_date = $("<div>").addClass("uploaded_date");
-  
+
           var uploadDate = new Date(item.created_at);
           var currentDate = new Date();
           var timeDiffInMilliseconds = currentDate - uploadDate;
-  
+
           var timeDiffInMinutes = Math.floor(
             timeDiffInMilliseconds / (1000 * 60)
           );
           var timeDiffInHours = Math.floor(timeDiffInMinutes / 60);
           var timeDiffInDays = Math.floor(timeDiffInHours / 24);
-  
+
           var uploadDateString;
-  
+
           if (timeDiffInDays > 0) {
             uploadDateString = timeDiffInDays + "일 전";
           } else if (timeDiffInHours > 0) {
@@ -411,15 +411,15 @@ $(document).ready(function () {
           } else {
             uploadDateString = "방금 전";
           }
-  
+
           var uploadedDate = $("<div>")
             .addClass("uploaded_date")
             .text(uploadDateString);
-  
+
           uploaded_date.append(uploadedDate);
-  
+
           feedInfo.append(IdHashtag, feedScript, uploaded_date);
-  
+
           feedItem.append(
             feedTopContainer,
             imageContainer,
@@ -427,13 +427,13 @@ $(document).ready(function () {
             feedInfo
           );
           $(".feed_list").append(feedItem);
-  
+
           $(".feed_list").sort(function (a, b) {
             var dateA = new Date(a.created_at);
             var dateB = new Date(b.created_at);
             return dateB - dateA;
           });
-  
+
           // 함수들
           // 이미지 슬라이드
           function goToPrev() {
@@ -444,7 +444,7 @@ $(document).ready(function () {
               updateSlide();
             }
           }
-  
+
           function goToNext() {
             if (!sliding) {
               sliding = true;
@@ -467,7 +467,7 @@ $(document).ready(function () {
           function updateSlide() {
             imageAlbum.empty();
             imageAlbum.append(images[currentSlideIndex]);
-  
+
             slideDotsList.forEach(function (dot, index) {
               if (index === currentSlideIndex) {
                 dot.addClass("active_dot");
@@ -475,16 +475,16 @@ $(document).ready(function () {
                 dot.removeClass("active_dot");
               }
             });
-  
+
             sliding = false;
-  
+
             // prevBtn과 nextBtn 처음과 끝일 때 버튼 사용 X
             if (currentSlideIndex === 0) {
               prevBtn.prop("disabled", true);
             } else {
               prevBtn.prop("disabled", false);
             }
-  
+
             if (currentSlideIndex === images.length - 1) {
               nextBtn.prop("disabled", true);
             } else {
@@ -507,17 +507,17 @@ $(document).ready(function () {
       },
     });
   });
-  
+
   // 모달창 닫기 버튼 클릭 시 모달창을 닫도록 이벤트를 추가합니다.
   $(".close_modal").on("click", function () {
     $(".modal").css("display", "none");
-  
+
     $(".feeds_container").empty();
     $(".comments_container").empty();
     $(".postComment").empty();
     $("#comment_input").val(null);
   });
-  
+
   // 저장 버튼 onclick 이벤트
   function changeSaveBtn() {
     var currentSrc = saveImg.attr("src");
@@ -526,7 +526,7 @@ $(document).ready(function () {
         ? "../image/filled_save.png"
         : "../image/save.png";
     saveImg.attr("src", newSrc);
-  
+
     if (saveLink.hasClass("filled_save_link")) {
       saveLink.removeClass("filled_save_link");
       saveLink.addClass("save_link");
@@ -537,25 +537,24 @@ $(document).ready(function () {
       item.is_saved = true;
     }
   }
-  
+
   // 세션에서 받아올 값
   function getTokenFromSessionStorage() {
     return sessionStorage.getItem("jwtToken");
   }
-  
+
   function getCurrentUserIdFromSessionStorage() {
     return sessionStorage.getItem("currentUserId");
   }
-  
+
   function getCurrentFeedIdFromSessionStorage() {
     return sessionStorage.getItem("currentFeedId");
   }
-  
+
   function getCurrentUserAccountTypeFromSessionStorage() {
     return sessionStorage.getItem("currentUserAccountType");
   }
-  
+
   function getCurrentUserThumbnailFromSessionStorage() {
     return sessionStorage.getItem("thumbnail");
   }
-  

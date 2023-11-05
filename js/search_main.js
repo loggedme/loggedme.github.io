@@ -4,7 +4,7 @@ $(document).ready(function (jwtToken) {
 
   // foryou 이미지 그리드
   $.ajax({
-    url: "http://43.202.152.189/feed?trending=true",
+    url: `${SERVER_BASEURL}/feed?trending=true`,
     type: "GET",
     dataType: "json",
     success: function (data) {
@@ -43,7 +43,7 @@ $(document).ready(function (jwtToken) {
 
   // person 이미지 그리드
   $.ajax({
-    url: "http://43.202.152.189/feed?type=personal",
+    url: `${SERVER_BASEURL}/feed?type=personal`,
     type: "GET",
     dataType: "json",
     headers: {
@@ -85,7 +85,7 @@ $(document).ready(function (jwtToken) {
 
   // company 이미지 그리드
   $.ajax({
-    url: "http://43.202.152.189/feed?type=business",
+    url: `${SERVER_BASEURL}/feed?type=business`,
     type: "GET",
     dataType: "json",
     headers: {

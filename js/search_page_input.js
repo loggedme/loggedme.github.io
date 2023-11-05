@@ -39,7 +39,7 @@ $(document).ready(function () {
           $(this).hide();
         }
       });
-  
+
       $(".company_search_list .company_item").each(function () {
         var companyName = $(this).text().toLowerCase();
         if (companyName.includes(searchTerm)){
@@ -48,7 +48,7 @@ $(document).ready(function () {
           $(this).hide();
         }
       });
-  
+
       $(".hashtag_search_list .hashtag_item ").each(function () {
         var hashtagName = $(this).find(".hashtag_name").text().toLowerCase();
         if (hashtagName.includes(searchTerm)) {
@@ -59,7 +59,7 @@ $(document).ready(function () {
           $(this).find(".posting_num").hide();
         }
       })
-      
+
 
       currentSearchTerm = searchTerm;
       console.log(currentSearchTerm);
@@ -72,7 +72,7 @@ $(document).ready(function () {
       $(".hashtag_search_list").empty();
 
       $.ajax({
-        url: `http://43.202.152.189/search?query=${currentSearchTerm}`,
+        url: `${SERVER_BASEURL}/search?query=${currentSearchTerm}`,
         type: "GET",
         dataType: "json",
         headers: {
@@ -257,7 +257,7 @@ function debounce(func, wait) {
 function hashtagSearchDetail(hashtagName) {
   var jwtToken = getTokenFromSessionStorage();
   $.ajax({
-    url: `http://43.202.152.189/feed?hashtag=${hashtagName}`,  //입력한 값이 아니라 그 입력한 값의 전체
+    url: `${SERVER_BASEURL}/feed?hashtag=${hashtagName}`,  //입력한 값이 아니라 그 입력한 값의 전체
     type: "GET",
     dataType: "json",
     headers: {

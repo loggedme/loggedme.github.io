@@ -166,11 +166,11 @@ document.getElementById("Next").addEventListener("click", () => {
   localStorage.setItem("imageList", JSON.stringify(imageList));
 });
 
-/*********************** 
+/***********************
 const sliderWrap = document.querySelector(".slider__wrap");
 const sliderImg = document.querySelector(".slider__img");       // 보여지는 영역
 const sliderInner = document.querySelector(".slider__inner");   // 움직이는 영역
-const slider = document.querySelectorAll(".slider"); 
+const slider = document.querySelectorAll(".slider");
 const sliderBtn = document.querySelector(".slider__btn");    //버튼
 const sliderBtnPrev = document.querySelector(".prev");       //왼쪽버튼
 const sliderBtnNext = document.querySelector(".next");       //오른쪽버튼
@@ -316,7 +316,7 @@ $("#open_modal").click(function (e) {
 });
 
 /*
-  ajax 연결... 
+  ajax 연결...
 */
 
 /* GET 부분 */
@@ -327,7 +327,7 @@ getProfileImageFromSessionStorage();
 var jwtToken = getTokenFromSessionStorage();
 // 모달 get 부분
 $.ajax({
-  url: "http://43.202.152.189/user?recommend=true&type=business",
+  url: `${SERVER_BASEURL}/user?recommend=true&type=business`,
   type: "GET",
   dataType: "json",
   contentType: "application/json",
@@ -400,12 +400,12 @@ $("#Share").click(function () {
     formData.append("images", $('#input')[0].files[i]);
   }
   const TaggedCompanyToForm = $("#tagged").val();
-  
+
 
   formData.append("content", TextToFrom);
   formData.append("tagged_user", TaggedCompanyToForm);
   $.ajax({
-    url: "http://43.202.152.189/feed",
+    url: `${SERVER_BASEURL}/feed`,
     type: "POST",
     data: formData,
     processData: false, // FormData 처리 방지
@@ -465,4 +465,3 @@ function getProfileImageFromSessionStorage() {
   }
   return $("#profile").attr("src", sessionStorage.getItem("thumbnail"));
 }
-
