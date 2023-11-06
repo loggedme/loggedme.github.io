@@ -1,83 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/notification.css" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../css/base.css">
-  <link rel="stylesheet" href="../css/notification.css">
+    <title>Document</title>
 
-  <title>Document</title>
+    <style>
+      .section_wrap {
+        width: 100%;
+        padding: 0 2rem;
+        box-sizing: border-box;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+        display: none;
+      }
 
-  <style>
-    .section_wrap {
-      width: 100%;
-      padding: 0 2rem;
-      box-sizing: border-box;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.60);
-      display: none;
-    }
+      .section_wrap p {
+        color: #000;
+        font-family: Inter;
+        font-size: 0.9375rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+      }
 
-    .section_wrap p {
-      color: #000;
-      font-family: Inter;
-      font-size: 0.9375rem;
-      font-style: normal;
-      font-weight: 700;
-      line-height: normal;
-    }
+      .section {
+        width: 100%;
+      }
 
-    .section {
-      width: 100%;
-    }
+      img.item_image:not([src]) {
+        content: url("https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png?20220226140232");
+      }
+    </style>
+    <script src="../js/api.js"></script>
+  </head>
 
-    img.item_image:not([src]) {
-      content: url("https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png?20220226140232");
-    }
-  </style>
-  <script src="../js/api.js"></script>
-</head>
-
-<body>
-  <header>
-  </header>
-  <main>
-    <div class="notification_main_header">
-      <a href="javascript:history.back();" class="go_back_button">
-        <img src="../image/goback.png" alt="goback" class="go_back_button_img">
+  <body>
+    <header></header>
+    <main>
+      <div class="notification_main_header">
+        <a href="javascript:history.back();" class="go_back_button">
+          <img
+            src="../image/goback.png"
+            alt="goback"
+            class="go_back_button_img"
+          />
+        </a>
+        <div class="notification_main_header_title">Notifications</div>
+      </div>
+      <div class="notification_main_section">
+        <section class="today_section_wrap section_wrap">
+          <p>Today</p>
+          <div class="today_section section"></div>
+        </section>
+        <section class="this_week_section_wrap section_wrap">
+          <p>This_week</p>
+          <div class="this_week_section section"></div>
+        </section>
+        <section class="another_section_wrap section_wrap">
+          <div class="another_section section"></div>
+        </section>
+      </div>
+    </main>
+    <section class="base_bottom_nav">
+      <a href="./corporation_feed.html" class="base_bottom_nav_item"
+        ><img
+          src="../image/bottom_nav_enterprise.png"
+          alt="enterprise"
+          id="bottom_nav_enterprise_image"
+          class="base_bottom_nav_item_image"
+      /></a>
+      <a href="./personal_feed.html" class="base_bottom_nav_item"
+        ><img
+          src="../image/bottom_nav_person.png"
+          alt="person"
+          id="bottom_nav_person_image"
+          class="base_bottom_nav_item_image"
+      /></a>
+      <a href="./search_main.html" class="base_bottom_nav_item"
+        ><img
+          src="../image/bottom_nav_search.png"
+          alt="search"
+          id="bottom_nav_search_image"
+          class="base_bottom_nav_item_image"
+      /></a>
+      <a href="./new_feed2.html" class="base_bottom_nav_item"
+        ><img
+          src="../image/bottom_nav_plus.png"
+          alt="addPost"
+          class="base_bottom_nav_plus_image"
+        />
       </a>
-      <div class="notification_main_header_title">Notifications</div>
-    </div>
-    <div class="notification_main_section">
-      <section class="today_section_wrap section_wrap">
-        <p>Today</p>
-        <div class="today_section section"></div>
-      </section>
-      <section class="this_week_section_wrap section_wrap">
-        <p>This_week</p>
-        <div class="this_week_section section"></div>
-      </section>
-      <section class="another_section_wrap section_wrap">
-        <div class="another_section section"></div>
-      </section>
-    </div>
-  </main>
-  <section class="base_bottom_nav">
-    <a href="./corporation_feed.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_enterprise.png"
-        alt="enterprise" id="bottom_nav_enterprise_image" class="base_bottom_nav_item_image"></a>
-    <a href="./personal_feed.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_person.png" alt="person"
-        id="bottom_nav_person_image" class="base_bottom_nav_item_image"></a>
-    <a href="./search_main.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_search.png" alt="search"
-        id="bottom_nav_search_image" class="base_bottom_nav_item_image"></a>
-    <a href="./new_feed2.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_plus.png" alt="addPost"
-        class="base_bottom_nav_plus_image">
-    </a>
-    <div class="base_bottom_nav_item"><img src="../image/bottom_nav_profile.png" alt="profile"
-        id="bottom_nav_profile_image" class="base_bottom_nav_item_image"></div>
-  </section>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="../js/notification.js"></script>
-<script src="../js/base.js"></script>
-
+      <div class="base_bottom_nav_item">
+        <img
+          src="../image/bottom_nav_profile.png"
+          alt="profile"
+          id="bottom_nav_profile_image"
+          class="base_bottom_nav_item_image"
+        />
+      </div>
+    </section>
+  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="../js/notification.js"></script>
+  <script src="../js/base.js"></script>
 </html>

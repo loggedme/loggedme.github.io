@@ -1,54 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/badge_grant.css" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../css/base.css">
-  <link rel="stylesheet" href="../css/badge_grant.css">
+    <title>Document</title>
+    <script src="../js/api.js"></script>
+  </head>
 
-  <title>Document</title>
-  <script src="../js/api.js"></script>
-</head>
-
-<body>
-  <header>
-    <button class="done_button">Done</button>
-  </header>
-  <main>
-    <div class="main_header">
-      <a class="goback_btn" href="javascript:history.back();">
-        <img src="../image/goback.png" alt="">
-      </a>
-      <div class="search_input_wrap">
-        <img src="../image/search.png" class="search_img" />
-        <input placeholder=" search" type="text" class="search_input" autocomplete="off">
+  <body>
+    <header>
+      <button class="done_button">Done</button>
+    </header>
+    <main>
+      <div class="main_header">
+        <a class="goback_btn" href="javascript:history.back();">
+          <img src="../image/goback.png" alt="" />
+        </a>
+        <div class="search_input_wrap">
+          <img src="../image/search.png" class="search_img" />
+          <input
+            placeholder=" search"
+            type="text"
+            class="search_input"
+            autocomplete="off"
+          />
+        </div>
+        <div class="main_header_empty_div"></div>
       </div>
-      <div class="main_header_empty_div"></div>
-    </div>
-    <section class="main_section_wrap">
-      <section class="checked_person_section"></section>
-      <p class="main_section_title">Person</p>
-      <section class="main_section"></section>
+      <section class="main_section_wrap">
+        <section class="checked_person_section"></section>
+        <p class="main_section_title">Person</p>
+        <section class="main_section"></section>
+      </section>
+    </main>
+    <!--base-->
+    <section class="base_bottom_nav">
+      <a href="./corporation_feed.html" class="base_bottom_nav_item"
+        ><img
+          src="../image/bottom_nav_enterprise.png"
+          alt="enterprise"
+          id="bottom_nav_enterprise_image"
+          class="base_bottom_nav_item_image"
+      /></a>
+      <a href="./personal_feed.html" class="base_bottom_nav_item"
+        ><img
+          src="../image/bottom_nav_person.png"
+          alt="person"
+          id="bottom_nav_person_image"
+          class="base_bottom_nav_item_image"
+      /></a>
+      <a href="./search_main.html" class="base_bottom_nav_item"
+        ><img
+          src="../image/bottom_nav_search.png"
+          alt="search"
+          id="bottom_nav_search_image"
+          class="base_bottom_nav_item_image"
+      /></a>
+      <a href="./new_feed2.html" class="base_bottom_nav_item"
+        ><img
+          src="../image/bottom_nav_plus.png"
+          alt="addPost"
+          class="base_bottom_nav_plus_image"
+        />
+      </a>
+      <div class="base_bottom_nav_item">
+        <img
+          src="../image/bottom_nav_profile.png"
+          alt="profile"
+          id="bottom_nav_profile_image"
+          class="base_bottom_nav_item_image"
+        />
+      </div>
     </section>
-  </main>
-  <!--base-->
-  <section class="base_bottom_nav">
-    <a href="./corporation_feed.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_enterprise.png"
-        alt="enterprise" id="bottom_nav_enterprise_image" class="base_bottom_nav_item_image"></a>
-    <a href="./personal_feed.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_person.png" alt="person"
-        id="bottom_nav_person_image" class="base_bottom_nav_item_image"></a>
-    <a href="./search_main.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_search.png" alt="search"
-        id="bottom_nav_search_image" class="base_bottom_nav_item_image"></a>
-    <a href="./new_feed2.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_plus.png" alt="addPost"
-        class="base_bottom_nav_plus_image">
-    </a>
-    <div class="base_bottom_nav_item"><img src="../image/bottom_nav_profile.png" alt="profile"
-        id="bottom_nav_profile_image" class="base_bottom_nav_item_image"></div>
-  </section>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="../js/badge_grant.js"></script>
-<script src="../js/base.js"></script>
-
+  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="../js/badge_grant.js"></script>
+  <script src="../js/base.js"></script>
 </html>

@@ -1,49 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/making_badge.css" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../css/base.css">
-  <link rel="stylesheet" href="../css/making_badge.css">
+    <title>Document</title>
+    <script src="../js/api.js"></script>
+  </head>
 
-  <title>Document</title>
-  <script src="../js/api.js"></script>
-</head>
+  <body>
+    <header></header>
+    <main>
+      <div class="making_badge_main_header">
+        <a href="javascript:history.back();" class="cancel_button">Cancel</a>
+        <div class="making_badge_main_header_title">creating a badge</div>
+        <a class="done_button">Done</a>
+      </div>
+      <label
+        class="making_badge_attach_image_label"
+        for="making_badge_attach_image_input"
+      >
+        <img
+          id="making_badge_attach_image"
+          src="../image/upload.png"
+          alt=""
+          width="40px"
+          height="44px"
+        />
+        <input id="making_badge_attach_image_input" type="file" hidden />
+      </label>
 
-<body>
-  <header>
-  </header>
-  <main>
-    <div class="making_badge_main_header">
-      <a href="javascript:history.back();" class="cancel_button">Cancel</a>
-      <div class="making_badge_main_header_title">creating a badge</div>
-      <a class="done_button">Done</a>
-    </div>
-    <label class="making_badge_attach_image_label" for="making_badge_attach_image_input"> <img
-        id="making_badge_attach_image" src="../image/upload.png" alt="" width="40px" height="44px">
-      <input id="making_badge_attach_image_input" type="file" hidden>
-    </label>
-
-    <textarea placeholder=" Write a caption" class="making_badge_attach_document"></textarea>
-
-  </main>
-  <section class="base_bottom_nav">
-    <a href="./corporation_feed.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_enterprise.png"
-        alt="enterprise" id="bottom_nav_enterprise_image" class="base_bottom_nav_item_image"></a>
-    <a href="./personal_feed.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_person.png" alt="person"
-        id="bottom_nav_person_image" class="base_bottom_nav_item_image"></a>
-    <a href="./search_main.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_search.png" alt="search"
-        id="bottom_nav_search_image" class="base_bottom_nav_item_image"></a>
-    <a href="./new_feed2.html" class="base_bottom_nav_item"><img src="../image/bottom_nav_plus.png" alt="addPost"
-        class="base_bottom_nav_plus_image">
-    </a>
-    <div class="base_bottom_nav_item"><img src="../image/bottom_nav_profile.png" alt="profile"
-        id="bottom_nav_profile_image" class="base_bottom_nav_item_image"></div>
-  </section>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="../js/making_badge.js"></script>
-<script src="../js/base.js"></script>
-
+      <textarea
+        placeholder=" Write a caption"
+        class="making_badge_attach_document"
+      ></textarea>
+    </main>
+    <section class="base_bottom_nav">
+      <a href="./corporation_feed.html" class="base_bottom_nav_item"
+        ><img
+          src="../image/bottom_nav_enterprise.png"
+          alt="enterprise"
+          id="bottom_nav_enterprise_image"
+          class="base_bottom_nav_item_image"
+      /></a>
+      <a href="./personal_feed.html" class="base_bottom_nav_item"
+        ><img
+          src="../image/bottom_nav_person.png"
+          alt="person"
+          id="bottom_nav_person_image"
+          class="base_bottom_nav_item_image"
+      /></a>
+      <a href="./search_main.html" class="base_bottom_nav_item"
+        ><img
+          src="../image/bottom_nav_search.png"
+          alt="search"
+          id="bottom_nav_search_image"
+          class="base_bottom_nav_item_image"
+      /></a>
+      <a href="./new_feed2.html" class="base_bottom_nav_item"
+        ><img
+          src="../image/bottom_nav_plus.png"
+          alt="addPost"
+          class="base_bottom_nav_plus_image"
+        />
+      </a>
+      <div class="base_bottom_nav_item">
+        <img
+          src="../image/bottom_nav_profile.png"
+          alt="profile"
+          id="bottom_nav_profile_image"
+          class="base_bottom_nav_item_image"
+        />
+      </div>
+    </section>
+  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="../js/making_badge.js"></script>
+  <script src="../js/base.js"></script>
 </html>

@@ -1,35 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/login.css" />
+    <script src="../js/api.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="../css/login.css">
-  <script src="../js/api.js"></script>
-</head>
-
-<body>
-  <main>
-    <div class="login_header">
-      <img src="../image/logo.png" alt="login_header_logo" class="login_header_logo">
-    </div>
-    <div class="login_input_wrap">
-      <input class="login_input" id="login_input_id" placeholder=" ID" type="email">
-      <input class="login_input" id="login_input_password" placeholder=" PW" type="password">
-    </div>
-    <div class="login_goto_find_password_btn_wrap">
-      <a href="./find_password.html" class="login_goto_find_password_btn">비밀번호를 잊으셨나요?</a>
-    </div>
-    <button class="login_login_btn">login</button>
-    <div class="login_goto_signup_btn_wrap">
-      계정이 없으신가요?
-      <a href="./signup.html" class="login_goto_signup_btn"><b>회원가입</b></a>
-    </div>
-  </main>
-
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="../js/login.js"></script>
-
+  <body>
+    <main>
+      <div class="login_header">
+        <img
+          src="../image/logo.png"
+          alt="login_header_logo"
+          class="login_header_logo"
+        />
+      </div>
+      <div class="login_input_wrap">
+        <input
+          class="login_input"
+          id="login_input_id"
+          placeholder=" ID"
+          type="email"
+        />
+        <input
+          class="login_input"
+          id="login_input_password"
+          placeholder=" PW"
+          type="password"
+        />
+      </div>
+      <div class="login_goto_find_password_btn_wrap">
+        <a href="./find_password.html" class="login_goto_find_password_btn"
+          >비밀번호를 잊으셨나요?</a
+        >
+      </div>
+      <button class="login_login_btn">login</button>
+      <div class="login_goto_signup_btn_wrap">
+        계정이 없으신가요?
+        <a href="./signup.html" class="login_goto_signup_btn"
+          ><b>회원가입</b></a
+        >
+      </div>
+    </main>
+  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="../js/login.js"></script>
 </html>

@@ -1,49 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/signup.css" />
+    <script src="../js/api.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="../css/signup.css">
-  <script src="../js/api.js"></script>
-</head>
-
-<body>
-  <div class="signup_header">
-    <img src="../image/goback.png" alt="goback" class="signup_header_goback_btn">
-    <img src="../image/logo.png" alt="signup_logo" class="signup_header_logo">
-  </div>
-  <div class="signup_input_wrap">
-    <div class="signup_email_certification_wrap">
-      <input class="signup_input" id="signup_input_email" placeholder=" email" type="email">
-      <div id="signup_input_err_msg_email" class="signup_input_err_msg">이메일 형식이 아닙니다.</div>
-
-      <button class="signup_email_certification_button">인증번호 전송</button>
+  <body>
+    <div class="signup_header">
+      <img
+        src="../image/goback.png"
+        alt="goback"
+        class="signup_header_goback_btn"
+      />
+      <img
+        src="../image/logo.png"
+        alt="signup_logo"
+        class="signup_header_logo"
+      />
     </div>
-    <div class="signup_email_num_wrap">
-      <input class="signup_input" id="signup_input_email_num" placeholder=" 인증번호" type="text" disabled>
-      <button type="button" class="signup_email_num_button">확인</button>
-    </div>
-    <input class="signup_input" id="signup_input_name" placeholder=" name" type="text">
-    <input class="signup_input" id="signup_input_handle" placeholder=" handle" type="text">
-    <input class="signup_input" id="signup_input_password" placeholder=" PW" type="password">
-    <input class="signup_input" id="signup_input_re_password" placeholder=" PW" type="password">
-    <div id="signup_input_err_msg_re_password" class="signup_input_err_msg">비밀번호가 일치하지 않습니다.</div>
-  </div>
-  <div class="radiobutton1_wrap">
-    <label for="radiobutton1_item1">개인
-      <div id="radiobutton1_label1" class="radiobutton1_label"></div>
-      <input id="radiobutton1_item1" class="radiobutton1" name="radiobutton1" value='personal' type="radio" hidden>
-    </label>
-    <label for="radiobutton1_item2">기업
-      <div id="radiobutton1_label2" class="radiobutton1_label"></div>
-      <input id="radiobutton1_item2" class="radiobutton1" name="radiobutton1" value='business' type="radio" hidden>
-    </label>
-  </div>
-  <button class="signup_signup_btn">회원가입하기</button>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="../js/signup.js"></script>
+    <div class="signup_input_wrap">
+      <div class="signup_email_certification_wrap">
+        <input
+          class="signup_input"
+          id="signup_input_email"
+          placeholder=" email"
+          type="email"
+        />
+        <div id="signup_input_err_msg_email" class="signup_input_err_msg">
+          이메일 형식이 아닙니다.
+        </div>
 
+        <button class="signup_email_certification_button">인증번호 전송</button>
+      </div>
+      <div class="signup_email_num_wrap">
+        <input
+          class="signup_input"
+          id="signup_input_email_num"
+          placeholder=" 인증번호"
+          type="text"
+          disabled
+        />
+        <button type="button" class="signup_email_num_button">확인</button>
+      </div>
+      <input
+        class="signup_input"
+        id="signup_input_name"
+        placeholder=" name"
+        type="text"
+      />
+      <input
+        class="signup_input"
+        id="signup_input_handle"
+        placeholder=" handle"
+        type="text"
+      />
+      <input
+        class="signup_input"
+        id="signup_input_password"
+        placeholder=" PW"
+        type="password"
+      />
+      <input
+        class="signup_input"
+        id="signup_input_re_password"
+        placeholder=" PW"
+        type="password"
+      />
+      <div id="signup_input_err_msg_re_password" class="signup_input_err_msg">
+        비밀번호가 일치하지 않습니다.
+      </div>
+    </div>
+    <div class="radiobutton1_wrap">
+      <label for="radiobutton1_item1"
+        >개인
+        <div id="radiobutton1_label1" class="radiobutton1_label"></div>
+        <input
+          id="radiobutton1_item1"
+          class="radiobutton1"
+          name="radiobutton1"
+          value="personal"
+          type="radio"
+          hidden
+        />
+      </label>
+      <label for="radiobutton1_item2"
+        >기업
+        <div id="radiobutton1_label2" class="radiobutton1_label"></div>
+        <input
+          id="radiobutton1_item2"
+          class="radiobutton1"
+          name="radiobutton1"
+          value="business"
+          type="radio"
+          hidden
+        />
+      </label>
+    </div>
+    <button class="signup_signup_btn">회원가입하기</button>
+  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="../js/signup.js"></script>
 </html>
