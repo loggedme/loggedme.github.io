@@ -1,5 +1,5 @@
 const CLIENT_BASEURL = '.';
-const SERVER_BASEURL = 'http://43.202.152.189';
+const SERVER_BASEURL = 'http://3.38.105.42/';
 
 
 function serverPath(path) {
