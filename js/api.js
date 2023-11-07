@@ -17,12 +17,22 @@ function setAuthToken(token) {
 }
 
 
+function _getAuthToken() {
+    return window.sessionStorage.getItem('jwtToken');
+}
+
+
 function getAuthToken() {
-    const token = window.sessionStorage.getItem('jwtToken');
+    const token = _getAuthToken();
     if (token == null) {
         throw 'Authorization token not found!';
     }
     return token;
+}
+
+
+function isLoggedIn() {
+    return _getAuthToken() != null;
 }
 
 
